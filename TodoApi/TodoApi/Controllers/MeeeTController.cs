@@ -40,18 +40,33 @@ namespace TodoApi.Controllers
             return _context.Grupo.ToList();
         }
 
-        // GET: api/MeeeT/isAdmin
-        [Route("isAdmin/{IdUtilizador:int}/{IdEvento:int}")]
+        // GET: api/MeeeT/isInEvent/id_user/id_event
+        [Route("isInEvent/{id_user:int}/{id_evento:int}")]
         [HttpGet]
-        public bool IsAdmin(int id_user, int id_evento)
+        public bool IsInEvent(int id_user, int id_evento)
         {
             foreach (var t in _context.UtilizadorEvento)
             {
-                t.IsAdmin(id_user, id_evento);
+                return t.IsMember(id_user, id_evento);
             }
-            return true;
+            return false;
         }
 
+        // GET: api/MeeeT/getUsers
+        [Route("getUsers")]
+        [HttpGet]
+        public List<Utilizador> GetUsers()
+        {
+            return _context.Utilizador.ToList();
+        }
+
+        // GET: api/MeeeT/getUsersEvents
+        [Route("getUsersEvents")]
+        [HttpGet]
+        public List<UtilizadorEvento> GetUsersEvents()
+        {
+            return _context.UtilizadorEvento.ToList();
+        }
 
         // GET: api/MeeeT/getLocais
         [Route("getLocais")]
@@ -69,17 +84,21 @@ namespace TodoApi.Controllers
             return _context.Evento.ToList();
         }
 
-        // GET: api/MeeeT/getEventosLocs
-        [Route("getEventosLocs")]
+        // GET: api/MeeeT/getEventosLocs/id_latitude/id_longitude
+        [Route("getEventosLocs/{id_latitude:decimal}/{id_longitude:decimal}")]
         [HttpGet]
-        public List<Localização> GetEventosLocs()
+        public List<Evento> GetEventosLocs(float id_latitude, float id_longitude)
         {
-            List<Localização> locs = new List<Localização>();
-            foreach (var t in _context.Evento)
+            List<Evento> events = new List<Evento>();
+
+            foreach (var e in _context.Evento)
             {
-                locs.Add(t.GetLoc());
+                if (id_latitude == e.Latitude && id_longitude == e.Longitude)
+                {
+                    events.Add(e);
+                }
             }
-            return locs;
+            return events;
         }
 
         // GET: api/MeeeT/5

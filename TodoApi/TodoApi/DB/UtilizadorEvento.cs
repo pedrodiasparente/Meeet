@@ -11,9 +11,10 @@ namespace TodoApi.DB
         public virtual Evento IdEventoNavigation { get; set; }
         public virtual Utilizador IdUtilizadorNavigation { get; set; }
 
-        public bool IsAdmin(int id_user, int id_evento)
+        public bool IsMember(int id_user, int id_evento)
         {
-            return true;
+            if (id_user == IdUtilizador && id_evento == IdEvento) return true;
+            else return false;
         }
     }
 }

@@ -38,6 +38,9 @@ namespace TodoApi.DB
             {
                 entity.ToTable("amigo");
 
+                entity.HasIndex(e => e.UtilizadorId)
+                    .HasName("fk_Amigo_Utilizador1_idx");
+
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Username)
@@ -46,6 +49,14 @@ namespace TodoApi.DB
                     .HasColumnType("varchar(100)")
                     .HasCharSet("utf8")
                     .HasCollation("utf8_general_ci");
+
+                entity.Property(e => e.UtilizadorId).HasColumnName("Utilizador_id");
+
+                entity.HasOne(d => d.Utilizador)
+                    .WithMany(p => p.Amigo)
+                    .HasForeignKey(d => d.UtilizadorId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_Amigo_Utilizador1");
             });
 
             modelBuilder.Entity<Evento>(entity =>
@@ -130,9 +141,6 @@ namespace TodoApi.DB
             {
                 entity.ToTable("utilizador");
 
-                entity.HasIndex(e => e.IdAmigo)
-                    .HasName("fk_Utilizador_Amigo1_idx");
-
                 entity.HasIndex(e => new { e.Longitude, e.Latitude })
                     .HasName("fk_Utilizador_Localização1_idx");
 
@@ -144,8 +152,6 @@ namespace TodoApi.DB
                     .HasColumnType("varchar(45)")
                     .HasCharSet("utf8")
                     .HasCollation("utf8_general_ci");
-
-                entity.Property(e => e.IdAmigo).HasColumnName("id_amigo");
 
                 entity.Property(e => e.Latitude).HasColumnName("latitude");
 
@@ -164,12 +170,6 @@ namespace TodoApi.DB
                     .HasColumnType("varchar(100)")
                     .HasCharSet("utf8")
                     .HasCollation("utf8_general_ci");
-
-                entity.HasOne(d => d.IdAmigoNavigation)
-                    .WithMany(p => p.Utilizador)
-                    .HasForeignKey(d => d.IdAmigo)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_Utilizador_Amigo1");
 
                 entity.HasOne(d => d.L)
                     .WithMany(p => p.Utilizador)

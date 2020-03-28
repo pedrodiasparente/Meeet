@@ -5,14 +5,10 @@ namespace TodoApi.DB
 {
     public partial class Amigo
     {
-        public Amigo()
-        {
-            Utilizador = new HashSet<Utilizador>();
-        }
-
         public int Id { get; set; }
         public string Username { get; set; }
+        public int UtilizadorId { get; set; }
 
-        public virtual ICollection<Utilizador> Utilizador { get; set; }
+        public virtual Utilizador Utilizador { get; set; }
     }
 }
