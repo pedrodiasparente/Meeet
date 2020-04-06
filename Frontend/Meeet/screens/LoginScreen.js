@@ -15,10 +15,10 @@ class LoginScreen extends Component {
     return (
 
       <View style = {styles.loginBox}>
-        <Image style = {styles.logo} source={require('../assets/meeetLogoDark.png')} />
+        <Image style = {styles.logo} source={require('../assets/meeetLogo2.png')} />
         <View
           style={{
-            borderColor: '#ac5b27',
+            borderColor: '#2c365d',
             borderWidth: 2,
             width: '70%',
             marginBottom: 50,
@@ -35,11 +35,11 @@ const styles = StyleSheet.create({
   loginBox: {
     flex : 1,
     alignItems : 'center',
-    backgroundColor:'#2e2e2e',
+    backgroundColor:'#ebebeb',
   },
   logo: {
     resizeMode: 'contain',
-    width: '90%',
+    width: '100%',
     height: '40%',
   },
   });

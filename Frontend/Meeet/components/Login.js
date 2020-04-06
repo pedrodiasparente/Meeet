@@ -24,11 +24,13 @@ class Login extends Component {
     return (
 
       <View style = {styles.login}>
+
         <View style = {styles.loginInput}>
+
           <Icon
             name="user"
             size={20}
-            color='#ac5b27'
+            color='#2c365d'
             />
           <TextInput
             style={styles.textInput}
@@ -36,12 +38,14 @@ class Login extends Component {
             onChangeText={(text) => this.setState({usernameText: text})}
             value={this.state.usernameText}
             />
+
           </View>
         <View style = {styles.loginInput}>
+
           <Icon
             name="key"
             size={20}
-            color='#ac5b27'
+            color='#2c365d'
             />
           <TextInput
             secureTextEntry={true}
@@ -50,21 +54,25 @@ class Login extends Component {
             onChangeText={(text) => this.setState({passwordText: text})}
             value={this.state.passwordText}
             />
+
         </View>
+
       <View style = {styles.buttons}>
+
         <TouchableOpacity style={styles.button}>
-          <Text style= {{color: '#2f2f2f', fontWeight: 'bold'}}>
+          <Text style= {{color: '#fbfbfb'}}>
             Login
             </Text>
           </TouchableOpacity>
         <TouchableOpacity style={styles.button}>
-          <Text style= {{color: '#2f2f2f', fontWeight: 'bold'}}>
+          <Text style= {{color: '#fbfbfb'}}>
             Signup
             </Text>
           </TouchableOpacity>
-        </View>
-      </View>
 
+        </View>
+
+      </View>
     )
   }
 }
@@ -73,7 +81,7 @@ const styles = StyleSheet.create({
   textInput: {
     margin: 10,
     marginHorizontal: 5,
-    backgroundColor: '#474747',
+    backgroundColor: '#cbcbcb',
     height: 40,
     width: 200,
     fontSize: 16,
@@ -92,14 +100,13 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   button: {
-    color: '#ac5b27',
     marginHorizontal: 10,
     alignItems: 'center',
     justifyContent: 'center',
     width: '30%',
     height: 40,
     borderRadius: 10,
-    backgroundColor: '#ac5b27',
+    backgroundColor: '#2c365d',
   }
 });
 
