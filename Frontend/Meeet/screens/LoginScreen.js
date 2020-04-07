@@ -9,13 +9,15 @@ import {
 import Icon from 'react-native-vector-icons/dist/FontAwesome5'
 
 import Login from '../components/Login'
+import AuthContext from '../contexts/AuthContext'
 
-class LoginScreen extends Component {
+function LoginScreen() {
 
-  render() {
+    const { signIn } = React.useContext(AuthContext);
     return (
 
       <View style = {styles.loginBox}>
+      
         <Image style = {styles.logo} source={require('../assets/meeetLogo2.png')} />
         <View
           style={{
@@ -25,11 +27,11 @@ class LoginScreen extends Component {
             marginBottom: 50,
             }}
           />
-        <Login updateLogin={this.props.route.params.updateLogin}/>
+        <Login />
+
       </View>
 
     )
-  }
 }
 
 const styles = StyleSheet.create({
