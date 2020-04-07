@@ -59,7 +59,7 @@ class Login extends Component {
 
       <View style = {styles.buttons}>
 
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button}  onPress={() => this.props.updateLogin('fo')}>
           <Text style= {{color: '#fbfbfb'}}>
             Login
             </Text>

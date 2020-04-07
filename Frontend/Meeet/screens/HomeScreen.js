@@ -41,6 +41,7 @@ class HomeScreen extends Component {
 
             </View>
           <View style = {styles.buttons}>
+
             <Icon
               name="user"
               size={25}
@@ -51,6 +52,21 @@ class HomeScreen extends Component {
                 Profile
                 </Text>
               </TouchableOpacity>
+
+            </View>
+          <View style = {styles.buttons}>
+
+            <Icon
+              name="sign-out-alt"
+              size={25}
+              color='#2c365d'
+              />
+            <TouchableOpacity style={styles.button}>
+              <Text style= {{color: '#fbfbfb'}}>
+                Sign Out
+                </Text>
+              </TouchableOpacity>
+
             </View>
 
           </View>

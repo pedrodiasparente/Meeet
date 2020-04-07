@@ -8,16 +8,23 @@ import LoginScreen from './screens/LoginScreen'
 import HomeScreen from './screens/HomeScreen'
 
 const Stack = createStackNavigator();
-let state;
+let loginState = true;
+
+function updateLogin(gome){
+  loginState = !loginState;
+  console.log(loginState);
+}
 
 const App: () => React$Node = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator headerMode= 'none'>
-        {state == null ? (
+        {loginState ? (
           // User is not signed in
-          <Stack.Screen name="Login" component={LoginScreen} />
-        ) : (
+          <>
+            <Stack.Screen name="Login" component={LoginScreen} initialParams={{updateLogin: updateLogin}}/>
+          </>
+          ) : (
           // User is signed in
           <Stack.Screen name="Home" component={HomeScreen} />
         )}

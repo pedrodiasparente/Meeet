@@ -3,6 +3,7 @@ import {
   StyleSheet,
   View,
   Text,
+  Button,
   Image,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome5'
@@ -24,7 +25,7 @@ class LoginScreen extends Component {
             marginBottom: 50,
             }}
           />
-        <Login/>
+        <Login updateLogin={this.props.route.params.updateLogin}/>
       </View>
 
     )
