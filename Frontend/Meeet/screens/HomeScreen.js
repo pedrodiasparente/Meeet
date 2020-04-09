@@ -3,75 +3,74 @@ import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity, Image} fro
 import Icon from 'react-native-vector-icons/dist/FontAwesome5'
 
 import Login from '../components/Login'
+import AuthContext from '../contexts/AuthContext'
 
-class HomeScreen extends Component {
+function HomeScreen({ navigation }) {
+  const { signOut } = React.useContext(AuthContext);
 
-  render() {
-    return (
+  return (
+    <View style = {styles.loginBox}>
+      <Image style = {styles.logo} source={require('../assets/meeetIcon.png')} />
+      <View style={styles.line}/>
+        <View style = {styles.buttons}>
 
-      <View style = {styles.loginBox}>
-        <Image style = {styles.logo} source={require('../assets/meeetIcon.png')} />
-        <View style={styles.line}/>
-          <View style = {styles.buttons}>
-
-            <Icon
-              name="calendar-alt"
-              size={30}
-              color='#2c365d'
-              />
-            <TouchableOpacity style={styles.button}>
-              <Text style= {{color: '#fbfbfb'}}>
-                Events
-                </Text>
-              </TouchableOpacity>
-
-            </View>
-          <View style = {styles.buttons}>
-
-            <Icon
-              name="user-friends"
-              size={20}
-              color='#2c365d'
-              />
-            <TouchableOpacity style={styles.button}>
-              <Text style= {{color: '#fbfbfb'}}>
-                Friends
-                </Text>
-              </TouchableOpacity>
-
-            </View>
-          <View style = {styles.buttons}>
-
-            <Icon
-              name="user"
-              size={25}
-              color='#2c365d'
-              />
-            <TouchableOpacity style={styles.button}>
-              <Text style= {{color: '#fbfbfb'}}>
-                Profile
-                </Text>
-              </TouchableOpacity>
-
-            </View>
-          <View style = {styles.buttons}>
-
-            <Icon
-              name="sign-out-alt"
-              size={25}
-              color='#2c365d'
-              />
-            <TouchableOpacity style={styles.button}>
-              <Text style= {{color: '#fbfbfb'}}>
-                Sign Out
-                </Text>
-              </TouchableOpacity>
-
-            </View>
+          <Icon
+            name="calendar-alt"
+            size={30}
+            color='#2c365d'
+            />
+          <TouchableOpacity style={styles.button}>
+            <Text style= {{color: '#fbfbfb'}}>
+              Events
+              </Text>
+            </TouchableOpacity>
 
           </View>
-    )
-  }
+        <View style = {styles.buttons}>
+
+          <Icon
+            name="user-friends"
+            size={20}
+            color='#2c365d'
+            />
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Friends')}>
+            <Text style= {{color: '#fbfbfb'}}>
+              Friends
+              </Text>
+            </TouchableOpacity>
+
+          </View>
+        <View style = {styles.buttons}>
+
+          <Icon
+            name="user"
+            size={25}
+            color='#2c365d'
+            />
+          <TouchableOpacity style={styles.button}>
+            <Text style= {{color: '#fbfbfb'}}>
+              Profile
+              </Text>
+            </TouchableOpacity>
+
+          </View>
+        <View style = {styles.buttons}>
+
+          <Icon
+            name="sign-out-alt"
+            size={25}
+            color='#2c365d'
+            />
+          <TouchableOpacity style={styles.button} onPress={signOut}>
+            <Text style= {{color: '#fbfbfb'}}>
+              Sign Out
+              </Text>
+            </TouchableOpacity>
+
+          </View>
+
+        </View>
+  )
 }
 
 const styles = StyleSheet.create({

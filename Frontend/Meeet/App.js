@@ -1,10 +1,13 @@
 import * as React from 'react';
 import { AsyncStorage, Button, Text, TextInput, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
+//import { AsyncStorage } from '@react-native-comunity/async-storage';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import LoginScreen from './screens/LoginScreen'
 import HomeScreen from './screens/HomeScreen'
+import FriendScreen from './screens/FriendsScreen'
+
 import AuthContext from './contexts/AuthContext'
 
 function SplashScreen() {
@@ -104,7 +107,10 @@ export default function App({ navigation }) {
             <Stack.Screen name="Login" component={LoginScreen} />
             ) : (
             // User is signed in
-            <Stack.Screen name="Home" component={HomeScreen} />
+            <>
+              <Stack.Screen name="Home" component={HomeScreen} />
+              <Stack.Screen name="Friends" component={FriendScreen} />
+            </>
           )}
         </Stack.Navigator>
       </NavigationContainer>
