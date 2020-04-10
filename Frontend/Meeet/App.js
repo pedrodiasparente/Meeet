@@ -8,6 +8,7 @@ import SignUpScreen from './screens/SignUpScreen'
 import LoginScreen from './screens/LoginScreen'
 import HomeScreen from './screens/HomeScreen'
 import FriendScreen from './screens/FriendsScreen'
+import ProfileScreen from './screens/ProfileScreen'
 
 
 import AuthContext from './contexts/AuthContext'
@@ -107,16 +108,18 @@ export default function App({ navigation }) {
           ) : state.userToken == null ? (
              // User is not signed in
             <>
-            <Stack.Screen name="SignUp" component={SignUpScreen} />
             <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name="SignUp" component={SignUpScreen} />
             
-               
+            
             </>
             ) : (
             // User is signed in
             <>
-              <Stack.Screen name="Home" component={HomeScreen} />
-              <Stack.Screen name="Friends" component={FriendScreen} />
+            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="Friends" component={FriendScreen} />
+            <Stack.Screen name="Profile" component={ProfileScreen} />
+              
             </>
           )}
         </Stack.Navigator>

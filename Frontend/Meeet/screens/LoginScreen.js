@@ -11,7 +11,7 @@ import Icon from 'react-native-vector-icons/dist/FontAwesome5'
 import Login from '../components/Login'
 import AuthContext from '../contexts/AuthContext'
 
-function LoginScreen() {
+function LoginScreen({navigation}) {
 
     const { signIn } = React.useContext(AuthContext);
     return (

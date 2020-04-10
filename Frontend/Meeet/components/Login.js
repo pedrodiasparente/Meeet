@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/dist/FontAwesome5'
 
 import AuthContext from '../contexts/AuthContext'
 
-function Login({navigation}) {
+function Login( {navigation} ) {
 
   const [usernameText, setUsername] = React.useState('');
   const [passwordText, setPassword] = React.useState('');
@@ -54,7 +54,7 @@ function Login({navigation}) {
           Login
           </Text>
         </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('SignUp')}>
+      <TouchableOpacity style={styles.button}>
         <Text style= {{color: '#fbfbfb'}}>
           SignUp
           </Text>
