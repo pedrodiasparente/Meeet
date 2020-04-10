@@ -4,18 +4,20 @@ import Icon from 'react-native-vector-icons/dist/FontAwesome5'
 
 import AuthContext from '../contexts/AuthContext'
 
-function Login({navigation}) {
+function SignUp() {
 
   const [usernameText, setUsername] = React.useState('');
+  const [emailText, setEmail] = React.useState('');
   const [passwordText, setPassword] = React.useState('');
+  const [cityText, setCity] = React.useState('');
 
   const { signIn } = React.useContext(AuthContext);
 
   return (
 
-    <View style = {styles.login}>
+    <View style = {styles.SignUp}>
 
-      <View style = {styles.loginInput}>
+      <View style = {styles.signupInput}>
 
         <Icon
           name="user"
@@ -25,12 +27,30 @@ function Login({navigation}) {
         <TextInput
           style={styles.textInput}
           textAlign={'center'}
+          placeholder='Username'
           onChangeText={setUsername}
           value={usernameText}
           />
 
         </View>
-      <View style = {styles.loginInput}>
+
+        <View style = {styles.signupInput}>
+
+        <Icon
+          name="envelope"
+          size={20}
+          color='#2c365d'
+          />
+        <TextInput
+          style={styles.textInput}
+          textAlign={'center'}
+          placeholder='Email'
+          onChangeText={setEmail}
+          value={emailText}
+          />
+
+        </View>
+      <View style = {styles.signupInput}>
 
         <Icon
           name="key"
@@ -41,20 +61,32 @@ function Login({navigation}) {
           secureTextEntry={true}
           style={styles.textInput}
           textAlign={'center'}
+          placeholder='Password'
           onChangeText={setPassword}
           value={passwordText}
           />
 
       </View>
+      <View style = {styles.signupInput}>
+
+        <Icon
+          name="map"
+          size={20}
+          color='#2c365d'
+          />
+        <TextInput
+          style={styles.textInput}
+          textAlign={'center'}
+          placeholder='City'
+          onChangeText={setCity}
+          value={cityText}
+          />
+
+        </View>
 
     <View style = {styles.buttons}>
 
-      <TouchableOpacity style={styles.button}  onPress={signIn}>
-        <Text style= {{color: '#fbfbfb'}}>
-          Login
-          </Text>
-        </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('SignUp')}>
+      <TouchableOpacity style={styles.button} onPress={signIn}>
         <Text style= {{color: '#fbfbfb'}}>
           SignUp
           </Text>
@@ -76,11 +108,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     borderRadius: 10,
   },
-  loginInput:{
+  signupInput:{
     flexDirection: 'row',
     alignItems: 'center',
   },
-  login: {
+  SignUp: {
     flex: 1,
     alignItems: 'center',
   },
@@ -99,4 +131,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Login;
+export default SignUp;

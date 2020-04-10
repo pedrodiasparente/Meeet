@@ -4,9 +4,11 @@ import { NavigationContainer } from '@react-navigation/native';
 //import { AsyncStorage } from '@react-native-comunity/async-storage';
 import { createStackNavigator } from '@react-navigation/stack';
 
+import SignUpScreen from './screens/SignUpScreen'
 import LoginScreen from './screens/LoginScreen'
 import HomeScreen from './screens/HomeScreen'
 import FriendScreen from './screens/FriendsScreen'
+
 
 import AuthContext from './contexts/AuthContext'
 
@@ -103,8 +105,13 @@ export default function App({ navigation }) {
             // We haven't finished checking for the token yet
             <Stack.Screen name="Splash" component={SplashScreen} />
           ) : state.userToken == null ? (
-            // User is not signed in
+             // User is not signed in
+            <>
+            <Stack.Screen name="SignUp" component={SignUpScreen} />
             <Stack.Screen name="Login" component={LoginScreen} />
+            
+               
+            </>
             ) : (
             // User is signed in
             <>
