@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -32,12 +33,12 @@ namespace TodoApi.Controllers
             return _context.Amigo.ToList();
         }
 
-        // GET: api/MeeeT/getGrupos
-        [Route("getGrupos")]
+
+        [Route("getInfoUser/{id_user:int}")]
         [HttpGet]
-        public List<Grupo> GetGrupos()
+        public Utilizador GetInfoUser(int id_user)
         {
-            return _context.Grupo.ToList();
+            return _context.Utilizador.Find(id_user);
         }
 
         // GET: api/MeeeT/isInEvent/id_user/id_event
@@ -66,6 +67,36 @@ namespace TodoApi.Controllers
         public List<UtilizadorEvento> GetUsersEvents()
         {
             return _context.UtilizadorEvento.ToList();
+        }
+
+        // GET: api/MeeeT/getUsersGrupos
+        [Route("getUtilizadorGrupos/{id_user:int}")]
+        [HttpGet]
+        public ICollection<UtilizadorGrupo> GetUtilizadorGrupos(int id_user)
+        {
+            return GetInfoUser(id_user).UtilizadorGrupo;
+        }
+
+        // GET: api/MeeeT/getGrupo
+        [Route("getGrupo/{id_grupo:int}")]
+        [HttpGet]
+        public Grupo getGrupo(int id_grupo)
+        {
+            return _context.Grupo.Find(id_grupo);
+        }
+
+        // GET: api/MeeeT/getGrupoPerUser
+        [Route("getGrupoPerUser/{id_user:int}")]
+        [HttpGet]
+        public List<Grupo> GetGrupoPerUser(int id_user)
+        {
+            ICollection<UtilizadorGrupo> keys = GetUtilizadorGrupos(id_user);
+            List<Grupo> ret = new List<Grupo>();
+            foreach(var x in keys)
+            {
+                ret.Add(getGrupo(x.IdGrupo));
+            }
+            return ret;
         }
 
         // GET: api/MeeeT/getLocais
