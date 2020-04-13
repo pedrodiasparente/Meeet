@@ -9429,19 +9429,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\luisp\\.nuget\\packages\\": {}
+    "C:\\Users\\Nodelio\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\luisp\\Desktop\\LI4\\Meeet\\TodoApi\\TodoApi\\TodoApi.csproj",
+      "projectUniqueName": "C:\\Users\\Nodelio\\Desktop\\University\\Meeet\\TodoApi\\TodoApi\\TodoApi.csproj",
       "projectName": "TodoApi",
-      "projectPath": "C:\\Users\\luisp\\Desktop\\LI4\\Meeet\\TodoApi\\TodoApi\\TodoApi.csproj",
-      "packagesPath": "C:\\Users\\luisp\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\luisp\\Desktop\\LI4\\Meeet\\TodoApi\\TodoApi\\obj\\",
+      "projectPath": "C:\\Users\\Nodelio\\Desktop\\University\\Meeet\\TodoApi\\TodoApi\\TodoApi.csproj",
+      "packagesPath": "C:\\Users\\Nodelio\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Nodelio\\Desktop\\University\\Meeet\\TodoApi\\TodoApi\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\luisp\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Nodelio\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -9522,7 +9522,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.102\\RuntimeIdentifierGraph.json"
       }
     }
   },

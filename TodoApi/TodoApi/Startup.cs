@@ -24,7 +24,7 @@ namespace TodoApi
             /*services.AddDbContext<MeeetContext>(opt =>
                opt.UseMySQL(Configuration.GetConnectionString("MeeeTDatabase")));
             //services.AddControllers();*/
-            services.AddDbContext<MeeeTContext>(x => x.UseMySql("server=localhost;database=MeeeT;uid=root;pwd=MIEIa85852"));
+            services.AddDbContext<MeeeTContext>(x => x.UseMySql("server=localhost;database=MeeeT;uid=root;pwd=Pedro.99"));
             services.AddMvc();
 
         }

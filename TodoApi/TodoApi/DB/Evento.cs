@@ -7,7 +7,9 @@ namespace TodoApi.DB
     {
         public Evento()
         {
+            EventoHasRequests = new HashSet<EventoHasRequests>();
             UtilizadorEvento = new HashSet<UtilizadorEvento>();
+            Votacao = new HashSet<Votacao>();
         }
 
         public int Id { get; set; }
@@ -15,13 +17,17 @@ namespace TodoApi.DB
         public DateTime DataHora { get; set; }
         public float Longitude { get; set; }
         public float Latitude { get; set; }
+        public string Local { get; set; }
+        public int TipoEvento { get; set; }
+        public int IdAdmin { get; set; }
+        public string Descricao { get; set; }
+        public int? IdadeMinima { get; set; }
 
-        public Localização GetLoc()
-        {
-            return L;
-        }
-
-        public virtual Localização L { get; set; }
+        public virtual Utilizador IdAdminNavigation { get; set; }
+        public virtual Localização LocalNavigation { get; set; }
+        public virtual ICollection<EventoHasRequests> EventoHasRequests { get; set; }
         public virtual ICollection<UtilizadorEvento> UtilizadorEvento { get; set; }
+        public virtual ICollection<Votacao> Votacao { get; set; }
+
     }
 }
