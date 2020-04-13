@@ -14,25 +14,15 @@ function Profile({ data }) {
 
     return (
 
-    <View style = {styles.Profile}>
-
-        
+    <>
 
         <View style = {styles.profilePic}>
-        <Image style = {{width: 90, height: 90}}  
-        source={require('../assets/user.png')} />
-        
-         <View
-          style={{
-            borderColor: '#2c365d',
-            width: '30%',
-            marginBottom:50,
-            }}
-          />
-          </View>
+          <Image style = {{width: '100%', height:'100%' ,resizeMode: 'contain',}}
+            source={require('../assets/user.png')} />
+        </View>
 
       <View style = {styles.profileInput}>
-         
+
         <Icon
           name="user"
           size={20}
@@ -64,7 +54,7 @@ function Profile({ data }) {
           />
 
         </View>
-      
+
       <View style = {styles.profileInput}>
 
         <Icon
@@ -92,7 +82,7 @@ function Profile({ data }) {
 
       </View>
 
-    </View>
+    </>
     )
 }
 
@@ -102,12 +92,14 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     backgroundColor: '#cbcbcb',
     height: 40,
-    width: 200,
+    width: '70%',
     fontSize: 16,
     borderRadius: 10,
   },
   profilePic:{
-    alignItems: 'center',
+    width: '40%',
+    height: '25%',
+    marginVertical: 25,
   },
   profileInput:{
     flexDirection: 'row',
@@ -116,12 +108,12 @@ const styles = StyleSheet.create({
   buttons: {
     alignItems: 'center',
     marginTop: 50,
+    width: '40%',
   },
   button: {
-    marginHorizontal: 20,
     alignItems: 'center',
     justifyContent: 'center',
-    width: '50%',
+    width: '100%',
     height: 40,
     borderRadius: 10,
     backgroundColor: '#2c365d',

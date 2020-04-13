@@ -17,7 +17,7 @@ function LoginScreen({navigation}) {
     return (
 
       <View style = {styles.loginBox}>
-      
+
         <Image style = {styles.logo} source={require('../assets/meeetLogo2.png')} />
         <View
           style={{
@@ -27,7 +27,7 @@ function LoginScreen({navigation}) {
             marginBottom: 50,
             }}
           />
-        <Login />
+        <Login navigation={navigation}/>
 
       </View>
 

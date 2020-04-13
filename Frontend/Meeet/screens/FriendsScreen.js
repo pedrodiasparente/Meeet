@@ -10,7 +10,6 @@ function FriendsScreen() {
     <View style = {styles.background}>
       <Title title = {'Friends'}/>
       <View style = {styles.body}>
-        <View style={styles.line}/>
         <SearchList data={DATA}/>
         </View>
       </View>
@@ -25,12 +24,6 @@ const styles = StyleSheet.create({
   body: {
     alignItems: 'center',
     flex: 1,
-  },
-  line: {
-    borderColor: '#2c365d',
-    borderWidth: 2,
-    width: '70%',
-    marginBottom: 20,
   },
   });
 

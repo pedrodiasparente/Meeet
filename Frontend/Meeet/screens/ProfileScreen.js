@@ -12,13 +12,12 @@ function ProfileScreen() {
 
     return (
         <View style = {styles.background}>
-        <Title title = {'Friends'}/>
-        <View style={styles.line}/>
+        <Title title = {'Profile'}/>
 
-      <View style = {styles.profileBox}>     
-        <Profile data={DATA}/>     
-      </View>     
-    </View> 
+      <View style = {styles.profileBox}>
+        <Profile data={DATA}/>
+      </View>
+    </View>
     )
 }
 
@@ -32,15 +31,9 @@ const styles = StyleSheet.create({
     flex : 1,
     backgroundColor:'#ebebeb',
   },
-  line: {
-    borderColor: '#2c365d',
-    borderWidth: 2,
-    width: '70%',
-    marginBottom: 20,
-  },
   });
 
-  const DATA = 
+  const DATA =
     {
       id: '1',
       username: 'Joaquim Silva Silva',
