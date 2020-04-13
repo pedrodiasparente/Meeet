@@ -37,7 +37,7 @@ namespace TodoApi.DB
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseMySql("server=localhost;database=MeeeT;uid=root;pwd=Pedro.99", x => x.ServerVersion("8.0.19-mysql"));
+                optionsBuilder.UseMySql("server=localhost;database=MeeeT;uid=root;pwd=password", x => x.ServerVersion("8.0.19-mysql"));
             }
         }
 
