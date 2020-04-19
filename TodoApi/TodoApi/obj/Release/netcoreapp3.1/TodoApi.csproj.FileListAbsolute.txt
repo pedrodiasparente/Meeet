@@ -154,3 +154,4 @@ C:\Users\Nodelio\Desktop\University\Meeet\TodoApi\TodoApi\obj\Release\netcoreapp
 C:\Users\Nodelio\Desktop\University\Meeet\TodoApi\TodoApi\obj\Release\netcoreapp3.1\staticwebassets\TodoApi.StaticWebAssets.xml
 C:\Users\Nodelio\Desktop\University\Meeet\TodoApi\TodoApi\obj\Release\netcoreapp3.1\TodoApi.dll
 C:\Users\Nodelio\Desktop\University\Meeet\TodoApi\TodoApi\obj\Release\netcoreapp3.1\TodoApi.pdb
+C:\Users\Nodelio\Desktop\University\Meeet\TodoApi\TodoApi\obj\Release\netcoreapp3.1\TodoApi.csprojAssemblyReference.cache
