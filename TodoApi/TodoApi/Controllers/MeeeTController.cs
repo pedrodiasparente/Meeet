@@ -92,7 +92,7 @@ namespace TodoApi.Controllers
         {
             ICollection<UtilizadorGrupo> keys = GetUtilizadorGrupos(id_user);
             List<Grupo> ret = new List<Grupo>();
-            foreach(var x in keys)
+            foreach (var x in keys)
             {
                 ret.Add(getGrupo(x.IdGrupo));
             }
@@ -103,7 +103,7 @@ namespace TodoApi.Controllers
         [Route("getLocais")]
         [HttpGet]
         public List<Localização> GetLocais()
-        { 
+        {
             return _context.Localização.ToList();
         }
 
@@ -140,10 +140,23 @@ namespace TodoApi.Controllers
         }
 
         // POST: api/MeeeT
+        // [HttpPost]
+        //public void Post([FromBody] string value)
+        //{
+        //
+        //}
+
+        [Route("PostAmigo")]
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void PostAmigo(Amigo a)
         {
+            Amigo toAdd = a.insertAmigo(a);
+            _context.Add(toAdd);
+            _context.SaveChanges();
+
         }
+
+
 
         // PUT: api/MeeeT/5
         [HttpPut("{id}")]
