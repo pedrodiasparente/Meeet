@@ -10,5 +10,14 @@ namespace TodoApi.DB
         public int UtilizadorId { get; set; }
 
         public virtual Utilizador Utilizador { get; set; }
+
+        public Amigo insertAmigo(Amigo a)
+        {
+            Amigo ems = new Amigo();
+            ems.Id = a.Id;
+            ems.Username = a.Username;
+            ems.UtilizadorId = a.UtilizadorId;
+            return ems;
+        }
     }
 }
