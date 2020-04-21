@@ -19,7 +19,7 @@ function HomeScreen({ navigation }) {
             size={30}
             color='#2c365d'
             />
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Events')}>
             <Text style= {{color: '#fbfbfb'}}>
               Events
               </Text>

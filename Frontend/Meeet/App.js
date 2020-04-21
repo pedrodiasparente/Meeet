@@ -9,6 +9,8 @@ import LoginScreen from './screens/LoginScreen'
 import HomeScreen from './screens/HomeScreen'
 import FriendScreen from './screens/FriendsScreen'
 import ProfileScreen from './screens/ProfileScreen'
+import EventScreen from './screens/EventScreen'
+import CreateEventScreen from './screens/CreateEventScreen'
 
 
 import AuthContext from './contexts/AuthContext'
@@ -117,6 +119,8 @@ export default function App({ navigation }) {
               <Stack.Screen name="Home" component={HomeScreen} />
               <Stack.Screen name="Friends" component={FriendScreen} />
               <Stack.Screen name="Profile" component={ProfileScreen} />
+              <Stack.Screen name="Events" component={EventScreen} />
+              <Stack.Screen name="CreateEvent" component={CreateEventScreen} />
             </>
           )}
         </Stack.Navigator>
