@@ -8,9 +8,4 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAqm7iSwwfjke+XDZTlBVGgQAAAAACAAAAAAAQZgAAAAEAACAAAABmyLYgfFjJsSGMLJIT7SVTxV0MkHA+BmEkEyRfZS1v+wAAAAAOgAAAAAIAACAAAAD5GZvTffL5MizNjwgSrB1eIxe0pQnxyPWoF2JdmGhnvYAAAAAlmyzh6TPBmKKZFI098CK8miGTzjGZc1w0ejO5PsyANTVSGHWwOl32hyeliid6O2hfu5SOr8sM+1R9A4sqOj470UARe47V5kTutnOad8kBgKVQOhhxDcYacvOdYEdSKa9PKxzRRx6//rz3KmdYhc2AI/pgUi58P+FGkUnJCfWwh0AAAACpycro8UuHRYZLYfbRQKziKj0oMZVP9KfeihBr23No4hvf3sxtE/qYkkgMcHznjo9NAIHHOY+P5vOJ2UlNTlNp</EncryptedPassword>
   </PropertyGroup>
-  <ItemGroup>
-    <EFMigrations Include="TodoApi.DB.MeeeTContext">
-      <Value>Server=tcp:meeetdbserver.database.windows.net,1433%3bInitial Catalog=meeetdb%3bPersist Security Info=False%3bUser ID=meeet%3bPassword=Sporting1906%3bMultipleActiveResultSets=False%3bEncrypt=True%3bTrustServerCertificate=False%3bConnection Timeout=30%3b</Value>
-    </EFMigrations>
-  </ItemGroup>
 </Project>

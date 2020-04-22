@@ -28,6 +28,5 @@ namespace TodoApi.DB
         public virtual ICollection<EventoHasRequests> EventoHasRequests { get; set; }
         public virtual ICollection<UtilizadorEvento> UtilizadorEvento { get; set; }
         public virtual ICollection<Votacao> Votacao { get; set; }
-
     }
 }

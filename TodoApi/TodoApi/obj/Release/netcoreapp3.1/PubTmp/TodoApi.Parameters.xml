@@ -3,7 +3,4 @@
   <parameter name="IIS Web Application Name" description="" value="meeet-project" tags="IisApp">
     <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\Users\\Nodelio\\Desktop\\University\\Meeet\\TodoApi\\TodoApi\\obj\\Release\\netcoreapp3\.1\\PubTmp\\Out\\$" />
   </parameter>
-  <parameter name="TodoApi.DB.MeeeTContext" description="" value="Server=tcp:meeetdbserver.database.windows.net,1433;Initial Catalog=meeetdb;Persist Security Info=False;User ID=meeet;Password=Sporting1906;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;" tags="dbfullsql">
-    <parameterEntry kind="ProviderPath" scope="dbfullsql" match="^C:\\Users\\Nodelio\\Desktop\\University\\Meeet\\TodoApi\\TodoApi\\obj\\Release\\netcoreapp3\.1\\PubTmp\\EFSQLScripts\\TodoApi\.DB\.MeeeTContext\.sql$" />
-  </parameter>
 </parameters>

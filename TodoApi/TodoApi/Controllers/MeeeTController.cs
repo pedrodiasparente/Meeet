@@ -12,8 +12,8 @@ namespace TodoApi.Controllers
     public class MeeeTController : ControllerBase
     {
 
-        private MeeeTContext _context;
-        public MeeeTController(MeeeTContext context)
+        private meeetdbContext _context;
+        public MeeeTController(meeetdbContext context)
         {
             _context = context;
         }
