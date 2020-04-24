@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TodoApi.DB;
@@ -59,6 +60,26 @@ namespace TodoApi.Controllers
         public List<Utilizador> GetUsers()
         {
             return _context.Utilizador.ToList();
+        }
+
+        // GET: api/MeeeT/getUser/id
+        [Route("getUser/{id:int}")]
+        [HttpGet]
+        public Utilizador GetUser(int id)
+        {
+            return _context.Utilizador.Find(id);
+        }
+
+        // GET: api/MeeeT/Login/user/password
+        [Route("Login/{username}/{password}")]
+        [HttpGet]
+        public int Login(string username, string password)
+        {
+            foreach (var t in _context.Utilizador)
+            {
+                if (t.Username == username && t.Password == password) return t.Id;
+            }
+            return -1; //-1 = não encontrou nao tenho paciencia para melhorar
         }
 
         // GET: api/MeeeT/getUsersEvents
@@ -140,20 +161,40 @@ namespace TodoApi.Controllers
         }
 
         // POST: api/MeeeT/postamigo
-        // [HttpPost]
-        //public void Post([FromBody] string value)
-        //{
-        //
-        //}
-
         [Route("PostAmigo")]
         [HttpPost]
-        public void PostAmigo(Amigo a)
+        public void PostAmigo([FromBody] Amigo a)
         {
-            Amigo toAdd = a.insertAmigo(a);
-            _context.Add(toAdd);
+            _context.Add(a);
             _context.SaveChanges();
 
+        }
+
+        // POST: api/MeeeT/postgrupo
+        [Route("PostGrupo")]
+        [HttpPost]
+        public void PostGrupo([FromBody] Grupo g)
+        {
+            _context.Add(g);
+            _context.SaveChanges();
+        }
+
+        // POST: api/MeeeT/postuser
+        [Route("PostUser")]
+        [HttpPost]
+        public void PostUser([FromBody] Utilizador u)
+        {
+            _context.Add(u);
+            _context.SaveChanges();
+        }
+
+        // POST: api/MeeeT/postloc
+        [Route("Postloc")]
+        [HttpPost]
+        public void PostLoc([FromBody] Localização l)
+        {
+            _context.Add(l);
+            _context.SaveChanges();
         }
 
 
