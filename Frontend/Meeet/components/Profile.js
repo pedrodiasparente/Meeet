@@ -1,74 +1,76 @@
-import React, { Component } from 'react'
-import { View, Image, Text, StyleSheet, TextInput, Button, TouchableOpacity} from 'react-native'
+import React, { Component , useState, useEffect } from 'react'
+import { View, Image, Text, StyleSheet, ActivityIndicator, Button, TouchableOpacity} from 'react-native'
 import Icon from 'react-native-vector-icons/dist/FontAwesome5'
 
 import AuthContext from '../contexts/AuthContext'
 
-function Profile({ data }) {
+function Profile({ id }) {
 
-  const [usernameText, setUsername] = React.useState('');
-  const [emailText, setEmail] = React.useState('');
-  const [cityText, setCity] = React.useState('');
+  const [userData, setUserData] = useState(null);
+  const [isLoading, setLoading] = useState(true);
 
+  useEffect(() => {
+  fetch('https://meeet-project.azurewebsites.net/api/meeet/getuser/' + id)
+    .then((response) => response.json())
+    .then((json) => {
+      setUserData(json);
+    })
+    .catch((error) => {
+      console.error(error);
+    })
+    .finally(() => setLoading(false));
+
+    console.log(userData);
+}, []);
   const { signIn } = React.useContext(AuthContext);
 
     return (
-
     <>
-
+      {isLoading ? <ActivityIndicator/> : (
+        <>
         <View style = {styles.profilePic}>
           <Image style = {{width: '100%', height:'100%' ,resizeMode: 'contain',}}
-            source={require('../assets/user.png')} />
+            source={{
+          uri: "https://images.trustinnews.pt/uploads/sites/6/2020/01/12696992marco-paulo-960x555.jpg",
+        }} />
         </View>
 
-      <View style = {styles.profileInput}>
+      <View style = {styles.profileRow}>
 
         <Icon
           name="user"
           size={20}
           color='#2c365d'
           />
-        <TextInput
-          style={styles.textInput}
-          textAlign={'center'}
-          placeholder={data.username}
-          onChangeText={setUsername}
-          value={usernameText}
-          />
+        <View style={styles.textInput}>
+          <Text> {userData.username} </Text>
+          </View>
 
         </View>
 
-      <View style = {styles.profileInput}>
+      <View style = {styles.profileRow}>
 
         <Icon
           name="envelope"
           size={20}
           color='#2c365d'
           />
-        <TextInput
-          style={styles.textInput}
-          textAlign={'center'}
-          placeholder={data.email}
-          onChangeText={setEmail}
-          value={emailText}
-          />
+        <View style={styles.textInput}>
+          <Text> {userData.email} </Text>
+          </View>
 
         </View>
 
-      <View style = {styles.profileInput}>
+      <View style = {styles.profileRow}>
 
         <Icon
           name="map"
           size={20}
           color='#2c365d'
           />
-        <TextInput
-          style={styles.textInput}
-          textAlign={'center'}
-          placeholder={data.city}
-          onChangeText={setCity}
-          value={cityText}
-          />
+          <View style={styles.textInput}>
+            <Text> {userData.morada} </Text>
+            </View>
 
         </View>
 
@@ -81,19 +83,21 @@ function Profile({ data }) {
         </TouchableOpacity>
 
       </View>
-
+      </>
+      )}
     </>
-    )
+  );
 }
 
 const styles = StyleSheet.create({
   textInput: {
+    alignItems: 'center',
+    justifyContent: 'center',
     margin: 10,
     marginHorizontal: 5,
     backgroundColor: '#cbcbcb',
     height: 40,
     width: '70%',
-    fontSize: 16,
     borderRadius: 10,
   },
   profilePic:{
@@ -101,7 +105,7 @@ const styles = StyleSheet.create({
     height: '25%',
     marginVertical: 25,
   },
-  profileInput:{
+  profileRow:{
     flexDirection: 'row',
     alignItems: 'center',
   },
