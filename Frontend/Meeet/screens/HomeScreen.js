@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, useState } from 'react'
 import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity, Image} from 'react-native'
 import Icon from 'react-native-vector-icons/dist/FontAwesome5'
 
@@ -7,6 +7,7 @@ import AuthContext from '../contexts/AuthContext'
 
 function HomeScreen({ navigation }) {
   const { signOut } = React.useContext(AuthContext);
+
 
   return (
     <View style = {styles.loginBox}>
@@ -19,7 +20,7 @@ function HomeScreen({ navigation }) {
             size={30}
             color='#2c365d'
             />
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Events')}>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('EventMenu')}>
             <Text style= {{color: '#fbfbfb'}}>
               Events
               </Text>
@@ -47,7 +48,7 @@ function HomeScreen({ navigation }) {
             size={25}
             color='#2c365d'
             />
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Profile')} >
+          <TouchableOpacity style={styles.button} onPress={() => {  navigation.navigate('Profile', {id: 1}); } }>
             <Text style= {{color: '#fbfbfb'}}>
               Profile
               </Text>
