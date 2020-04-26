@@ -23,7 +23,7 @@ function SearchList({ title , data }) {
       const textData = text.toUpperCase();
       return itemData.indexOf(textData) > -1;
    });
-    setState({ text: text , list: newData });
+    setState({text: state.text, list: newData });
   };
 
 

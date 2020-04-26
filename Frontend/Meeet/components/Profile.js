@@ -10,18 +10,18 @@ function Profile({ id }) {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-  fetch('https://meeet-project.azurewebsites.net/api/meeet/getuser/' + id)
-    .then((response) => response.json())
-    .then((json) => {
-      setUserData(json);
-    })
-    .catch((error) => {
-      console.error(error);
-    })
-    .finally(() => setLoading(false));
+    fetch('https://meeet-project.azurewebsites.net/api/meeet/getuser/' + id)
+      .then((response) => response.json())
+      .then((json) => {
+        setUserData(json);
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+      .finally(() => setLoading(false));
 
-    console.log(userData);
-}, []);
+      console.log(userData);
+    }, []);
   const { signIn } = React.useContext(AuthContext);
 
     return (
@@ -29,9 +29,9 @@ function Profile({ id }) {
       {isLoading ? <ActivityIndicator/> : (
         <>
         <View style = {styles.profilePic}>
-          <Image style = {{width: '100%', height:'100%' ,resizeMode: 'contain',}}
+          <Image style = {{width: '100%', height:'100%' , borderRadius:20000}}
             source={{
-          uri: "https://images.trustinnews.pt/uploads/sites/6/2020/01/12696992marco-paulo-960x555.jpg",
+          uri: userData.urlFoto,
         }} />
         </View>
 

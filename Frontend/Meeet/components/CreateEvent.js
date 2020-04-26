@@ -1,15 +1,17 @@
-import React, { Component, createElement } from 'react'
+import React, { Component, useState } from 'react'
 import { View, Image, Text, StyleSheet, TextInput, Button, TouchableOpacity} from 'react-native'
 import Icon from 'react-native-vector-icons/dist/FontAwesome5'
 
 import AuthContext from '../contexts/AuthContext'
 import SearchList from '../components/SearchList'
+import DateInput from '../components/DateInput'
 
 function CreateEvent({ data }) {
+  const [eventName, updateEventName] = useState('');
+  const [eventLocation, updateEventLocation] = useState('');
+  const [eventDate, updateEventDate] = useState({day: '', month: '', year: ''});
+  const [eventTime, updateEventTime] = useState('');
 
-  const [usernameText, setUsername] = React.useState('');
-  const [emailText, setEmail] = React.useState('');
-  const [cityText, setCity] = React.useState('');
 
   const { signIn } = React.useContext(AuthContext);
 
@@ -22,8 +24,8 @@ function CreateEvent({ data }) {
           style={styles.textInput}
           textAlign={'center'}
           placeholder={"Name"}
-          onChangeText={setUsername}
-          value={usernameText}
+          onChangeText={updateEventName}
+          value={eventName}
           />
 
         </View>
@@ -34,43 +36,35 @@ function CreateEvent({ data }) {
           style={styles.textInput}
           textAlign={'center'}
           placeholder={"Local"}
-          onChangeText={setEmail}
-          value={emailText}
+          onChangeText={updateEventLocation}
+          value={eventLocation}
           />
 
         </View>
+      
+      <DateInput
+        change={updateEventDate}
+        date={eventDate}
+        />
 
-      <View style = {styles.profileInput}>
-
-        <TextInput
-          style={styles.textInput}
-          textAlign={'center'}
-          placeholder={"Date"}
-          onChangeText={setCity}
-          value={cityText}
-          />
-
-        </View>
-
-        
       <View style = {styles.profileInput}>
 
         <TextInput
          style={styles.textInput}
          textAlign={'center'}
          placeholder={"Hours"}
-         onChangeText={setCity}
-        value={cityText}
+         onChangeText={updateEventTime}
+        value={eventTime}
      />
 
     </View>
 
-    
+
 
     <SearchList data={data}/>
 
-    
-    
+
+
     </>
     )
 }
