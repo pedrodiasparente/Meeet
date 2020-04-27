@@ -19,6 +19,12 @@ namespace TodoApi.Controllers
             _context = context;
         }
 
+
+        /*******\
+       | * GET * | ---------------------------------------------------------------------------------------------------------------
+        \*******/
+
+        // Todos os grupos na database
         // GET: api/MeeeT
         [HttpGet]
         public List<Grupo> Get()
@@ -26,6 +32,8 @@ namespace TodoApi.Controllers
             return _context.Grupo.ToList();
         }
 
+
+        // Todos os amigos na database
         // GET: api/MeeeT/getAmigos
         [Route("getAmigos")]
         [HttpGet]
@@ -35,6 +43,8 @@ namespace TodoApi.Controllers
         }
 
 
+        // Um utilizador em concreto da database
+        // GET: api/MeeeT/getInfoUser/id_user
         [Route("getInfoUser/{id_user:int}")]
         [HttpGet]
         public Utilizador GetInfoUser(int id_user)
@@ -42,6 +52,8 @@ namespace TodoApi.Controllers
             return _context.Utilizador.Find(id_user);
         }
 
+
+        // Se um utilizador está a participar num evento
         // GET: api/MeeeT/isInEvent/id_user/id_event
         [Route("isInEvent/{id_user:int}/{id_evento:int}")]
         [HttpGet]
@@ -54,6 +66,8 @@ namespace TodoApi.Controllers
             return false;
         }
 
+
+        // Todos os utilizadores na database
         // GET: api/MeeeT/getUsers
         [Route("getUsers")]
         [HttpGet]
@@ -62,6 +76,8 @@ namespace TodoApi.Controllers
             return _context.Utilizador.ToList();
         }
 
+
+        // Um utilizador concreto por id 
         // GET: api/MeeeT/getUser/id
         [Route("getUser/{id:int}")]
         [HttpGet]
@@ -70,6 +86,8 @@ namespace TodoApi.Controllers
             return _context.Utilizador.Find(id);
         }
 
+
+        // Login
         // GET: api/MeeeT/Login/user/password
         [Route("Login/{username}/{password}")]
         [HttpGet]
@@ -82,6 +100,8 @@ namespace TodoApi.Controllers
             return -1; //-1 = não encontrou nao tenho paciencia para melhorar
         }
 
+
+        // Utilizador_Evento
         // GET: api/MeeeT/getUsersEvents
         [Route("getUsersEvents")]
         [HttpGet]
@@ -90,6 +110,8 @@ namespace TodoApi.Controllers
             return _context.UtilizadorEvento.ToList();
         }
 
+
+        // Utilizador_Grupo
         // GET: api/MeeeT/getUsersGrupos
         [Route("getUtilizadorGrupos/{id_user:int}")]
         [HttpGet]
@@ -98,6 +120,8 @@ namespace TodoApi.Controllers
             return GetInfoUser(id_user).UtilizadorGrupo;
         }
 
+
+        // Grupo por id
         // GET: api/MeeeT/getGrupo
         [Route("getGrupo/{id_grupo:int}")]
         [HttpGet]
@@ -106,6 +130,8 @@ namespace TodoApi.Controllers
             return _context.Grupo.Find(id_grupo);
         }
 
+
+        // Grupos de um utilizador
         // GET: api/MeeeT/getGrupoPerUser
         [Route("getGrupoPerUser/{id_user:int}")]
         [HttpGet]
@@ -120,6 +146,7 @@ namespace TodoApi.Controllers
             return ret;
         }
 
+        // Locais na database
         // GET: api/MeeeT/getLocais
         [Route("getLocais")]
         [HttpGet]
@@ -128,6 +155,8 @@ namespace TodoApi.Controllers
             return _context.Localização.ToList();
         }
 
+
+        // Eventos na database
         // GET: api/MeeeT/getEventos
         [Route("getEventos")]
         [HttpGet]
@@ -136,6 +165,8 @@ namespace TodoApi.Controllers
             return _context.Evento.ToList();
         }
 
+
+        // Eventos por local
         // GET: api/MeeeT/getEventosLocs/id_latitude/id_longitude
         [Route("getEventosLocs/{id_latitude:decimal}/{id_longitude:decimal}")]
         [HttpGet]
@@ -153,6 +184,8 @@ namespace TodoApi.Controllers
             return events;
         }
 
+
+        // Encontra um grupo
         // GET: api/MeeeT/5
         [HttpGet("{id}", Name = "Get")]
         public Grupo Get(int id)
@@ -160,6 +193,32 @@ namespace TodoApi.Controllers
             return _context.Grupo.Find(id);
         }
 
+
+        // NEW FUNC
+        // Amigos de um user
+        // GET:
+        [Route("getAmigosUser/{id_user:int}")]
+        [HttpGet]
+        public List<Amigo> GetAmigosUser(int id_user)
+        {
+            List<Amigo> ret = new List<Amigo>();
+            List<Amigo> aux = GetAmigos();
+            
+            foreach(var t in aux)
+            {
+                if (id_user == t.UtilizadorId) aux.Add(t);
+            }
+
+            return ret;
+        }
+
+
+
+        /********\
+       | * POST * | ---------------------------------------------------------------------------------------------------------------
+        \********/
+
+        // Insere um amigo
         // POST: api/MeeeT/postamigo
         [Route("PostAmigo")]
         [HttpPost]
@@ -170,6 +229,8 @@ namespace TodoApi.Controllers
 
         }
 
+
+        // Insere um grupo
         // POST: api/MeeeT/postgrupo
         [Route("PostGrupo")]
         [HttpPost]
@@ -179,6 +240,8 @@ namespace TodoApi.Controllers
             _context.SaveChanges();
         }
 
+
+        // Adiciona um utilizador
         // POST: api/MeeeT/postuser
         [Route("PostUser")]
         [HttpPost]
@@ -188,6 +251,8 @@ namespace TodoApi.Controllers
             _context.SaveChanges();
         }
 
+
+        // Adiciona localização
         // POST: api/MeeeT/postloc
         [Route("Postloc")]
         [HttpPost]
@@ -199,11 +264,21 @@ namespace TodoApi.Controllers
 
 
 
+        /*******\
+       | * PUT * | ---------------------------------------------------------------------------------------------------------------
+        \*******/
+
         // PUT: api/MeeeT/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
+
+
+
+        /**********\
+       | * DELETE * | ---------------------------------------------------------------------------------------------------------------
+        \**********/
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
