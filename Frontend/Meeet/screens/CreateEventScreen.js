@@ -42,15 +42,15 @@ const styles = StyleSheet.create({
     },
     {
       id: '3',
-      username: 'Paulo',
+      username: 'Ricardinho',
     },
     {
       id: '9',
-      username: 'Joaquim',
+      username: 'Rui Costa',
     },
     {
       id: '4',
-      username: 'Ricardo Esteves Esteves',
+      username: 'Rivaldo Esteves Esteves',
     },
     {
       id: '5',

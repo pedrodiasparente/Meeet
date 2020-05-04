@@ -6,6 +6,27 @@ import Title from '../components/Title'
 import SearchList from '../components/SearchList'
 
 function FriendsScreen() {
+
+  /*
+  const [userData, setUserData] = useState(null);
+  const [isLoading, setLoading] = useState(true);
+
+  
+  useEffect(() => {
+    fetch('https://meeet-project.azurewebsites.net/api/meeet/getuser/getfriends' + id)
+      .then((response) => response.json())
+      .then((json) => {
+        setUserData(json);
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+      .finally(() => setLoading(false));
+
+      console.log(userData);
+    }, []);
+  const { signIn } = React.useContext(AuthContext);
+*/
   return (
     <View style = {styles.background}>
       <Title title = {'Friends'}/>
@@ -27,6 +48,7 @@ const styles = StyleSheet.create({
   },
   });
 
+
   const DATA = [
     {
       id: '1',
@@ -38,15 +60,15 @@ const styles = StyleSheet.create({
     },
     {
       id: '3',
-      username: 'Paulo',
+      username: 'Ricardinho',
     },
     {
       id: '9',
-      username: 'Joaquim',
+      username: 'Rui Costa',
     },
     {
       id: '4',
-      username: 'Ricardo Esteves Esteves',
+      username: 'Rivaldo Esteves Esteves',
     },
     {
       id: '5',

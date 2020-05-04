@@ -55,6 +55,7 @@ function CreateEvent({ data }) {
          placeholder={"Hours"}
          onChangeText={updateEventTime}
         value={eventTime}
+       
      />
 
     </View>

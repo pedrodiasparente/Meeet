@@ -40,7 +40,7 @@ function DateInput({ change , date }) {
           />
       <View style={styles.input}>
         <TextInput
-          placeholder="YY"
+          placeholder="YYYY"
           onChangeText={text => change({day: date.day, month: date.month, year: text})}
           value={date.year}
           keyboardType={'phone-pad'}

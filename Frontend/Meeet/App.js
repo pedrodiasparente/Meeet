@@ -11,6 +11,7 @@ import FriendScreen from './screens/FriendsScreen'
 import ProfileScreen from './screens/ProfileScreen'
 import EventMenuScreen from './screens/EventMenuScreen'
 import CreateEventScreen from './screens/CreateEventScreen'
+import FriendsMenuScreen from './screens/FriendsMenuScreen'
 
 
 import AuthContext from './contexts/AuthContext'
@@ -121,6 +122,7 @@ export default function App({ navigation }) {
               <Stack.Screen name="Profile" component={ProfileScreen} />
               <Stack.Screen name="EventMenu" component={EventMenuScreen} />
               <Stack.Screen name="CreateEvent" component={CreateEventScreen} />
+              <Stack.Screen name="FriendsMenu" component={FriendsMenuScreen} />
             </>
           )}
         </Stack.Navigator>

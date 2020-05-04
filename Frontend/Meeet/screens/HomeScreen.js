@@ -34,7 +34,7 @@ function HomeScreen({ navigation }) {
             size={20}
             color='#2c365d'
             />
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Friends')}>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('FriendsMenu')}>
             <Text style= {{color: '#fbfbfb'}}>
               Friends
               </Text>

@@ -33,7 +33,7 @@ function SearchList({ title , data }) {
       <SearchBar
         placeholder="Type Here..."
         filter={searchFilterFunction}
-        value={state.text}
+        onChangeText={state.text}
         />
       <FlatList
         data={state.list}
