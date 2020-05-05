@@ -3,7 +3,7 @@ import { View, Image, Text, StyleSheet, TextInput, Button, TouchableOpacity} fro
 import Icon from 'react-native-vector-icons/dist/FontAwesome5'
 
 import AuthContext from '../contexts/AuthContext'
-import SearchList from '../components/SearchList'
+import TouchableSearchList from '../components/TouchableSearchList'
 import DateInput from '../components/DateInput'
 
 function CreateEvent({ data }) {
@@ -12,6 +12,10 @@ function CreateEvent({ data }) {
   const [eventDate, updateEventDate] = useState({day: '', month: '', year: ''});
   const [eventTime, updateEventTime] = useState('');
 
+  function nothing(item){
+    item.isSelected = !item.isSelected
+    console.log('Is ' + item.username + ' Selected? ' + item.isSelected);
+  }
 
   const { signIn } = React.useContext(AuthContext);
 
@@ -41,7 +45,7 @@ function CreateEvent({ data }) {
           />
 
         </View>
-      
+
       <DateInput
         change={updateEventDate}
         date={eventDate}
@@ -54,14 +58,14 @@ function CreateEvent({ data }) {
          textAlign={'center'}
          placeholder={"Hours"}
          onChangeText={updateEventTime}
-        value={eventTime}
+         value={eventTime}
      />
 
     </View>
 
 
 
-    <SearchList data={data}/>
+    <TouchableSearchList data={data} touchFunction={nothing}/>
 
 
 
