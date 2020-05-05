@@ -13,7 +13,8 @@ function CreateEvent({ data }) {
   const [eventTime, updateEventTime] = useState('');
 
   function nothing(item){
-    console.log(item.username);
+    item.isSelected = !item.isSelected
+    console.log(item.isSelected);
   }
 
   const { signIn } = React.useContext(AuthContext);
