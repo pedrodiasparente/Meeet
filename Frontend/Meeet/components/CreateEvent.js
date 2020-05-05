@@ -13,11 +13,21 @@ function CreateEvent({ data }) {
   const [eventTime, updateEventTime] = useState('');
 
   function nothing(item){
-    item.isSelected = !item.isSelected
-    console.log('Is ' + item.username + ' Selected? ' + item.isSelected);
+    item.isSelected = !item.isSelected;
+    if(item.isSelected){
+      setList(oldArray => [...oldArray, item.username]);
+    }
+    else{
+      let auxArray= selectedList.filter(value => { return value != item.username })
+      console.log('AUX:' + auxArray);
+      setList(auxArray);
+    }
+    console.log(selectedList);
+    //console.log('Is ' + item.username + ' Selected? ' + item.isSelected);
   }
 
   const { signIn } = React.useContext(AuthContext);
+    const [selectedList, setList] = useState([]);
 
     return (
     <>
