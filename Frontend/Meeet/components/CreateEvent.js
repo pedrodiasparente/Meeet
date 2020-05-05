@@ -14,7 +14,7 @@ function CreateEvent({ data }) {
 
   function nothing(item){
     item.isSelected = !item.isSelected
-    console.log(item.isSelected);
+    console.log('Is ' + item.username + ' Selected? ' + item.isSelected);
   }
 
   const { signIn } = React.useContext(AuthContext);
