@@ -28,6 +28,8 @@ function TouchableSearchList({ data , touchFunction }) {
   };
 
 
+
+
   return (
 
     <View style={styles.list}>
@@ -39,15 +41,17 @@ function TouchableSearchList({ data , touchFunction }) {
       <FlatList
         data={state.list}
         renderItem={({ item }) => (
-          <View style = {styles.friend}>
-            <TouchableOpacity style={styles.itemPress} onPress={() => touchFunction(item) }>
+                  <TouchableOpacity 
+            style={[styles.itemPress, item.selectedClass]}
+            onPress={() => touchFunction(item) }>
               <Text>
                 {item.username}
               </Text>
             </TouchableOpacity>
-          </View>
+         
           )}
           keyExtractor={item => item.id}
+          extraData={state}
         />
         </View>
     )

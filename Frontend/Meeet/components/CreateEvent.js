@@ -16,14 +16,16 @@ function CreateEvent({ data }) {
     item.isSelected = !item.isSelected;
     if(item.isSelected){
       setList(oldArray => [...oldArray, item.username]);
+      item.selectedClass = styles.selected;
     }
     else{
       let auxArray= selectedList.filter(value => { return value != item.username })
-      console.log('AUX:' + auxArray);
+      //console.log('AUX:' + auxArray);
       setList(auxArray);
+      item.selectedClass = styles.itemPress;
     }
     console.log(selectedList);
-    //console.log('Is ' + item.username + ' Selected? ' + item.isSelected);
+    console.log('Is ' + item.username + ' Selected? ' + item.isSelected);
   }
 
   const { signIn } = React.useContext(AuthContext);
@@ -116,6 +118,9 @@ const styles = StyleSheet.create({
   },
   space: {
     marginVertical: 25,
+  },
+  selected: {
+    backgroundColor: "hsl(85, 100%, 50%)"
   },
 });
 

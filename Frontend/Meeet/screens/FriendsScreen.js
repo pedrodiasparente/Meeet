@@ -1,37 +1,31 @@
-import React, { Component } from 'react'
+import React, { Component , useState, useEffect } from 'react'
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image} from 'react-native'
 import Icon from 'react-native-vector-icons/dist/FontAwesome5'
 
 import Title from '../components/Title'
-import SearchList from '../components/SearchList'
+import TouchableSearchList from '../components/TouchableSearchList'
+import AuthContext from '../contexts/AuthContext'
+import Profile from '../components/Profile'
 
-function FriendsScreen() {
+function FriendsScreen({ navigation }) {
 
-  /*
+   
   const [userData, setUserData] = useState(null);
   const [isLoading, setLoading] = useState(true);
 
-  
-  useEffect(() => {
-    fetch('https://meeet-project.azurewebsites.net/api/meeet/getuser/getfriends' + id)
-      .then((response) => response.json())
-      .then((json) => {
-        setUserData(json);
-      })
-      .catch((error) => {
-        console.error(error);
-      })
-      .finally(() => setLoading(false));
 
-      console.log(userData);
-    }, []);
-  const { signIn } = React.useContext(AuthContext);
-*/
+function nothing(item){
+ navigation.navigate('Profile', {id: item.id});
+}
+
+const { signIn } = React.useContext(AuthContext);
+
+
   return (
     <View style = {styles.background}>
       <Title title = {'Friends'}/>
       <View style = {styles.body}>
-        <SearchList data={DATA}/>
+        <TouchableSearchList data={DATA} touchFunction={nothing}/>
         </View>
       </View>
   )
@@ -46,7 +40,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
   },
+  profileBox: {
+    flex : 1,
+    alignItems : 'center',
+    backgroundColor:'#ebebeb',
+  },
   });
+
 
 
   const DATA = [
