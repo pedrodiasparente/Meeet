@@ -206,11 +206,73 @@ namespace TodoApi.Controllers
             
             foreach(var t in aux)
             {
-                if (id_user == t.UtilizadorId) aux.Add(t);
+                if (id_user == t.UtilizadorId) ret.Add(t);
             }
 
             return ret;
         }
+
+
+        // POR TESTAR
+        // Localizacao de um user
+        // GET:
+        //[Route("getLocalizacaoUser/{id_user:int}")]
+        //[HttpGet]
+        //public List<float> GetLocalizacaoUser(int id)
+        //{
+        //    List<float> local = new List<float>(2);
+        //    Utilizador u = GetUser(id);
+        //    local.Add(u.Latitude);
+        //    local.Add(u.Longitude);
+        //    return local;
+        //}
+
+
+        // POR TESTAR
+        // Longitude de um user
+        // GET
+        [Route("getLongitudeUser/{id_user:int}")]
+        [HttpGet]
+        public float GetLongitudeUser (int id_user)
+        {
+            Utilizador u = GetUser(id_user);
+            return u.Longitude;
+        }
+
+        // POR TESTAR
+        // Latitude de um user
+        // GET
+        [Route("getLatitudeUser/{id_user:int}")]
+        [HttpGet]
+        public float GetLatitudeUser (int id_user)
+        {
+            Utilizador u = GetUser(id_user);
+            return u.Latitude;
+        }
+
+        // POR TESTAR
+        // Users num evento
+        // GET
+        [Route("getUserEventos/{id_evento:int}")]
+        [HttpGet]
+        public List<Utilizador> GetUsersinEvents(int id_evento)
+        {
+            Evento e = _context.Evento.Find(id_evento);
+            List<Utilizador> ret = new List<Utilizador>();
+            foreach(var aux in e.UtilizadorEvento)
+            {
+                foreach (var u in GetUsers())
+                {
+                    if (u.Id == aux.IdUtilizador) 
+                        {ret.Add(GetUser(u.Id)); break;}
+                }
+            }
+            return ret;
+        } 
+
+
+
+
 
 
 
