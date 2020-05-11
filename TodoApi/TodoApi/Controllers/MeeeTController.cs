@@ -208,27 +208,10 @@ namespace TodoApi.Controllers
             {
                 if (id_user == t.UtilizadorId) ret.Add(t);
             }
-
             return ret;
         }
 
 
-        // POR TESTAR
-        // Localizacao de um user
-        // GET:
-        //[Route("getLocalizacaoUser/{id_user:int}")]
-        //[HttpGet]
-        //public List<float> GetLocalizacaoUser(int id)
-        //{
-        //    List<float> local = new List<float>(2);
-        //    Utilizador u = GetUser(id);
-        //    local.Add(u.Latitude);
-        //    local.Add(u.Longitude);
-        //    return local;
-        //}
-
-
-        // POR TESTAR
         // Longitude de um user
         // GET
         [Route("getLongitudeUser/{id_user:int}")]
@@ -239,7 +222,6 @@ namespace TodoApi.Controllers
             return u.Longitude;
         }
 
-        // POR TESTAR
         // Latitude de um user
         // GET
         [Route("getLatitudeUser/{id_user:int}")]
@@ -268,7 +250,7 @@ namespace TodoApi.Controllers
                 }
             }
             return ret;
-        } 
+        }
 
 
 
@@ -277,50 +259,63 @@ namespace TodoApi.Controllers
        | * POST * | ---------------------------------------------------------------------------------------------------------------
         \********/
 
+
+        // POR TESTAR
         // Insere um amigo
         // POST: api/MeeeT/postamigo
         [Route("PostAmigo")]
         [HttpPost]
         public void PostAmigo([FromBody] Amigo a)
         {
-            _context.Add(a);
+            _context.Amigo.Add(a);
             _context.SaveChanges();
-
         }
 
 
-        // Insere um grupo
-        // POST: api/MeeeT/postgrupo
+
+        // POR TESTAR
+        // Cria grupo e adiciona-o à data base
+        // POST
         [Route("PostGrupo")]
         [HttpPost]
-        public void PostGrupo([FromBody] Grupo g)
+        public void PostGrupo (int id_grupo, List<int> ids, string nome)
         {
-            _context.Add(g);
+            Grupo ret = new Grupo();
+            UtilizadorGrupo ug = new UtilizadorGrupo();
+            ret.Id = id_grupo;
+            ret.Nome = nome;
+            foreach(var x in ids)
+            {
+                ug.IdGrupo = id_grupo;
+                ug.IdUtilizador = x;
+            }
+            _context.Grupo.Add(ret);
+            _context.UtilizadorGrupo.Add(ug);
             _context.SaveChanges();
         }
 
 
+        // POR TESTAR
         // Adiciona um utilizador
         // POST: api/MeeeT/postuser
         [Route("PostUser")]
         [HttpPost]
         public void PostUser([FromBody] Utilizador u)
         {
-            _context.Add(u);
+            _context.Utilizador.Add(u);
             _context.SaveChanges();
         }
 
-
+        // POR TESTAR
         // Adiciona localização
         // POST: api/MeeeT/postloc
         [Route("Postloc")]
         [HttpPost]
         public void PostLoc([FromBody] Localização l)
         {
-            _context.Add(l);
+            _context.Localização.Add(l);
             _context.SaveChanges();
         }
-
 
 
         /*******\
