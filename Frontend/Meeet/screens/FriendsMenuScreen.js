@@ -19,7 +19,7 @@ function FriendsMenuScreen({ navigation }) {
         <View style = {styles.buttons}>
 
 
-          <TouchableOpacity style={styles.button} >
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('CreateGroup')}>
             <Text style= {{color: '#fbfbfb'}}>
               Create group
               </Text>
@@ -28,7 +28,7 @@ function FriendsMenuScreen({ navigation }) {
           </View>
         <View style = {styles.buttons}>
 
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('RequestFriends')}>
             <Text style= {{color: '#fbfbfb'}}>
               Send Request
               </Text>
@@ -46,7 +46,7 @@ function FriendsMenuScreen({ navigation }) {
           </View>
         <View style = {styles.buttons}>
 
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Friends')} >
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('MyFriends')} >
             <Text style= {{color: '#fbfbfb'}}>
               My friends
               </Text>
@@ -67,11 +67,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   button: {
-    margin: 15,
+    margin: 20,
     alignItems: 'center',
     justifyContent: 'center',
     width: '50%',
-    height: 40,
+    height: 50,
     borderRadius: 10,
     backgroundColor: '#2c365d',
   },

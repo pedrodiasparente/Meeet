@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/dist/FontAwesome5'
 import Title from '../components/Title'
 import TouchableSearchList from '../components/TouchableSearchList'
 import AuthContext from '../contexts/AuthContext'
-import ProfileFriend from '../components/ProfileFriend'
+
 
 function FriendsScreen({ navigation }) {
 
@@ -15,15 +15,16 @@ function FriendsScreen({ navigation }) {
 
 
 function nothing(item){
- navigation.navigate('ProfileFriend', {id: item.id});
+ navigation.navigate('RequestFriends', {id: item.id});
 }
+
 
 const { signIn } = React.useContext(AuthContext);
 
 
   return (
     <View style = {styles.background}>
-      <Title title = {'My Friends'}/>
+      <Title title = {'Request Friends'}/>
       <View style = {styles.body}>
         <TouchableSearchList data={DATA} touchFunction={nothing}/>
         </View>

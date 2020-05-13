@@ -4,13 +4,11 @@ import Icon from 'react-native-vector-icons/dist/FontAwesome5'
 
 import AuthContext from '../contexts/AuthContext'
 import TouchableSearchList from '../components/TouchableSearchList'
-import DateInput from '../components/DateInput'
 
-function CreateEvent({ data }) {
-  const [eventName, updateEventName] = useState('');
-  const [eventLocation, updateEventLocation] = useState('');
-  const [eventDate, updateEventDate] = useState({day: '', month: '', year: ''});
-  const [eventTime, updateEventTime] = useState('');
+
+function CreateGroup({ data }) {
+  const [groupName, updateGroupName] = useState('');
+
 
   function nothing(item){
     item.isSelected = !item.isSelected;
@@ -20,12 +18,9 @@ function CreateEvent({ data }) {
     }
     else{
       let auxArray= selectedList.filter(value => { return value != item.username })
-      //console.log('AUX:' + auxArray);
       setList(auxArray);
       item.selectedClass = styles.itemPress;
     }
-    console.log(selectedList);
-    console.log('Is ' + item.username + ' Selected? ' + item.isSelected);
   }
 
   const { signIn } = React.useContext(AuthContext);
@@ -39,53 +34,31 @@ function CreateEvent({ data }) {
         <TextInput
           style={styles.textInput}
           textAlign={'center'}
-          placeholder={"Name"}
-          onChangeText={updateEventName}
-          value={eventName}
+          placeholder={"Group Name"}
+          onChangeText={updateGroupName}
+          value={groupName}
           />
 
-        </View>
+      </View>
 
-      <View style = {styles.profileInput}>
+      <View style = {styles.list}>
 
-        <TextInput
-          style={styles.textInput}
-          textAlign={'center'}
-          placeholder={"Local"}
-          onChangeText={updateEventLocation}
-          value={eventLocation}
-          />
-
-        </View>
-
-      <DateInput
-        change={updateEventDate}
-        date={eventDate}
+        <TouchableSearchList 
+        data={data}
+        touchFunction={nothing}
         />
 
-      <View style = {styles.profileInput}>
+      </View>
 
-        <TextInput
-         style={styles.textInput}
-         textAlign={'center'}
-         placeholder={"Hours"}
-         onChangeText={updateEventTime}
-         value={eventTime}
-     />
+      <View style = {styles.buttons}>
 
-    </View>
+          <TouchableOpacity style={styles.button}>
+            <Text style= {{color: '#fbfbfb'}}>
+              Create
+              </Text>
+            </TouchableOpacity>
 
-
-    <View style = {styles.list}>
-
-      <TouchableSearchList 
-       data={data} 
-       touchFunction={nothing}
-      />
-
-    </View>
-
-
+      </View>
     </>
     )
 }
@@ -104,22 +77,22 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  list: {
+    height: '68%',
+    width: '100%',
+  },
   buttons: {
     alignItems: 'center',
-    marginTop: 50,
-    width: '40%',
+    marginTop: 10,
+    width: '50%',
   },
   button: {
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
-    height: 40,
+    height: 50,
     borderRadius: 10,
     backgroundColor: '#2c365d',
-  },
-  body: {
-    alignItems: 'center',
-    flex: 1,
   },
   space: {
     marginVertical: 25,
@@ -130,4 +103,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default CreateEvent;
+export default CreateGroup;
