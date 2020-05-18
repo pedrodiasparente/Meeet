@@ -1,53 +1,35 @@
-import React, { Component , useState, useEffect } from 'react'
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image} from 'react-native'
+import React, { Component } from 'react'
+import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity, Image} from 'react-native'
 import Icon from 'react-native-vector-icons/dist/FontAwesome5'
 
 import Title from '../components/Title'
-import TouchableSearchList from '../components/TouchableSearchList'
+import CreateGroup from '../components/CreateGroup'
 import AuthContext from '../contexts/AuthContext'
-import ProfileFriend from '../components/ProfileFriend'
 
-function FriendsScreen({ navigation }) {
-
-   
-  const [userData, setUserData] = useState(null);
-  const [isLoading, setLoading] = useState(true);
-
-
-function nothing(item){
- navigation.navigate('ProfileFriend', {id: item.id});
-}
-
-const { signIn } = React.useContext(AuthContext);
-
+function CreateGroupScreen() {
+  const { signOut } = React.useContext(AuthContext);
 
   return (
     <View style = {styles.background}>
-      <Title title = {'My Friends'}/>
-      <View style = {styles.body}>
-        <TouchableSearchList data={DATA} touchFunction={nothing}/>
-        </View>
+    <Title title = {'Create Group'}/>
+    <View style = {styles.body}>
+        <CreateGroup data={DATA}/>
       </View>
+
+        </View>
   )
 }
 
 const styles = StyleSheet.create({
-  background: {
-    flex : 1,
-    backgroundColor:'#ebebeb',
-  },
-  body: {
-    alignItems: 'center',
-    flex: 1,
-  },
-  profileBox: {
-    flex : 1,
-    alignItems : 'center',
-    backgroundColor:'#ebebeb',
-  },
+    background: {
+        flex : 1,
+        backgroundColor:'#ebebeb',
+      },
+    body: {
+        alignItems: 'center',
+        flex: 1,
+      },
   });
-
-
 
   const DATA = [
     {
@@ -124,5 +106,4 @@ const styles = StyleSheet.create({
     },
   ];
 
-
-export default FriendsScreen;
+export default CreateGroupScreen;

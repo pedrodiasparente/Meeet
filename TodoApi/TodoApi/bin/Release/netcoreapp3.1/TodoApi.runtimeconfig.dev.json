@@ -1,8 +1,8 @@
 {
   "runtimeOptions": {
     "additionalProbingPaths": [
-      "C:\\Users\\Nodelio\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\Nodelio\\.nuget\\packages"
+      "C:\\Users\\luisp\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\luisp\\.nuget\\packages"
     ]
   }
 }

@@ -78,11 +78,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   button: {
-    margin: 15,
+    margin: 20,
     alignItems: 'center',
     justifyContent: 'center',
     width: '50%',
-    height: 40,
+    height: 50,
     borderRadius: 10,
     backgroundColor: '#2c365d',
   },
@@ -91,6 +91,7 @@ const styles = StyleSheet.create({
       backgroundColor:'#ebebeb',
     },
     body: {
+      marginTop: 60,
       alignItems: 'center',
       flex: 1,
     },

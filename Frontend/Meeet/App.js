@@ -12,6 +12,9 @@ import ProfileScreen from './screens/ProfileScreen'
 import EventMenuScreen from './screens/EventMenuScreen'
 import CreateEventScreen from './screens/CreateEventScreen'
 import FriendsMenuScreen from './screens/FriendsMenuScreen'
+import RequestFriendsScreen from './screens/RequestFriendsScreen'
+import CreateGroupScreen from './screens/CreateGroupScreen'
+
 
 
 import AuthContext from './contexts/AuthContext'
@@ -118,10 +121,12 @@ export default function App({ navigation }) {
             // User is signed in
             <>
               <Stack.Screen name="Home" component={HomeScreen} />
-              <Stack.Screen name="Friends" component={FriendScreen} />
+              <Stack.Screen name="MyFriends" component={FriendScreen} />
+              <Stack.Screen name="RequestFriends" component={RequestFriendsScreen} />
               <Stack.Screen name="Profile" component={ProfileScreen} />
               <Stack.Screen name="EventMenu" component={EventMenuScreen} />
               <Stack.Screen name="CreateEvent" component={CreateEventScreen} />
+              <Stack.Screen name="CreateGroup" component={CreateGroupScreen} />
               <Stack.Screen name="FriendsMenu" component={FriendsMenuScreen} />
             </>
           )}
