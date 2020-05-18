@@ -19,18 +19,23 @@ function nothing(item){
 }
 
 
+
 const { signIn } = React.useContext(AuthContext);
 
 
   return (
-    <View style = {styles.background}>
+      <View style = {styles.background}>
       <Title title = {'Request Friends'}/>
       <View style = {styles.body}>
         <TouchableSearchList data={DATA} touchFunction={nothing}/>
         </View>
       </View>
+     
+
   )
 }
+
+
 
 const styles = StyleSheet.create({
   background: {
@@ -45,6 +50,15 @@ const styles = StyleSheet.create({
     flex : 1,
     alignItems : 'center',
     backgroundColor:'#ebebeb',
+  },
+  button: {
+    marginTop: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 250,
+    height: 50,
+    borderRadius: 30,
+    backgroundColor: '#2c365d',
   },
   });
 

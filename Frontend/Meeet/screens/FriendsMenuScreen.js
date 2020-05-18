@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
       backgroundColor:'#ebebeb',
     },
     body: {
+      marginTop: 60,
       alignItems: 'center',
       flex: 1,
     },
