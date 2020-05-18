@@ -10,6 +10,5 @@ namespace TodoApi.DB
         public int UtilizadorId { get; set; }
 
         public virtual Utilizador Utilizador { get; set; }
-
     }
 }

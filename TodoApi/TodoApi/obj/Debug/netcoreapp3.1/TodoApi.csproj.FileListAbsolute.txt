@@ -635,3 +635,4 @@ C:\Users\luisp\Desktop\git_li4\Meeet\TodoApi\TodoApi\obj\Debug\netcoreapp3.1\Tod
 C:\Users\luisp\Desktop\git_li4\Meeet\TodoApi\TodoApi\obj\Debug\netcoreapp3.1\TodoApi.csproj.CopyComplete
 C:\Users\luisp\Desktop\git_li4\Meeet\TodoApi\TodoApi\obj\Debug\netcoreapp3.1\TodoApi.dll
 C:\Users\luisp\Desktop\git_li4\Meeet\TodoApi\TodoApi\obj\Debug\netcoreapp3.1\TodoApi.pdb
+C:\Users\Nodelio\Desktop\University\Meeet\TodoApi\TodoApi\obj\Debug\netcoreapp3.1\TodoApi.MvcApplicationPartsAssemblyInfo.cache

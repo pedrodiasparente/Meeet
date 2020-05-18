@@ -21,10 +21,8 @@ namespace TodoApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            /*services.AddDbContext<MeeetContext>(opt =>
-               opt.UseMySQL(Configuration.GetConnectionString("MeeeTDatabase")));
-            //services.AddControllers();*/
-            services.AddDbContext<meeetdbContext>(x => x.UseSqlServer("Server=tcp:meeetdbserver.database.windows.net,1433;Initial Catalog=meeetdb;Persist Security Info=False;User ID=meeet;Password= Sporting1906;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"));
+            
+            services.AddDbContext<meeetdbContext>(x => x.UseSqlServer("Server=tcp:meeetdbservidor.database.windows.net,1433;Initial Catalog=meeetdb;Persist Security Info=False;User ID=meeet;Password=Sporting1906;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"));
             services.AddMvc();
 
         }
