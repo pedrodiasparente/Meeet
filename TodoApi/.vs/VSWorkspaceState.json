@@ -4,9 +4,8 @@
     "\\TodoApi",
     "\\TodoApi\\Controllers",
     "\\TodoApi\\DB",
-    "\\TodoApi\\Models",
     "\\TodoApi\\Properties"
   ],
-  "SelectedNode": "\\TodoApi.sln",
+  "SelectedNode": "\\TodoApi\\DB\\UtilizadorPedidosAmizade.cs",
   "PreviewInSolutionExplorer": false
 }

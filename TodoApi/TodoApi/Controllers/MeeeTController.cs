@@ -271,7 +271,131 @@ namespace TodoApi.Controllers
             _context.SaveChanges();
         }
 
+        // POR TESTAR
+        // Cria convite e adiciona-o à data base
+        // POST
+        [Route("PostConvites")]
+        [HttpPost]
+        public void PostConvites (int id_convidador, int id_evento, List<int> ids)
+        {
+            Convites ret = new Convites();
+            UtilizadorConvites uc = new UtilizadorConvites();
+            ret.IdConvidador = id_convidador;
+            ret.IdEvento = id_evento;
+            foreach(var x in ids)
+            {
+                uc.IdConvidador = id_convidador;
+                uc.IdUser = x;
+                _context.UtilizadorConvites.Add(uc);
+            }
+            _context.Convites.Add(ret);
+            _context.SaveChanges();
+        }
 
+        // POR TESTAR
+        // Adiciona um evento
+        // POST: api/MeeeT/postevento
+        [Route("PostEvento")]
+        [HttpPost]
+        public void PostEvento(int id, string nome, DateTime d, float longitude, float latitude, string local, int tipo, int id_admin, string desc, int? idademin, List<int> ids)
+        {
+            Evento ret = new Evento();
+            UtilizadorEvento ev = new UtilizadorEvento();
+            ret.Id = id;
+            ret.Nome = nome;
+            ret.DataHora = d;
+            ret.Longitude = longitude;
+            ret.Latitude = latitude;
+            ret.Local = local;
+            ret.TipoEvento = tipo;
+            ret.IdAdmin = id_admin;
+            ret.Descricao = desc;
+            ret.IdadeMinima = idademin;
+
+            foreach(var x in ids)
+            {
+                ev.IdEvento = id;
+                ev.IdUtilizador = x;
+                _context.UtilizadorEvento.Add(ev);
+            }
+            _context.Evento.Add(ret);
+            _context.SaveChanges();
+        }
+        
+        // POR TESTAR
+        // Cria requestevento e adiciona-o à data base
+        // POST
+        [Route("PostRequestEvento")]
+        [HttpPost]
+        public void PostRequestEvento (int id_user_request, List<int> ids)
+        {
+            RequestEvento ret = new RequestEvento();
+            EventoHasRequests ehr = new EventoHasRequests();
+            ret.IdUserRequest = id_user_request;
+            foreach(var x in ids)
+            {
+                ehr.IdUserRequest = id_user_request;
+                ehr.EventoId = x;
+                _context.EventoHasRequests.Add(ehr);
+            }
+            _context.RequestEvento.Add(ret);
+            _context.SaveChanges();
+        }
+
+        // POR TESTAR
+        // Cria pedido de amizade e adiciona-o à data base
+        // POST
+        [Route("PostPedidoAmizade")]
+        [HttpPost]
+        public void PostPedidoAmizade (int id_user_send, List<int> ids)
+        {
+            PedidosAmizade ret = new PedidosAmizade();
+            UtilizadorPedidosAmizade upa = new UtilizadorPedidosAmizade();
+            ret.IdUserSend = id_user_send;
+            foreach(var x in ids)
+            {
+                upa.IdSend = id_user_send;
+                upa.IdReceive = x;
+                _context.UtilizadorPedidosAmizade.Add(upa);
+            }
+            _context.PedidosAmizade.Add(ret);
+            _context.SaveChanges();
+        }
+
+        // POR TESTAR
+        // Adiciona uma opção
+        // POST: 
+        [Route("PostOpcao")]
+        [HttpPost]
+        public void PostOpcao (int id_opcao, string opcao, int id_votacao, List<int> ids)
+        {
+            Opcao ret = new Opcao();
+            UtilizadorOpcao uo = new UtilizadorOpcao();
+            ret.IdOpcao = id_opcao;
+            ret.Opcao1 = opcao;
+            ret.IdVotacao = id_votacao;
+            foreach(var x in ids)
+            {
+                uo.IdOpcao = id_opcao;
+                uo.IdUser = x;
+                _context.UtilizadorOpcao.Add(uo);
+            }
+            _context.Opcao.Add(ret);
+            _context.SaveChanges();
+        }
+       
+
+        // POR TESTAR
+        // Adiciona uma votação
+        // POST: api/MeeeT/postvotacao
+        [Route("PostVotacao")]
+        [HttpPost]
+        public void PostVotacao([FromBody] Votacao v)
+        {
+            _context.Votacao.Add(v);
+            _context.SaveChanges();
+        }
+        
 
         // POR TESTAR
         // Cria grupo e adiciona-o à data base
@@ -280,17 +404,17 @@ namespace TodoApi.Controllers
         [HttpPost]
         public void PostGrupo (int id_grupo, List<int> ids, string nome)
         {
-            Grupo ret = new Grupo();
             UtilizadorGrupo ug = new UtilizadorGrupo();
+            Grupo ret = new Grupo();
             ret.Id = id_grupo;
             ret.Nome = nome;
             foreach(var x in ids)
             {
                 ug.IdGrupo = id_grupo;
                 ug.IdUtilizador = x;
+                _context.UtilizadorGrupo.Add(ug);
             }
             _context.Grupo.Add(ret);
-            _context.UtilizadorGrupo.Add(ug);
             _context.SaveChanges();
         }
 
