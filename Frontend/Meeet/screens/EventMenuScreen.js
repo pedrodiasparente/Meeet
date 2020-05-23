@@ -6,7 +6,7 @@ import Title from '../components/Title'
 import AuthContext from '../contexts/AuthContext'
 
 
-function EventScreen({ navigation }) {
+function EventMenuScreen({ navigation }) {
   const { signOut } = React.useContext(AuthContext);
   const [data, setData] = useState([]);
   function fetchMeetAPI() {
@@ -57,7 +57,7 @@ function EventScreen({ navigation }) {
           </View>
         <View style = {styles.buttons}>
 
-          <TouchableOpacity style={styles.button} onPress={() => fetchMeetAPI()}>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ShareLocation')}>
             <Text style= {{color: '#fbfbfb'}}>
               Fetch API
               </Text>
@@ -98,4 +98,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default EventScreen;
+export default EventMenuScreen;

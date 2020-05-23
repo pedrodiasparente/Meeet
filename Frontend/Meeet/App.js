@@ -10,6 +10,7 @@ import HomeScreen from './screens/HomeScreen'
 import FriendScreen from './screens/FriendsScreen'
 import ProfileScreen from './screens/ProfileScreen'
 import EventMenuScreen from './screens/EventMenuScreen'
+import ShareLocationScreen from './screens/ShareLocationScreen'
 import CreateEventScreen from './screens/CreateEventScreen'
 import FriendsMenuScreen from './screens/FriendsMenuScreen'
 import RequestFriendsScreen from './screens/RequestFriendsScreen'
@@ -125,6 +126,7 @@ export default function App({ navigation }) {
               <Stack.Screen name="RequestFriends" component={RequestFriendsScreen} />
               <Stack.Screen name="Profile" component={ProfileScreen} />
               <Stack.Screen name="EventMenu" component={EventMenuScreen} />
+              <Stack.Screen name="ShareLocation" component={ShareLocationScreen} />
               <Stack.Screen name="CreateEvent" component={CreateEventScreen} />
               <Stack.Screen name="CreateGroup" component={CreateGroupScreen} />
               <Stack.Screen name="FriendsMenu" component={FriendsMenuScreen} />
