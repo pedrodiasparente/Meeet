@@ -146,16 +146,6 @@ namespace TodoApi.Controllers
             return ret;
         }
 
-        // Locais na database
-        // GET: api/MeeeT/getLocais
-        [Route("getLocais")]
-        [HttpGet]
-        public List<Localização> GetLocais()
-        {
-            return _context.Localização.ToList();
-        }
-
-
         // Eventos na database
         // GET: api/MeeeT/getEventos
         [Route("getEventos")]
@@ -216,7 +206,7 @@ namespace TodoApi.Controllers
         // GET
         [Route("getLongitudeUser/{id_user:int}")]
         [HttpGet]
-        public float GetLongitudeUser (int id_user)
+        public float? GetLongitudeUser (int id_user)
         {
             Utilizador u = GetUser(id_user);
             return u.Longitude;
@@ -226,7 +216,7 @@ namespace TodoApi.Controllers
         // GET
         [Route("getLatitudeUser/{id_user:int}")]
         [HttpGet]
-        public float GetLatitudeUser (int id_user)
+        public float? GetLatitudeUser (int id_user)
         {
             Utilizador u = GetUser(id_user);
             return u.Latitude;
@@ -377,7 +367,7 @@ namespace TodoApi.Controllers
             foreach(var x in ids)
             {
                 uo.IdOpcao = id_opcao;
-                uo.IdUser = x;
+                uo.IdUtilizador = x;
                 _context.UtilizadorOpcao.Add(uo);
             }
             _context.Opcao.Add(ret);
@@ -427,17 +417,6 @@ namespace TodoApi.Controllers
         public void PostUser([FromBody] Utilizador u)
         {
             _context.Utilizador.Add(u);
-            _context.SaveChanges();
-        }
-
-        // POR TESTAR
-        // Adiciona localização
-        // POST: api/MeeeT/postloc
-        [Route("Postloc")]
-        [HttpPost]
-        public void PostLoc([FromBody] Localização l)
-        {
-            _context.Localização.Add(l);
             _context.SaveChanges();
         }
 
