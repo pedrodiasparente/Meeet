@@ -17,14 +17,12 @@ namespace TodoApi.DB
         public DateTime DataHora { get; set; }
         public float Longitude { get; set; }
         public float Latitude { get; set; }
-        public string Local { get; set; }
         public int TipoEvento { get; set; }
         public int IdAdmin { get; set; }
         public string Descricao { get; set; }
         public int? IdadeMinima { get; set; }
 
         public virtual Utilizador IdAdminNavigation { get; set; }
-        public virtual Localização LocalNavigation { get; set; }
         public virtual ICollection<EventoHasRequests> EventoHasRequests { get; set; }
         public virtual ICollection<UtilizadorEvento> UtilizadorEvento { get; set; }
         public virtual ICollection<Votacao> Votacao { get; set; }

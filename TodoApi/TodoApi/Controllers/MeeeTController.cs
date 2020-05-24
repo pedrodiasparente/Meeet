@@ -295,7 +295,7 @@ namespace TodoApi.Controllers
         // POR TESTAR
         // Adiciona um evento
         // POST: api/MeeeT/postevento
-        [Route("PostEvento")]
+        /*[Route("PostEvento")]
         [HttpPost]
         public void PostEvento(int id, string nome, DateTime d, float longitude, float latitude, string local, int tipo, int id_admin, string desc, int? idademin, List<int> ids)
         {
@@ -321,7 +321,7 @@ namespace TodoApi.Controllers
             _context.Evento.Add(ret);
             _context.SaveChanges();
         }
-        
+        */
         // POR TESTAR
         // Cria requestevento e adiciona-o à data base
         // POST

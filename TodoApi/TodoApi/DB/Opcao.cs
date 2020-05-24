@@ -13,8 +13,9 @@ namespace TodoApi.DB
         public int IdOpcao { get; set; }
         public string Opcao1 { get; set; }
         public int IdVotacao { get; set; }
+        public int IdEvento { get; set; }
 
-        public virtual Votacao IdVotacaoNavigation { get; set; }
+        public virtual Votacao Id { get; set; }
         public virtual ICollection<UtilizadorOpcao> UtilizadorOpcao { get; set; }
     }
 }

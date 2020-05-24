@@ -20,7 +20,6 @@ namespace TodoApi.DB
         public virtual DbSet<Evento> Evento { get; set; }
         public virtual DbSet<EventoHasRequests> EventoHasRequests { get; set; }
         public virtual DbSet<Grupo> Grupo { get; set; }
-        public virtual DbSet<Localização> Localização { get; set; }
         public virtual DbSet<Opcao> Opcao { get; set; }
         public virtual DbSet<PedidosAmizade> PedidosAmizade { get; set; }
         public virtual DbSet<RequestEvento> RequestEvento { get; set; }
@@ -89,9 +88,6 @@ namespace TodoApi.DB
                 entity.HasIndex(e => e.IdAdmin)
                     .HasName("fk_Evento_Utilizador1_idx");
 
-                entity.HasIndex(e => e.Local)
-                    .HasName("fk_Evento_Localização1_idx");
-
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
                     .ValueGeneratedNever();
@@ -110,11 +106,6 @@ namespace TodoApi.DB
 
                 entity.Property(e => e.Latitude).HasColumnName("latitude");
 
-                entity.Property(e => e.Local)
-                    .IsRequired()
-                    .HasColumnName("local")
-                    .HasMaxLength(100);
-
                 entity.Property(e => e.Longitude).HasColumnName("longitude");
 
                 entity.Property(e => e.Nome)
@@ -129,12 +120,6 @@ namespace TodoApi.DB
                     .HasForeignKey(d => d.IdAdmin)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("evento$fk_Evento_Utilizador1");
-
-                entity.HasOne(d => d.LocalNavigation)
-                    .WithMany(p => p.Evento)
-                    .HasForeignKey(d => d.Local)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("evento$fk_Evento_Localização1");
             });
 
             modelBuilder.Entity<EventoHasRequests>(entity =>
@@ -181,52 +166,30 @@ namespace TodoApi.DB
                     .HasMaxLength(45);
             });
 
-            modelBuilder.Entity<Localização>(entity =>
-            {
-                entity.HasKey(e => e.Rua)
-                    .HasName("PK_localização_rua");
-
-                entity.ToTable("localização", "meeet");
-
-                entity.Property(e => e.Rua)
-                    .HasColumnName("rua")
-                    .HasMaxLength(100);
-
-                entity.Property(e => e.Cidade)
-                    .IsRequired()
-                    .HasColumnName("cidade")
-                    .HasMaxLength(45);
-
-                entity.Property(e => e.País)
-                    .IsRequired()
-                    .HasColumnName("país")
-                    .HasMaxLength(45);
-            });
-
             modelBuilder.Entity<Opcao>(entity =>
             {
-                entity.HasKey(e => e.IdOpcao)
+                entity.HasKey(e => new { e.IdOpcao, e.IdVotacao, e.IdEvento })
                     .HasName("PK_opcao_idOpcao");
 
                 entity.ToTable("opcao", "meeet");
 
-                entity.HasIndex(e => e.IdVotacao)
+                entity.HasIndex(e => new { e.IdVotacao, e.IdEvento })
                     .HasName("fk_Opcao_Votacao1_idx");
 
-                entity.Property(e => e.IdOpcao)
-                    .HasColumnName("idOpcao")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.IdOpcao).HasColumnName("idOpcao");
 
                 entity.Property(e => e.IdVotacao).HasColumnName("idVotacao");
+
+                entity.Property(e => e.IdEvento).HasColumnName("idEvento");
 
                 entity.Property(e => e.Opcao1)
                     .IsRequired()
                     .HasColumnName("opcao")
                     .HasMaxLength(45);
 
-                entity.HasOne(d => d.IdVotacaoNavigation)
+                entity.HasOne(d => d.Id)
                     .WithMany(p => p.Opcao)
-                    .HasForeignKey(d => d.IdVotacao)
+                    .HasForeignKey(d => new { d.IdVotacao, d.IdEvento })
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("opcao$fk_Opcao_Votacao1");
             });
@@ -259,9 +222,6 @@ namespace TodoApi.DB
             {
                 entity.ToTable("utilizador", "meeet");
 
-                entity.HasIndex(e => e.Morada)
-                    .HasName("fk_Utilizador_Localização1_idx");
-
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
                     .ValueGeneratedNever();
@@ -280,7 +240,6 @@ namespace TodoApi.DB
                     .HasMaxLength(45);
 
                 entity.Property(e => e.Genero)
-                    .IsRequired()
                     .HasColumnName("genero")
                     .HasMaxLength(45);
 
@@ -289,7 +248,6 @@ namespace TodoApi.DB
                 entity.Property(e => e.Longitude).HasColumnName("longitude");
 
                 entity.Property(e => e.Morada)
-                    .IsRequired()
                     .HasColumnName("morada")
                     .HasMaxLength(100);
 
@@ -307,12 +265,6 @@ namespace TodoApi.DB
                     .IsRequired()
                     .HasColumnName("username")
                     .HasMaxLength(100);
-
-                entity.HasOne(d => d.MoradaNavigation)
-                    .WithMany(p => p.Utilizador)
-                    .HasForeignKey(d => d.Morada)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("utilizador$fk_Utilizador_Localização1");
             });
 
             modelBuilder.Entity<UtilizadorConvites>(entity =>
@@ -362,6 +314,8 @@ namespace TodoApi.DB
 
                 entity.Property(e => e.IdEvento).HasColumnName("id_evento");
 
+                entity.Property(e => e.SharingPosition).HasColumnName("sharingPosition");
+
                 entity.HasOne(d => d.IdEventoNavigation)
                     .WithMany(p => p.UtilizadorEvento)
                     .HasForeignKey(d => d.IdEvento)
@@ -407,32 +361,36 @@ namespace TodoApi.DB
 
             modelBuilder.Entity<UtilizadorOpcao>(entity =>
             {
-                entity.HasKey(e => new { e.IdUser, e.IdOpcao })
-                    .HasName("PK_utilizador_opcao_id_user");
+                entity.HasKey(e => new { e.IdUtilizador, e.IdOpcao, e.IdVotacao, e.IdEvento })
+                    .HasName("PK_utilizador_opcao_idUtilizador");
 
                 entity.ToTable("utilizador_opcao", "meeet");
 
-                entity.HasIndex(e => e.IdOpcao)
-                    .HasName("fk_Utilizador_has_Opcao_Opcao1_idx");
-
-                entity.HasIndex(e => e.IdUser)
+                entity.HasIndex(e => e.IdUtilizador)
                     .HasName("fk_Utilizador_has_Opcao_Utilizador1_idx");
 
-                entity.Property(e => e.IdUser).HasColumnName("id_user");
+                entity.HasIndex(e => new { e.IdOpcao, e.IdVotacao, e.IdEvento })
+                    .HasName("fk_Utilizador_has_Opcao_Opcao1_idx");
 
-                entity.Property(e => e.IdOpcao).HasColumnName("id_opcao");
+                entity.Property(e => e.IdUtilizador).HasColumnName("idUtilizador");
 
-                entity.HasOne(d => d.IdOpcaoNavigation)
+                entity.Property(e => e.IdOpcao).HasColumnName("idOpcao");
+
+                entity.Property(e => e.IdVotacao).HasColumnName("idVotacao");
+
+                entity.Property(e => e.IdEvento).HasColumnName("idEvento");
+
+                entity.HasOne(d => d.IdUtilizadorNavigation)
                     .WithMany(p => p.UtilizadorOpcao)
-                    .HasForeignKey(d => d.IdOpcao)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("utilizador_opcao$fk_Utilizador_has_Opcao_Opcao1");
-
-                entity.HasOne(d => d.IdUserNavigation)
-                    .WithMany(p => p.UtilizadorOpcao)
-                    .HasForeignKey(d => d.IdUser)
+                    .HasForeignKey(d => d.IdUtilizador)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("utilizador_opcao$fk_Utilizador_has_Opcao_Utilizador1");
+
+                entity.HasOne(d => d.Id)
+                    .WithMany(p => p.UtilizadorOpcao)
+                    .HasForeignKey(d => new { d.IdOpcao, d.IdVotacao, d.IdEvento })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("utilizador_opcao$fk_Utilizador_has_Opcao_Opcao1");
             });
 
             modelBuilder.Entity<UtilizadorPedidosAmizade>(entity =>
@@ -467,7 +425,7 @@ namespace TodoApi.DB
 
             modelBuilder.Entity<Votacao>(entity =>
             {
-                entity.HasKey(e => e.IdVotacao)
+                entity.HasKey(e => new { e.IdVotacao, e.IdEvento })
                     .HasName("PK_votacao_idVotacao");
 
                 entity.ToTable("votacao", "meeet");
@@ -475,9 +433,7 @@ namespace TodoApi.DB
                 entity.HasIndex(e => e.IdEvento)
                     .HasName("fk_Votacao_Evento1_idx");
 
-                entity.Property(e => e.IdVotacao)
-                    .HasColumnName("idVotacao")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.IdVotacao).HasColumnName("idVotacao");
 
                 entity.Property(e => e.IdEvento).HasColumnName("id_evento");
 

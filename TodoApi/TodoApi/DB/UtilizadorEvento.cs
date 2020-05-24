@@ -7,6 +7,7 @@ namespace TodoApi.DB
     {
         public int IdUtilizador { get; set; }
         public int IdEvento { get; set; }
+        public int SharingPosition { get; set; }
 
         public virtual Evento IdEventoNavigation { get; set; }
         public virtual Utilizador IdUtilizadorNavigation { get; set; }

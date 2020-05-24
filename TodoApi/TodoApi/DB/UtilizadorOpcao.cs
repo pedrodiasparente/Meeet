@@ -5,10 +5,12 @@ namespace TodoApi.DB
 {
     public partial class UtilizadorOpcao
     {
-        public int IdUser { get; set; }
+        public int IdUtilizador { get; set; }
         public int IdOpcao { get; set; }
+        public int IdVotacao { get; set; }
+        public int IdEvento { get; set; }
 
-        public virtual Opcao IdOpcaoNavigation { get; set; }
-        public virtual Utilizador IdUserNavigation { get; set; }
+        public virtual Opcao Id { get; set; }
+        public virtual Utilizador IdUtilizadorNavigation { get; set; }
     }
 }
