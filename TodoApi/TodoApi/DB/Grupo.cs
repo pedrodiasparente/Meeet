@@ -10,6 +10,13 @@ namespace TodoApi.DB
             UtilizadorGrupo = new HashSet<UtilizadorGrupo>();
         }
 
+        public Grupo(Grupo g)
+        {
+            this.Id = g.Id;
+            this.Nome = g.Nome;
+            this.UtilizadorGrupo = g.UtilizadorGrupo;
+        }
+
         public int Id { get; set; }
         public string Nome { get; set; }
 

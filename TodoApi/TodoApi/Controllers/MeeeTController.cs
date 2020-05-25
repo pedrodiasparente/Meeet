@@ -42,17 +42,6 @@ namespace TodoApi.Controllers
             return _context.Amigo.ToList();
         }
 
-
-        // Um utilizador em concreto da database
-        // GET: api/MeeeT/getInfoUser/id_user
-        [Route("getInfoUser/{id_user:int}")]
-        [HttpGet]
-        public Utilizador GetInfoUser(int id_user)
-        {
-            return _context.Utilizador.Find(id_user);
-        }
-
-
         // Se um utilizador está a participar num evento
         // GET: api/MeeeT/isInEvent/id_user/id_event
         [Route("isInEvent/{id_user:int}/{id_evento:int}")]
@@ -110,17 +99,6 @@ namespace TodoApi.Controllers
             return _context.UtilizadorEvento.ToList();
         }
 
-
-        // Utilizador_Grupo
-        // GET: api/MeeeT/getUsersGrupos
-        [Route("getUtilizadorGrupos/{id_user:int}")]
-        [HttpGet]
-        public ICollection<UtilizadorGrupo> GetUtilizadorGrupos(int id_user)
-        {
-            return GetInfoUser(id_user).UtilizadorGrupo;
-        }
-
-
         // Grupo por id
         // GET: api/MeeeT/getGrupo
         [Route("getGrupo/{id_grupo:int}")]
@@ -128,22 +106,6 @@ namespace TodoApi.Controllers
         public Grupo getGrupo(int id_grupo)
         {
             return _context.Grupo.Find(id_grupo);
-        }
-
-
-        // Grupos de um utilizador
-        // GET: api/MeeeT/getGrupoPerUser
-        [Route("getGrupoPerUser/{id_user:int}")]
-        [HttpGet]
-        public List<Grupo> GetGrupoPerUser(int id_user)
-        {
-            ICollection<UtilizadorGrupo> keys = GetUtilizadorGrupos(id_user);
-            List<Grupo> ret = new List<Grupo>();
-            foreach (var x in keys)
-            {
-                ret.Add(getGrupo(x.IdGrupo));
-            }
-            return ret;
         }
 
         // Eventos na database
@@ -241,8 +203,46 @@ namespace TodoApi.Controllers
             return ret;
         }
 
+        // Latitude de um user
+        // GET
+        [Route("GetUserGrupos")]
+        [HttpGet]
+        public List<UtilizadorGrupo> GetUserGrupos()
+        {
+            return _context.UtilizadorGrupo.ToList();
+        }
 
+        // Latitude de um user
+        // GET
+        [Route("GetUserGrupos/{id:int}/{id_group:int}")]
+        [HttpGet]
+        public UtilizadorGrupo GetUserGrupos(int id, int id_group)
+        {
+            foreach(var u in _context.UtilizadorGrupo)
+            {
+                if (u.IdGrupo == id_group && u.IdUtilizador == id) return u;
+                else { }
+            }
+            return null;
+        }
 
+        // Grupos de um utilizador
+        // GET: api/MeeeT/getGrupoPerUser
+        [Route("getGrupoPerUser/{id_user:int}")]
+        [HttpGet]
+        public List<Grupo> GetGrupoPerUser(int id_user)
+        {
+            List<Grupo> ret = new List<Grupo>();
+            foreach (var x in _context.UtilizadorGrupo)
+            {
+                if (x.IdUtilizador == id_user)
+                {
+                    Grupo g = new Grupo(getGrupo(x.IdGrupo));
+                    ret.Add(g);
+                }
+            }
+            return ret;
+        }
 
         /********\
        | * POST * | ---------------------------------------------------------------------------------------------------------------
