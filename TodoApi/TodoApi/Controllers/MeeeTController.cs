@@ -229,14 +229,13 @@ namespace TodoApi.Controllers
         [HttpGet]
         public List<Utilizador> GetUsersinEvents(int id_evento)
         {
-            Evento e = _context.Evento.Find(id_evento);
             List<Utilizador> ret = new List<Utilizador>();
-            foreach(var aux in e.UtilizadorEvento)
+            foreach(var aux in _context.UtilizadorEvento)
             {
                 foreach (var u in GetUsers())
                 {
-                    if (u.Id == aux.IdUtilizador) 
-                        {ret.Add(GetUser(u.Id)); break;}
+                    if (u.Id == aux.IdUtilizador && aux.IdEvento == id_evento) 
+                        {ret.Add(u); break;}
                 }
             }
             return ret;
