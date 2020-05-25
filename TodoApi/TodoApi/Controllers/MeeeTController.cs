@@ -263,91 +263,83 @@ namespace TodoApi.Controllers
         // POR TESTAR
         // Cria convite e adiciona-o à data base
         // POST
-        [Route("PostConvites")]
+        [Route("MakeConvite")]
         [HttpPost]
-        public void PostConvites (int id_convidador, int id_evento, List<int> ids)
+        public void MakeConvite ([FromBody] Convites c)
+        { 
+            _context.Convites.Add(c);
+            _context.SaveChanges();
+        }
+
+        // POR TESTAR
+        // Cria convite e adiciona-o à data base
+        // POST
+        [Route("InviteToEvent/{id:int}")]
+        [HttpPost]
+        public void InviteToEvent([FromBody] Convites c, int id)
         {
-            Convites ret = new Convites();
             UtilizadorConvites uc = new UtilizadorConvites();
-            ret.IdConvidador = id_convidador;
-            ret.IdEvento = id_evento;
-            foreach(var x in ids)
-            {
-                uc.IdConvidador = id_convidador;
-                uc.IdUser = x;
-                _context.UtilizadorConvites.Add(uc);
-            }
-            _context.Convites.Add(ret);
+            uc.IdConvidador = c.IdConvidador;
+            uc.IdUser = id;
+            uc.IdEvento = c.IdEvento;
+            _context.UtilizadorConvites.Add(uc);
             _context.SaveChanges();
         }
 
         // POR TESTAR
         // Adiciona um evento
         // POST: api/MeeeT/postevento
-        /*[Route("PostEvento")]
+        [Route("PostEvento")]
         [HttpPost]
-        public void PostEvento(int id, string nome, DateTime d, float longitude, float latitude, string local, int tipo, int id_admin, string desc, int? idademin, List<int> ids)
+        public void PostEvento([FromBody] Evento e)
         {
-            Evento ret = new Evento();
-            UtilizadorEvento ev = new UtilizadorEvento();
-            ret.Id = id;
-            ret.Nome = nome;
-            ret.DataHora = d;
-            ret.Longitude = longitude;
-            ret.Latitude = latitude;
-            ret.Local = local;
-            ret.TipoEvento = tipo;
-            ret.IdAdmin = id_admin;
-            ret.Descricao = desc;
-            ret.IdadeMinima = idademin;
-
-            foreach(var x in ids)
-            {
-                ev.IdEvento = id;
-                ev.IdUtilizador = x;
-                _context.UtilizadorEvento.Add(ev);
-            }
-            _context.Evento.Add(ret);
+            _context.Evento.Add(e);
             _context.SaveChanges();
         }
-        */
+
+        // POR TESTAR
+        // Adiciona um evento
+        // POST: api/MeeeT/postevento
+        [Route("AddToEvent/{id:int}")]
+        [HttpPost]
+        public void InviteToEvent([FromBody] Evento e,int id)
+        {
+            UtilizadorEvento ev = new UtilizadorEvento();
+
+            ev.IdEvento = e.Id;
+            ev.IdUtilizador = id;
+            ev.SharingPosition = 0; //default sharing position é 0 == not sharing
+            _context.UtilizadorEvento.Add(ev);
+            _context.SaveChanges();
+        }
+
         // POR TESTAR
         // Cria requestevento e adiciona-o à data base
         // POST
-        [Route("PostRequestEvento")]
+        [Route("PostRequestEvento/{id_evento:int}")]
         [HttpPost]
-        public void PostRequestEvento (int id_user_request, List<int> ids)
+        public void PostRequestEvento ([FromBody] RequestEvento re, int id_evento)
         {
-            RequestEvento ret = new RequestEvento();
             EventoHasRequests ehr = new EventoHasRequests();
-            ret.IdUserRequest = id_user_request;
-            foreach(var x in ids)
-            {
-                ehr.IdUserRequest = id_user_request;
-                ehr.EventoId = x;
-                _context.EventoHasRequests.Add(ehr);
-            }
-            _context.RequestEvento.Add(ret);
+            ehr.IdUserRequest = re.IdUserRequest;
+            ehr.EventoId = id_evento;
+            _context.EventoHasRequests.Add(ehr);
+            _context.RequestEvento.Add(re);
             _context.SaveChanges();
         }
 
         // POR TESTAR
         // Cria pedido de amizade e adiciona-o à data base
         // POST
-        [Route("PostPedidoAmizade")]
+        [Route("PostPedidoAmizade/{id_user:int}")]
         [HttpPost]
-        public void PostPedidoAmizade (int id_user_send, List<int> ids)
+        public void PostPedidoAmizade ([FromBody] PedidosAmizade pe, int id_user)
         {
-            PedidosAmizade ret = new PedidosAmizade();
             UtilizadorPedidosAmizade upa = new UtilizadorPedidosAmizade();
-            ret.IdUserSend = id_user_send;
-            foreach(var x in ids)
-            {
-                upa.IdSend = id_user_send;
-                upa.IdReceive = x;
-                _context.UtilizadorPedidosAmizade.Add(upa);
-            }
-            _context.PedidosAmizade.Add(ret);
+            upa.IdSend = pe.IdUserSend;
+            upa.IdReceive = id_user;
+            _context.UtilizadorPedidosAmizade.Add(upa);
+            _context.PedidosAmizade.Add(pe);
             _context.SaveChanges();
         }
 
@@ -356,23 +348,28 @@ namespace TodoApi.Controllers
         // POST: 
         [Route("PostOpcao")]
         [HttpPost]
-        public void PostOpcao (int id_opcao, string opcao, int id_votacao, List<int> ids)
+        public void PostOpcao ([FromBody] Opcao o)
         {
-            Opcao ret = new Opcao();
-            UtilizadorOpcao uo = new UtilizadorOpcao();
-            ret.IdOpcao = id_opcao;
-            ret.Opcao1 = opcao;
-            ret.IdVotacao = id_votacao;
-            foreach(var x in ids)
-            {
-                uo.IdOpcao = id_opcao;
-                uo.IdUtilizador = x;
-                _context.UtilizadorOpcao.Add(uo);
-            }
-            _context.Opcao.Add(ret);
+            _context.Opcao.Add(o);
             _context.SaveChanges();
         }
-       
+
+        // POR TESTAR
+        // Adiciona uma pessoa a opção
+        // POST: 
+        [Route("UserChooseOption/{id_user:int}")]
+        [HttpPost]
+        public void UserChooseOption([FromBody] Opcao o, int id_user)
+        {
+            UtilizadorOpcao uo = new UtilizadorOpcao();
+            uo.IdUtilizador = id_user;
+            uo.IdOpcao = o.IdOpcao;
+            uo.IdVotacao = o.IdVotacao;
+            uo.IdEvento = o.IdEvento;
+            _context.UtilizadorOpcao.Add(uo);
+            _context.SaveChanges();
+        }
+
 
         // POR TESTAR
         // Adiciona uma votação
@@ -391,19 +388,23 @@ namespace TodoApi.Controllers
         // POST
         [Route("PostGrupo")]
         [HttpPost]
-        public void PostGrupo (int id_grupo, List<int> ids, string nome)
+        public void PostGrupo ([FromBody] Grupo g)
+        {
+            _context.Grupo.Add(g);
+            _context.SaveChanges();
+        }
+
+        // POR TESTAR
+        // Adiciona pessoa a grupo e adiciona-o à data base
+        // POST
+        [Route("AddToGroup/{id:int}")]
+        [HttpPost]
+        public void AddToGroup([FromBody] Grupo g, int id)
         {
             UtilizadorGrupo ug = new UtilizadorGrupo();
-            Grupo ret = new Grupo();
-            ret.Id = id_grupo;
-            ret.Nome = nome;
-            foreach(var x in ids)
-            {
-                ug.IdGrupo = id_grupo;
-                ug.IdUtilizador = x;
-                _context.UtilizadorGrupo.Add(ug);
-            }
-            _context.Grupo.Add(ret);
+            ug.IdGrupo =g.Id;
+            ug.IdUtilizador = id;
+            _context.UtilizadorGrupo.Add(ug);
             _context.SaveChanges();
         }
 
