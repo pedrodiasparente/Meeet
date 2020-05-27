@@ -48,7 +48,7 @@ function HomeScreen({ navigation }) {
             size={25}
             color='#2c365d'
             />
-          <TouchableOpacity style={styles.button} onPress={() => {  navigation.navigate('Profile', {id: 2}); } }>
+          <TouchableOpacity style={styles.button} onPress={() => {  navigation.navigate('Profile', {id: 1}); } }>
             <Text style= {{color: '#fbfbfb'}}>
               Profile
               </Text>

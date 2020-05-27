@@ -10,7 +10,7 @@ function Profile({ id }) {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('https://meeet-project.azurewebsites.net/api/meeet/getuser/' + id)
+    fetch('https://meeet-app.azurewebsites.net/api/meeet/getuser/' + id)
       .then((response) => response.json())
       .then((json) => {
         setUserData(json);
@@ -31,8 +31,9 @@ function Profile({ id }) {
         <View style = {styles.profilePic}>
           <Image style = {{width: '100%', height:'100%' , borderRadius:20000}}
             source={{
-          uri: userData.urlFoto,
-        }} />
+              uri: userData.urlFoto,
+            }}
+            />
         </View>
 
       <View style = {styles.profileRow}>
