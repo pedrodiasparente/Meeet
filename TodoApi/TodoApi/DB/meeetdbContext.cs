@@ -49,9 +49,7 @@ namespace TodoApi.DB
                 entity.HasIndex(e => e.UtilizadorId)
                     .HasName("fk_Amigo_Utilizador1_idx");
 
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Username)
                     .IsRequired()
@@ -86,9 +84,7 @@ namespace TodoApi.DB
                 entity.HasIndex(e => e.IdAdmin)
                     .HasName("fk_Evento_Utilizador1_idx");
 
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.DataHora)
                     .HasColumnName("dataHora")
@@ -122,24 +118,24 @@ namespace TodoApi.DB
 
             modelBuilder.Entity<EventoHasRequests>(entity =>
             {
-                entity.HasKey(e => new { e.EventoId, e.IdUserRequest })
-                    .HasName("PK_evento_has_requests_Evento_id");
+                entity.HasKey(e => new { e.IdEvento, e.IdUserRequest })
+                    .HasName("PK_evento_has_requests_id_evento");
 
                 entity.ToTable("evento_has_requests", "meeet");
 
-                entity.HasIndex(e => e.EventoId)
+                entity.HasIndex(e => e.IdEvento)
                     .HasName("fk_Evento_has_Request_evento_Evento1_idx");
 
                 entity.HasIndex(e => e.IdUserRequest)
                     .HasName("fk_Evento_has_Request_evento_Request_evento1_idx");
 
-                entity.Property(e => e.EventoId).HasColumnName("Evento_id");
+                entity.Property(e => e.IdEvento).HasColumnName("id_evento");
 
                 entity.Property(e => e.IdUserRequest).HasColumnName("id_user_request");
 
-                entity.HasOne(d => d.Evento)
+                entity.HasOne(d => d.IdEventoNavigation)
                     .WithMany(p => p.EventoHasRequests)
-                    .HasForeignKey(d => d.EventoId)
+                    .HasForeignKey(d => d.IdEvento)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("evento_has_requests$fk_Evento_has_Request_evento_Evento1");
 
@@ -154,9 +150,7 @@ namespace TodoApi.DB
             {
                 entity.ToTable("grupo", "meeet");
 
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Nome)
                     .IsRequired()
@@ -174,7 +168,9 @@ namespace TodoApi.DB
                 entity.HasIndex(e => new { e.IdVotacao, e.IdEvento })
                     .HasName("fk_Opcao_Votacao1_idx");
 
-                entity.Property(e => e.IdOpcao).HasColumnName("idOpcao");
+                entity.Property(e => e.IdOpcao)
+                    .HasColumnName("idOpcao")
+                    .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.IdVotacao).HasColumnName("idVotacao");
 
@@ -220,9 +216,7 @@ namespace TodoApi.DB
             {
                 entity.ToTable("utilizador", "meeet");
 
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Bio)
                     .HasColumnName("bio")
@@ -433,7 +427,9 @@ namespace TodoApi.DB
                 entity.HasIndex(e => e.IdEvento)
                     .HasName("fk_Votacao_Evento1_idx");
 
-                entity.Property(e => e.IdVotacao).HasColumnName("idVotacao");
+                entity.Property(e => e.IdVotacao)
+                    .HasColumnName("idVotacao")
+                    .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.IdEvento).HasColumnName("id_evento");
 

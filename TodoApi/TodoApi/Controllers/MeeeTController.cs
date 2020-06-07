@@ -203,7 +203,7 @@ namespace TodoApi.Controllers
             return ret;
         }
 
-        // Latitude de um user
+        // Todos os User_grupos da database
         // GET
         [Route("GetUserGrupos")]
         [HttpGet]
@@ -212,7 +212,7 @@ namespace TodoApi.Controllers
             return _context.UtilizadorGrupo.ToList();
         }
 
-        // Latitude de um user
+        // Get user_grupo por id de user e id de grupo
         // GET
         [Route("GetUserGrupos/{id:int}/{id_group:int}")]
         [HttpGet]
@@ -272,7 +272,7 @@ namespace TodoApi.Controllers
         }
 
         // POR TESTAR
-        // Cria convite e adiciona-o à data base
+        // Usa convite para convidar um user com o id
         // POST
         [Route("InviteToEvent/{id:int}")]
         [HttpPost]
@@ -298,7 +298,7 @@ namespace TodoApi.Controllers
         }
 
         // POR TESTAR
-        // Adiciona um evento
+        // Convida um user para um certo evento com o seu id
         // POST: api/MeeeT/postevento
         [Route("AddToEvent/{id:int}")]
         [HttpPost]
@@ -322,7 +322,7 @@ namespace TodoApi.Controllers
         {
             EventoHasRequests ehr = new EventoHasRequests();
             ehr.IdUserRequest = re.IdUserRequest;
-            ehr.EventoId = id_evento;
+            ehr.IdEvento = id_evento;
             _context.EventoHasRequests.Add(ehr);
             _context.RequestEvento.Add(re);
             _context.SaveChanges();
@@ -331,13 +331,13 @@ namespace TodoApi.Controllers
         // POR TESTAR
         // Cria pedido de amizade e adiciona-o à data base
         // POST
-        [Route("PostPedidoAmizade/{id_user:int}")]
+        [Route("PostPedidoAmizade/{id_user_receive:int}")]
         [HttpPost]
-        public void PostPedidoAmizade ([FromBody] PedidosAmizade pe, int id_user)
+        public void PostPedidoAmizade ([FromBody] PedidosAmizade pe, int id_user_receive)
         {
             UtilizadorPedidosAmizade upa = new UtilizadorPedidosAmizade();
             upa.IdSend = pe.IdUserSend;
-            upa.IdReceive = id_user;
+            upa.IdReceive = id_user_receive;
             _context.UtilizadorPedidosAmizade.Add(upa);
             _context.PedidosAmizade.Add(pe);
             _context.SaveChanges();
@@ -397,12 +397,12 @@ namespace TodoApi.Controllers
         // POR TESTAR
         // Adiciona pessoa a grupo e adiciona-o à data base
         // POST
-        [Route("AddToGroup/{id:int}")]
+        [Route("AddToGroup/{id_grupo:int}/{id:int}")]
         [HttpPost]
-        public void AddToGroup([FromBody] Grupo g, int id)
+        public void AddToGroup(int id_grupo, int id)
         {
             UtilizadorGrupo ug = new UtilizadorGrupo();
-            ug.IdGrupo =g.Id;
+            ug.IdGrupo = id_grupo;
             ug.IdUtilizador = id;
             _context.UtilizadorGrupo.Add(ug);
             _context.SaveChanges();
