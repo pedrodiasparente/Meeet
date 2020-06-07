@@ -216,6 +216,14 @@ namespace TodoApi.DB
             {
                 entity.ToTable("utilizador", "meeet");
 
+                entity.HasIndex(e => e.Email)
+                    .HasName("utilizador$email_UNIQUE")
+                    .IsUnique();
+
+                entity.HasIndex(e => e.Username)
+                    .HasName("utilizador$username_UNIQUE")
+                    .IsUnique();
+
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Bio)
