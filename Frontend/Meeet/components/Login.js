@@ -51,7 +51,7 @@ function Login({navigation}) {
 
     <View style = {styles.buttons}>
 
-      <TouchableOpacity style={styles.button}  onPress={signIn}>
+      <TouchableOpacity style={styles.button}  onPress={() => signIn({username: usernameText, password: passwordText})}>
         <Text style= {{color: '#fbfbfb'}}>
           Login
           </Text>

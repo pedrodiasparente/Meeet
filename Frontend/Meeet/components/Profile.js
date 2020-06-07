@@ -18,9 +18,7 @@ function Profile({ id }) {
       .catch((error) => {
         console.error(error);
       })
-      .finally(() => setLoading(false));
-
-      console.log(userData);
+      .finally(() => { setLoading(false); console.log(userData); } );
     }, []);
   const { signIn } = React.useContext(AuthContext);
 

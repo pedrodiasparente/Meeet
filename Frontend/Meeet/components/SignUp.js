@@ -11,7 +11,9 @@ function SignUp() {
   const [passwordText, setPassword] = React.useState('');
   const [cityText, setCity] = React.useState('');
 
-  const { signIn } = React.useContext(AuthContext);
+  const [user, setUser] = React.useState(null);
+
+  const { signUp } = React.useContext(AuthContext);
 
   return (
 
@@ -86,7 +88,7 @@ function SignUp() {
 
     <View style = {styles.buttons}>
 
-      <TouchableOpacity style={styles.button} onPress={signIn}>
+      <TouchableOpacity style={styles.button} onPress={signUp}>
         <Text style= {{color: '#fbfbfb'}}>
           SignUp
           </Text>
