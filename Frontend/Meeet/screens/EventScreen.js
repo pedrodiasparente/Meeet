@@ -21,14 +21,12 @@ const Tab = createBottomTabNavigator();
 function EventScreen() {
 
     return (
-      <NavigationContainer>
-        <Tab.Navigator>
-          <Tab.Screen name="Home" component={HomeScreen} />
-          <Tab.Screen name="ShareLocation" component={ShareLocationScreen} />
-        </Tab.Navigator>
-      </NavigationContainer>
+      <Tab.Navigator>
+        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="ShareLocation" component={ShareLocationScreen} />
+      </Tab.Navigator>
     )
-    
+
 }
 
 const styles = StyleSheet.create({
