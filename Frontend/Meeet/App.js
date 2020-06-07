@@ -10,6 +10,7 @@ import HomeScreen from './screens/HomeScreen'
 import FriendScreen from './screens/FriendsScreen'
 import ProfileScreen from './screens/ProfileScreen'
 import EventMenuScreen from './screens/EventMenuScreen'
+import EventScreen from './screens/EventScreen'
 import ShareLocationScreen from './screens/ShareLocationScreen'
 import CreateEventScreen from './screens/CreateEventScreen'
 import FriendsMenuScreen from './screens/FriendsMenuScreen'
@@ -31,6 +32,7 @@ function SplashScreen() {
 const Stack = createStackNavigator();
 
 export default function App({ navigation }) {
+  const [tempToken, setTempToken] = React.useState(-1);
   const [state, dispatch] = React.useReducer(
     (prevState, action) => {
       switch (action.type) {
@@ -69,7 +71,10 @@ export default function App({ navigation }) {
       try {
         userToken = await AsyncStorage.getItem('userToken');
       } catch (e) {
+        console.log('Restoring from AsyncStorage error: \n' + e)
         // Restoring token failed
+      } finally{
+        console.log(userToken);
       }
 
       // After restoring token, we may need to validate it in production apps
@@ -82,6 +87,26 @@ export default function App({ navigation }) {
     bootstrapAsync();
   }, []);
 
+  const setTokenAsync = async (tempToken) => {
+    try{
+      await AsyncStorage.setItem(
+      'userToken',
+      tempToken.toString())
+    } catch(e){
+      console.log('Saving to AsyncStorage error: \n' + e)
+    }
+  }
+
+  const removeTokenAsync = async () => {
+    try {
+      await AsyncStorage.removeItem('userToken');
+      return true;
+    }
+    catch(e) {
+      console.log('Error removing toke from AsyncStorage' + e);
+    }
+}
+
   const authContext = React.useMemo(
     () => ({
       signIn: async data => {
@@ -89,16 +114,41 @@ export default function App({ navigation }) {
         // We will also need to handle errors if sign in failed
         // After getting token, we need to persist the token using `AsyncStorage`
         // In the example, we'll use a dummy token
-
-        dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
+        fetch('https://meeet-app.azurewebsites.net/api/meeet/Login/' + data.username + '/' + data.password)
+          .then((response) => response.json())
+          .then((json) => {
+            setTempToken(json);
+          })
+          .catch((error) => {
+            console.error(error);
+          })
+          .finally(() => {
+            //console.log('https://meeet-app.azurewebsites.net/api/meeet/Login/' + data.username + '/' + data.password);
+            console.log(tempToken);
+            if(tempToken != -1){
+              dispatch({ type: 'SIGN_IN', token: {tempToken} });
+              setTokenAsync(tempToken);
+            }
+          });
       },
-      signOut: () => dispatch({ type: 'SIGN_OUT' }),
+      signOut: () => {
+        dispatch({ type: 'SIGN_OUT' });
+        removeTokenAsync();
+      },
       signUp: async data => {
         // In a production app, we need to send user data to server and get a token
         // We will also need to handle errors if sign up failed
         // After getting token, we need to persist the token using `AsyncStorage`
         // In the example, we'll use a dummy token
 
+        /*fetch('https://meeet-app.azurewebsites.net/api/meeet/PostUser", {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });*/
         dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
       },
     }),
@@ -126,7 +176,7 @@ export default function App({ navigation }) {
               <Stack.Screen name="RequestFriends" component={RequestFriendsScreen} />
               <Stack.Screen name="Profile" component={ProfileScreen} />
               <Stack.Screen name="EventMenu" component={EventMenuScreen} />
-              <Stack.Screen name="ShareLocation" component={ShareLocationScreen} />
+              <Stack.Screen name="EventScreen" component={EventScreen} />
               <Stack.Screen name="CreateEvent" component={CreateEventScreen} />
               <Stack.Screen name="CreateGroup" component={CreateGroupScreen} />
               <Stack.Screen name="FriendsMenu" component={FriendsMenuScreen} />

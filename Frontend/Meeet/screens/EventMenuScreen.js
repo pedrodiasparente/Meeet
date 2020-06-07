@@ -57,7 +57,7 @@ function EventMenuScreen({ navigation }) {
           </View>
         <View style = {styles.buttons}>
 
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ShareLocation')}>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('EventScreen')}>
             <Text style= {{color: '#fbfbfb'}}>
               Fetch API
               </Text>
