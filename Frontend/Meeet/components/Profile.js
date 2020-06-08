@@ -20,7 +20,7 @@ function Profile({ id }) {
       })
       .finally(() => { setLoading(false); console.log(userData); } );
     }, []);
-  const { signIn } = React.useContext(AuthContext);
+
 
     return (
     <>
