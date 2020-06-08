@@ -117,26 +117,6 @@ namespace TodoApi.Controllers
             return _context.Evento.ToList();
         }
 
-
-        // Eventos por local
-        // GET: api/MeeeT/getEventosLocs/id_latitude/id_longitude
-        [Route("getEventosLocs/{id_latitude:decimal}/{id_longitude:decimal}")]
-        [HttpGet]
-        public List<Evento> GetEventosLocs(float id_latitude, float id_longitude)
-        {
-            List<Evento> events = new List<Evento>();
-
-            foreach (var e in _context.Evento)
-            {
-                if (id_latitude == e.Latitude && id_longitude == e.Longitude)
-                {
-                    events.Add(e);
-                }
-            }
-            return events;
-        }
-
-
         // Encontra um grupo
         // GET: api/MeeeT/5
         [HttpGet("{id}", Name = "Get")]
@@ -184,6 +164,15 @@ namespace TodoApi.Controllers
             return u.Latitude;
         }
 
+        // Procura Evento por id
+        // GET
+        [Route("getEvento/{id_evento:int}")]
+        [HttpGet]
+        public Evento GetEvento(int id_evento)
+        {
+            return _context.Evento.Find(id_evento);
+        }
+
         // POR TESTAR
         // Users num evento
         // GET
@@ -198,6 +187,25 @@ namespace TodoApi.Controllers
                 {
                     if (u.Id == aux.IdUtilizador && aux.IdEvento == id_evento) 
                         {ret.Add(u); break;}
+                }
+            }
+            return ret;
+        }
+
+        // POR TESTAR
+        // Eventos num User
+        // GET
+        [Route("getEventosPerUser/{id_user:int}")]
+        [HttpGet]
+        public List<Evento> GetEventosPerUser(int id_user)
+        {
+            List<Evento> ret = new List<Evento>();
+            foreach (var aux in _context.UtilizadorEvento)
+            {
+                foreach (var e in _context.Evento)
+                {
+                    if (e.Id == aux.IdEvento && aux.IdUtilizador == id_user)
+                    { ret.Add(e); break; }
                 }
             }
             return ret;
