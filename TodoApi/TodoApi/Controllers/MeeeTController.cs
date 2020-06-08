@@ -32,16 +32,6 @@ namespace TodoApi.Controllers
             return _context.Grupo.ToList();
         }
 
-
-        // Todos os amigos na database
-        // GET: api/MeeeT/getAmigos
-        [Route("getAmigos")]
-        [HttpGet]
-        public List<Amigo> GetAmigos()
-        {
-            return _context.Amigo.ToList();
-        }
-
         // Se um utilizador está a participar num evento
         // GET: api/MeeeT/isInEvent/id_user/id_event
         [Route("isInEvent/{id_user:int}/{id_evento:int}")]
@@ -89,16 +79,6 @@ namespace TodoApi.Controllers
             return -1; //-1 = não encontrou nao tenho paciencia para melhorar
         }
 
-
-        // Utilizador_Evento
-        // GET: api/MeeeT/getUsersEvents
-        [Route("getUsersEvents")]
-        [HttpGet]
-        public List<UtilizadorEvento> GetUsersEvents()
-        {
-            return _context.UtilizadorEvento.ToList();
-        }
-
         // Grupo por id
         // GET: api/MeeeT/getGrupo
         [Route("getGrupo/{id_grupo:int}")]
@@ -134,9 +114,8 @@ namespace TodoApi.Controllers
         public List<Amigo> GetAmigosUser(int id_user)
         {
             List<Amigo> ret = new List<Amigo>();
-            List<Amigo> aux = GetAmigos();
             
-            foreach(var t in aux)
+            foreach(var t in _context.Amigo)
             {
                 if (id_user == t.UtilizadorId) ret.Add(t);
             }
@@ -174,79 +153,110 @@ namespace TodoApi.Controllers
         }
 
         // POR TESTAR
+        // UtilizadorEventos de um Evento
+        // GET
+        [Route("getUserEventosPerEvent/{id_event:int}")]
+        [HttpGet]
+        public List<UtilizadorEvento> GetUserEventosPerEvent(int id_event)
+        {
+            List<UtilizadorEvento> lue = new List<UtilizadorEvento>();
+            foreach (var aux in _context.UtilizadorEvento)
+            {
+                if (aux.IdEvento == id_event) lue.Add(aux);
+            }
+            return lue;
+        }
+
+        // POR TESTAR
         // Users num evento
         // GET
-        [Route("getUserEventos/{id_evento:int}")]
+        [Route("getUsersPerEvent")]
         [HttpGet]
-        public List<Utilizador> GetUsersinEvents(int id_evento)
+        public List<Utilizador> GetUsersPerEvent([FromBody] List<UtilizadorEvento> lue)
         {
             List<Utilizador> ret = new List<Utilizador>();
-            foreach(var aux in _context.UtilizadorEvento)
+            foreach(var aux in lue)
             {
-                foreach (var u in GetUsers())
+                foreach (var u in _context.Utilizador)
                 {
-                    if (u.Id == aux.IdUtilizador && aux.IdEvento == id_evento) 
-                        {ret.Add(u); break;}
+                    if (u.Id == aux.IdUtilizador) {
+                        ret.Add(u);
+                        break;
+                    }
                 }
             }
             return ret;
         }
 
         // POR TESTAR
+        // UtilizadorEventos de um User
+        // GET
+        [Route("getUserEventosPerUser/{id_user:int}")]
+        [HttpGet]
+        public List<UtilizadorEvento> GetUserEventosPerUser(int id_user)
+        {
+            List<UtilizadorEvento> lue = new List<UtilizadorEvento>();
+            foreach (var aux in _context.UtilizadorEvento)
+            {
+                if (aux.IdUtilizador == id_user) lue.Add(aux);
+            }
+            return lue;
+        }
+
+
+        // POR TESTAR
         // Eventos num User
         // GET
-        [Route("getEventosPerUser/{id_user:int}")]
+        [Route("getEventosPerUser")]
         [HttpGet]
-        public List<Evento> GetEventosPerUser(int id_user)
+        public List<Evento> GetEventosPerUser([FromBody] List<UtilizadorEvento> lue)
         {
             List<Evento> ret = new List<Evento>();
-            foreach (var aux in _context.UtilizadorEvento)
+            foreach (UtilizadorEvento ue in lue)
             {
                 foreach (var e in _context.Evento)
                 {
-                    if (e.Id == aux.IdEvento && aux.IdUtilizador == id_user)
-                    { ret.Add(e); break; }
+                    if (e.Id == ue.IdEvento)
+                    {
+                        ret.Add(e);
+                        break;
+                    }
                 }
             }
             return ret;
         }
 
-        // Todos os User_grupos da database
+        // POR TESTAR
+        // UtilizadorGrupos de um User
         // GET
-        [Route("GetUserGrupos")]
+        [Route("getUserGruposPerUser/{id_user:int}")]
         [HttpGet]
-        public List<UtilizadorGrupo> GetUserGrupos()
+        public List<UtilizadorGrupo> GetUserGruposPerUser(int id_user)
         {
-            return _context.UtilizadorGrupo.ToList();
-        }
-
-        // Get user_grupo por id de user e id de grupo
-        // GET
-        [Route("GetUserGrupos/{id:int}/{id_group:int}")]
-        [HttpGet]
-        public UtilizadorGrupo GetUserGrupos(int id, int id_group)
-        {
-            foreach(var u in _context.UtilizadorGrupo)
+            List<UtilizadorGrupo> lug = new List<UtilizadorGrupo>();
+            foreach (var aux in _context.UtilizadorGrupo)
             {
-                if (u.IdGrupo == id_group && u.IdUtilizador == id) return u;
-                else { }
+                if (aux.IdUtilizador == id_user) lug.Add(aux);
             }
-            return null;
+            return lug;
         }
 
         // Grupos de um utilizador
         // GET: api/MeeeT/getGrupoPerUser
-        [Route("getGrupoPerUser/{id_user:int}")]
+        [Route("getGrupoPerUser")]
         [HttpGet]
-        public List<Grupo> GetGrupoPerUser(int id_user)
+        public List<Grupo> GetGrupoPerUser([FromBody] List<UtilizadorGrupo> lug)
         {
             List<Grupo> ret = new List<Grupo>();
-            foreach (var x in _context.UtilizadorGrupo)
-            {
-                if (x.IdUtilizador == id_user)
+            foreach (var x in lug)
+            {    
+                foreach(var g in _context.Grupo)
                 {
-                    Grupo g = new Grupo(getGrupo(x.IdGrupo));
-                    ret.Add(g);
+                    if(x.IdGrupo == g.Id)
+                    {
+                        ret.Add(g);
+                        break;
+                    }
                 }
             }
             return ret;
@@ -262,10 +272,11 @@ namespace TodoApi.Controllers
         // POST: api/MeeeT/postamigo
         [Route("PostAmigo")]
         [HttpPost]
-        public void PostAmigo([FromBody] Amigo a)
+        public Amigo PostAmigo([FromBody] Amigo a)
         {
             _context.Amigo.Add(a);
             _context.SaveChanges();
+            return a;
         }
 
         // POR TESTAR
@@ -357,10 +368,11 @@ namespace TodoApi.Controllers
         // POST: 
         [Route("PostOpcao")]
         [HttpPost]
-        public void PostOpcao ([FromBody] Opcao o)
+        public Opcao PostOpcao ([FromBody] Opcao o)
         {
             _context.Opcao.Add(o);
             _context.SaveChanges();
+            return o;
         }
 
         // POR TESTAR
@@ -385,10 +397,11 @@ namespace TodoApi.Controllers
         // POST: api/MeeeT/postvotacao
         [Route("PostVotacao")]
         [HttpPost]
-        public void PostVotacao([FromBody] Votacao v)
+        public Votacao PostVotacao([FromBody] Votacao v)
         {
             _context.Votacao.Add(v);
             _context.SaveChanges();
+            return v;
         }
         
 
@@ -397,21 +410,22 @@ namespace TodoApi.Controllers
         // POST
         [Route("PostGrupo")]
         [HttpPost]
-        public void PostGrupo ([FromBody] Grupo g)
+        public Grupo PostGrupo ([FromBody] Grupo g)
         {
             _context.Grupo.Add(g);
             _context.SaveChanges();
+            return g;
         }
 
         // POR TESTAR
         // Adiciona pessoa a grupo e adiciona-o à data base
         // POST
-        [Route("AddToGroup/{id_grupo:int}/{id:int}")]
+        [Route("AddToGroup/{id:int}")]
         [HttpPost]
-        public void AddToGroup(int id_grupo, int id)
+        public void AddToGroup([FromBody] Grupo g, int id)
         {
             UtilizadorGrupo ug = new UtilizadorGrupo();
-            ug.IdGrupo = id_grupo;
+            ug.IdGrupo = g.Id;
             ug.IdUtilizador = id;
             _context.UtilizadorGrupo.Add(ug);
             _context.SaveChanges();
