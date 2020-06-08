@@ -272,10 +272,11 @@ namespace TodoApi.Controllers
         // POST: api/MeeeT/postamigo
         [Route("PostAmigo")]
         [HttpPost]
-        public void PostAmigo([FromBody] Amigo a)
+        public Amigo PostAmigo([FromBody] Amigo a)
         {
             _context.Amigo.Add(a);
             _context.SaveChanges();
+            return a;
         }
 
         // POR TESTAR
@@ -367,10 +368,11 @@ namespace TodoApi.Controllers
         // POST: 
         [Route("PostOpcao")]
         [HttpPost]
-        public void PostOpcao ([FromBody] Opcao o)
+        public Opcao PostOpcao ([FromBody] Opcao o)
         {
             _context.Opcao.Add(o);
             _context.SaveChanges();
+            return o;
         }
 
         // POR TESTAR
@@ -395,10 +397,11 @@ namespace TodoApi.Controllers
         // POST: api/MeeeT/postvotacao
         [Route("PostVotacao")]
         [HttpPost]
-        public void PostVotacao([FromBody] Votacao v)
+        public Votacao PostVotacao([FromBody] Votacao v)
         {
             _context.Votacao.Add(v);
             _context.SaveChanges();
+            return v;
         }
         
 
