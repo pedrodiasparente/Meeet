@@ -32,7 +32,7 @@ function SplashScreen() {
 const Stack = createStackNavigator();
 
 export default function App({ navigation }) {
-  const [tempToken, setTempToken] = React.useState(-1);
+  const [tempToken, setTempToken] = React.useState(-2);
   const [state, dispatch] = React.useReducer(
     (prevState, action) => {
       switch (action.type) {
@@ -87,15 +87,25 @@ export default function App({ navigation }) {
     bootstrapAsync();
   }, []);
 
-  const setTokenAsync = async (tempToken) => {
-    try{
-      await AsyncStorage.setItem(
-      'userToken',
-      tempToken.toString())
-    } catch(e){
-      console.log('Saving to AsyncStorage error: \n' + e)
+  React.useEffect(() => {
+
+    const setTokenAsync = async (tempToken) => {
+      try{
+        await AsyncStorage.setItem(
+        'userToken',
+        tempToken.toString())
+      } catch(e){
+        console.log('Saving to AsyncStorage error: \n' + e)
+      }
     }
-  }
+    
+    if(tempToken >= 0){
+      dispatch({ type: 'SIGN_IN', token: {tempToken} });
+      setTokenAsync(tempToken);
+    }
+  },[tempToken]);
+
+
 
   const removeTokenAsync = async () => {
     try {
@@ -121,14 +131,6 @@ export default function App({ navigation }) {
           })
           .catch((error) => {
             console.error(error);
-          })
-          .finally(() => {
-            //console.log('https://meeet-app.azurewebsites.net/api/meeet/Login/' + data.username + '/' + data.password);
-            console.log(tempToken);
-            if(tempToken != -1){
-              dispatch({ type: 'SIGN_IN', token: {tempToken} });
-              setTokenAsync(tempToken);
-            }
           });
       },
       signOut: () => {

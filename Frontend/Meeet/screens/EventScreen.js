@@ -4,29 +4,25 @@ import { NavigationContainer } from '@react-navigation/native';
 //import { AsyncStorage } from '@react-native-comunity/async-storage';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import SignUpScreen from './SignUpScreen'
-import LoginScreen from './LoginScreen'
-import HomeScreen from './HomeScreen'
-import FriendScreen from './FriendsScreen'
-import ProfileScreen from './ProfileScreen'
-import EventMenuScreen from './EventMenuScreen'
+
+import EventDetailsScreen from './EventDetailsScreen'
+import VoteScreen from './VoteScreen'
+import EventUsersScreen from './EventUsersScreen'
 import ShareLocationScreen from './ShareLocationScreen'
-import CreateEventScreen from './CreateEventScreen'
-import FriendsMenuScreen from './FriendsMenuScreen'
-import RequestFriendsScreen from './RequestFriendsScreen'
-import CreateGroupScreen from './CreateGroupScreen'
+
 
 const Tab = createBottomTabNavigator();
 
 function EventScreen() {
 
     return (
-      <Tab.Navigator>
-        <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="ShareLocation" component={ShareLocationScreen} />
-      </Tab.Navigator>
-    )
-
+    <Tab.Navigator>
+      <Tab.Screen name="EventDetails" component={EventDetailsScreen} />
+      <Tab.Screen name="EventUsers" component={EventUsersScreen} />
+      <Tab.Screen name="ShareLocation" component={ShareLocationScreen} />
+      <Tab.Screen name="Vote" component={VoteScreen} />
+    </Tab.Navigator>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -50,5 +46,7 @@ const styles = StyleSheet.create({
       city: 'Califórnia',
     }
   ;
+
+let event = {"id":1,"nome":"evento1","dataHora":"2014-01-01T00:00:00","longitude":0,"latitude":0,"tipoEvento":0,"idAdmin":1,"descricao":"é um evento muito giro","idadeMinima":null,"idAdminNavigation":null,"eventoHasRequests":[],"utilizadorEvento":[],"votacao":[]}
 
 export default EventScreen;

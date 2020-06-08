@@ -35,14 +35,5 @@ const styles = StyleSheet.create({
   },
   });
 
-  const DATA =
-    {
-      id: '1',
-      url: 'https://reactnative.dev/img/tiny_logo.png',
-      username: 'Joaquim Silva Silva',
-      email: 'Joaquim@gmail.com',
-      city: 'Califórnia',
-    }
-  ;
 
 export default ProfileScreen;
