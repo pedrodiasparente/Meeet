@@ -422,10 +422,11 @@ namespace TodoApi.Controllers
         // POST: api/MeeeT/postuser
         [Route("PostUser")]
         [HttpPost]
-        public void PostUser([FromBody] Utilizador u)
+        public Utilizador PostUser([FromBody] Utilizador u)
         {
             _context.Utilizador.Add(u);
             _context.SaveChanges();
+            return u;
         }
 
 
