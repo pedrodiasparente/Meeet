@@ -7,29 +7,15 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import EventDetailsScreen from './EventDetailsScreen'
 import VoteScreen from './VoteScreen'
-import EventUserScreen from './EventUsersScreen'
+import EventUsersScreen from './EventUsersScreen'
 import ShareLocationScreen from './ShareLocationScreen'
 
 
 const Tab = createBottomTabNavigator();
 
-
-
 function EventScreen() {
 
-  useEffect(() => {
-    fetch('https://meeet-app.azurewebsites.net/api/meeet/getuser/' + id)
-      .then((response) => response.json())
-      .then((json) => {
-        setUserData(json);
-      })
-      .catch((error) => {
-        console.error(error);
-      })
-      .finally(() => { setLoading(false); console.log(userData); } );
-    }, []);
-
-  return (
+    return (
     <Tab.Navigator>
       <Tab.Screen name="EventDetails" component={EventDetailsScreen} />
       <Tab.Screen name="EventUsers" component={EventUsersScreen} />
@@ -37,7 +23,6 @@ function EventScreen() {
       <Tab.Screen name="Vote" component={VoteScreen} />
     </Tab.Navigator>
   )
-
 }
 
 const styles = StyleSheet.create({
