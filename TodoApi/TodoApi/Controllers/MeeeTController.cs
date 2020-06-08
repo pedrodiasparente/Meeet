@@ -299,10 +299,11 @@ namespace TodoApi.Controllers
         // POST: api/MeeeT/postevento
         [Route("PostEvento")]
         [HttpPost]
-        public void PostEvento([FromBody] Evento e)
+        public Evento PostEvento([FromBody] Evento e)
         {
             _context.Evento.Add(e);
             _context.SaveChanges();
+            return e;
         }
 
         // POR TESTAR
@@ -310,7 +311,7 @@ namespace TodoApi.Controllers
         // POST: api/MeeeT/postevento
         [Route("AddToEvent/{id:int}")]
         [HttpPost]
-        public void InviteToEvent([FromBody] Evento e,int id)
+        public void AddToEvent([FromBody] Evento e,int id)
         {
             UtilizadorEvento ev = new UtilizadorEvento();
 
