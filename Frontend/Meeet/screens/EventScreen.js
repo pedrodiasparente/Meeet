@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 //import { AsyncStorage } from '@react-native-comunity/async-storage';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
+import EventTabBar from '../components/EventTabBar'
 
 import EventDetailsScreen from './EventDetailsScreen'
 import VoteScreen from './VoteScreen'
@@ -16,7 +17,7 @@ const Tab = createBottomTabNavigator();
 function EventScreen() {
 
     return (
-    <Tab.Navigator>
+    <Tab.Navigator tabBar={props => <EventTabBar {...props} />} >
       <Tab.Screen name="EventDetails" component={EventDetailsScreen} />
       <Tab.Screen name="EventUsers" component={EventUsersScreen} />
       <Tab.Screen name="ShareLocation" component={ShareLocationScreen} />
