@@ -262,6 +262,80 @@ namespace TodoApi.Controllers
             return ret;
         }
 
+        // POR TESTAR
+        // UtilizadorPedidosAmizade de um User
+        // GET
+        [Route("getUserPedidosAmizade/{id_user:int}")]
+        [HttpGet]
+        public List<UtilizadorPedidosAmizade> GetUserPedidosAmizade(int id_user)
+        {
+            List<UtilizadorPedidosAmizade> lup = new List<UtilizadorPedidosAmizade>();
+            foreach (var aux in _context.UtilizadorPedidosAmizade)
+            {
+                if (aux.IdReceive == id_user) lup.Add(aux);
+            }
+            return lup;
+        }
+
+        // POR TESTAR
+        // Pedidos de amizade de um user
+        // GET
+        [Route("getPedidosAmizade")]
+        [HttpGet]
+        public List<PedidosAmizade> GetPedidosAmizade([FromBody] List<UtilizadorPedidosAmizade> lup)
+        {
+            List<PedidosAmizade> ret = new List<PedidosAmizade>();
+            foreach (var aux in lup)
+            {
+                foreach (var u in _context.PedidosAmizade)
+                {
+                    if (u.IdUserSend == aux.IdSend)
+                    {
+                        ret.Add(u);
+                        break;
+                    }
+                }
+            }
+            return ret;
+        }
+
+        // POR TESTAR
+        // EventoRequests de um Evento
+        // GET
+        [Route("getEventoHasRequests/{id_event:int}")]
+        [HttpGet]
+        public List<EventoHasRequests> GetEventoHasRequests(int id_event)
+        {
+            List<EventoHasRequests> ler = new List<EventoHasRequests>();
+            foreach (var aux in _context.EventoHasRequests)
+            {
+                if (aux.IdEvento == id_event) ler.Add(aux);
+            }
+            return ler;
+        }
+
+        // POR TESTAR
+        // Requests dum evento
+        // GET
+        [Route("getEventoRequests")]
+        [HttpGet]
+        public List<RequestEvento> GetEventoRequests([FromBody] List<EventoHasRequests> lup)
+        {
+            List<RequestEvento> ret = new List<RequestEvento>();
+            foreach (var aux in lup)
+            {
+                foreach (var u in _context.RequestEvento)
+                {
+                    if (u.IdUserRequest == aux.IdUserRequest)
+                    {
+                        ret.Add(u);
+                        break;
+                    }
+                }
+            }
+            return ret;
+        }
+
         /********\
        | * POST * | ---------------------------------------------------------------------------------------------------------------
         \********/
