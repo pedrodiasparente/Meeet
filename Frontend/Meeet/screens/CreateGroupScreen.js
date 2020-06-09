@@ -35,10 +35,12 @@ const styles = StyleSheet.create({
     {
       id: '1',
       username: 'Joaquim Silva Silva',
+      image:"https://bootdey.com/img/Content/avatar/avatar7.png",
     },
     {
       id: '2',
       username: 'Ricardo Esteves Esteves',
+      image:"https://bootdey.com/img/Content/avatar/avatar7.png",
     },
     {
       id: '3',

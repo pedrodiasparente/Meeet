@@ -5,6 +5,7 @@ import {
   Text,
   FlatList,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome5';
 
@@ -41,12 +42,16 @@ function TouchableSearchList({ data , touchFunction }) {
       <FlatList
         data={state.list}
         renderItem={({ item }) => (
-                  <TouchableOpacity 
+          <TouchableOpacity 
+  
             style={[styles.itemPress, item.selectedClass]}
             onPress={() => touchFunction(item) }>
-              <Text>
+              <View style={{flexDirection: "row"}}>
+              <Image style={styles.userImage} source={{uri:item.image}}/>
+              <Text style={styles.text}>
                 {item.username}
               </Text>
+              </View>
             </TouchableOpacity>
          
           )}
@@ -62,9 +67,24 @@ const styles = StyleSheet.create({
     height: '95%',
     width: '100%',
   },
+  userImage:{
+    height: 40,
+    width: 40,
+    borderRadius:80,
+    backgroundColor: '#fefefe',
+    borderColor:"#DCDCDC",
+    borderWidth:1.5,
+  },
+  text: {
+    marginTop:7,
+    marginLeft: 13,
+    fontSize:18,
+    flex:1,
+    fontWeight:'bold'
+  },
   itemPress: {
     backgroundColor: '#fefefe',
-    padding: 20,
+    padding: 10,
     marginBottom: 16,
     marginHorizontal: 16,
     borderRadius: 10,

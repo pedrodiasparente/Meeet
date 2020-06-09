@@ -7,35 +7,77 @@ import AuthContext from '../contexts/AuthContext'
 function EventDetails({ data }) {
 
 
+    const idade = () => {
+        const i = data.idadeMinima;
+        if (i) {
+            return 'Idade minima: ' + i;
+        }
+        return 'Sem Idade Minima!';
+    }   
+
+
     return (
     <>
 
-      <View style = {styles.profileInput}>
+       <View style = {styles.profileInput}>
 
-        <TextInput
-          style={styles.textInput}
-          textAlign={'center'}
-          />
+       
+        <Text style = {styles.nomeEvento}>
+          "{data.nome}"
+        </Text>
+        </View>
+
+    <View style = {styles.textBox}>
+       <Text style = {styles.text}>
+              {data.descricao}
+        </Text>
 
       </View>
+
+    
+      <Text style = {styles.textNegrito}>
+            {idade()}
+        </Text>
+
+        <Text style = {styles.textNegrito}>
+            Date: {data.dataHora.substring(0,10)}
+        </Text>
+
+        <Text style = {styles.textNegrito}>
+            Hours: {data.dataHora.substring(11,16)}
+        </Text>
+
 
     </>
     )
 }
 
 const styles = StyleSheet.create({
-  textInput: {
-    margin: 10,
-    marginHorizontal: 5,
-    backgroundColor: '#cbcbcb',
-    height: 40,
-    width: '70%',
+  textNegrito:{
+    marginTop: 20,
+    marginLeft: 10,
     fontSize: 16,
-    borderRadius: 10,
+    fontWeight: "bold",
   },
   profileInput:{
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  textBox: {
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginTop: 30,
+    height: '20%',
+    width: '80%',
+    backgroundColor: '#FFFDFD',
+  },
+  nomeEvento: {
+    marginTop: 20,
+    fontSize: 25,
+    color: '#2c365d',
+  },
+  text: {
+    marginLeft: 5,
   },
   list: {
     height: '68%',
