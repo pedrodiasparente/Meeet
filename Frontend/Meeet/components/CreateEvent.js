@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react'
-import { View, Image, Text, StyleSheet, TextInput, Button, TouchableOpacity} from 'react-native'
+import { View, Image, Text, StyleSheet, TextInput, Alert, Button, TouchableOpacity} from 'react-native'
 import Icon from 'react-native-vector-icons/dist/FontAwesome5'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
@@ -61,6 +61,31 @@ function CreateEvent({ data }) {
       hideTimePicker();
     };
 
+    const createAlert = () =>
+    Alert.alert(
+      "Create Event",
+      "Are you sure?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        { text: "OK", onPress: () => createWarning() }
+      ],
+      { cancelable: false }
+    );
+
+    const createWarning = () =>
+    Alert.alert(
+      "Event created sucessufly!",
+       "",
+      [
+        { text: "OK", onPress: () => console.log("OK Pressed") }
+      ],
+      { cancelable: false }
+    );
+
     
  
     
@@ -91,12 +116,14 @@ function CreateEvent({ data }) {
         </View>
 
 
-        <View style = {styles.buttons}>
+        <View style = {styles.icons}>
 
-          <TouchableOpacity style={styles.button} onPress={showDatePicker}>
-            <Text style= {{color: '#fbfbfb'}}>
-               Date
-            </Text>
+          <TouchableOpacity onPress={showDatePicker}>
+            <Icon
+            name="calendar-alt"
+            size={50}
+            color='#2c365d'
+            />
             </TouchableOpacity>
       
           <DateTimePickerModal
@@ -105,10 +132,12 @@ function CreateEvent({ data }) {
               onConfirm={handleConfirm}
               onCancel={hideDatePicker}
            />
-          <TouchableOpacity style={styles.button}  onPress={showTimePicker}>
-            <Text style= {{color: '#fbfbfb'}}>
-               Hours
-            </Text>
+          <TouchableOpacity onPress={showTimePicker}>
+          <Icon
+            name="clock"
+            size={50}
+            color='#2c365d'
+            />
             </TouchableOpacity>
 
             <DateTimePickerModal
@@ -117,7 +146,7 @@ function CreateEvent({ data }) {
               onConfirm={handleConfirmTime}
               onCancel={hideTimePicker}
            />
-    </View>
+      </View>
 
 
     <View style = {styles.list}>
@@ -131,7 +160,7 @@ function CreateEvent({ data }) {
 
     <View style = {styles.buttons}>
 
-    <TouchableOpacity style={styles.buttonCreate}>
+    <TouchableOpacity style={styles.buttonCreate} onPress={createAlert}>
       <Text style= {{color: '#fbfbfb'}}>
         Create
        </Text>
@@ -156,6 +185,14 @@ const styles = StyleSheet.create({
   profileInput:{
     flexDirection: 'row',
     alignItems: 'center',
+    
+  },
+  icons: {
+    marginTop: 10,
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    width: '50%',
   },
   buttons: {
     alignItems: 'center',
@@ -190,7 +227,7 @@ const styles = StyleSheet.create({
     backgroundColor: "hsl(85, 100%, 50%)"
   },
   list: {
-    height: '40%',
+    height: '52%',
     width: '100%',
   },
 });
