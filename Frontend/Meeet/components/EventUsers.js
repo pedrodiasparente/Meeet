@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {StyleSheet,Text,View,TouchableOpacity,Image,Alert,ScrollView,FlatList,} from 'react-native';
+import {StyleSheet,Text,View,TouchableOpacity,Image,FlatList,Modal} from 'react-native';
 import AuthContext from '../contexts/AuthContext'
 import SearchBar from '../components/SearchBar';
 
@@ -8,6 +8,8 @@ import SearchBar from '../components/SearchBar';
 function EventUsers({ data }) {    
     
     const [state, setState] = React.useState({ text: '' , list: data });
+    const [modalVisible, setModalVisible] = React.useState(false);
+    const [itemAtual, setItemAtual] = React.useState(false);
 
   let arrayholder = data;
 
@@ -23,14 +25,43 @@ function EventUsers({ data }) {
   };
   
        
-    return (
+    return (            
         <View style={styles.container}>
+
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+        >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Image style={styles.userImage} source={{uri:itemAtual.image}}/>
+            <Text style={styles.modalText}>{itemAtual.name}</Text>
+             <TouchableOpacity
+               style={styles.openButton}
+               onPress={() => {}}>
+                <Text style={styles.textStyle}>View Profile</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+               style={styles.openButton}
+               onPress={() => {}}>
+                <Text style={styles.textStyle}>Send Mensage</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+               style={styles.openButton}
+               onPress={() => {setModalVisible(!modalVisible);}}>
+                <Text style={styles.textStyle}>Go Back</Text>
+              </TouchableOpacity>
+           </View>
+         </View>
+        </Modal>
                         
         <SearchBar
           placeholder="Type Here..."
           filter={searchFilterFunction}
           onChangeText={state.text}
         />
+
         <FlatList style={styles.list}
           contentContainerStyle={styles.listContainer}
           data={state.list}
@@ -41,8 +72,8 @@ function EventUsers({ data }) {
           }}
           renderItem={({item}) => {
             return (
-                            
-              <TouchableOpacity style={styles.card} onPress={() => {}}>
+
+              <TouchableOpacity style={styles.card} onPress={() => {setModalVisible(true);setItemAtual(item);}}>
                 <Image style={styles.userImage} source={{uri:item.image}}/>
                 <View style={styles.cardFooter}>
                   <View style={{alignItems:"center", justifyContent:"center"}}>
@@ -50,6 +81,7 @@ function EventUsers({ data }) {
                   </View>
                 </View>
               </TouchableOpacity>
+
             )
           }}/>
       </View>
@@ -131,6 +163,44 @@ function EventUsers({ data }) {
     icon:{
       height: 20,
       width: 20, 
+    },
+    centeredView: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      marginTop: 22
+    },
+    modalView: {
+      margin: 20,
+      backgroundColor: "white",
+      borderRadius: 20,
+      padding: 35,
+      alignItems: "center",
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 2
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+      elevation: 5
+    },
+    openButton: {
+      backgroundColor: "#F194FF",
+      borderRadius: 20,
+      padding: 10,
+      elevation: 2,
+      backgroundColor: "#2196F3" ,
+      marginTop: 10,
+    },
+    textStyle: {
+      color: "white",
+      fontWeight: "bold",
+      textAlign: "center"
+    },
+    modalText: {
+      marginBottom: 15,
+      textAlign: "center"
     }
   }); 
 
