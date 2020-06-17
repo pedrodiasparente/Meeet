@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react'
-import { View, Image, Text, StyleSheet, TextInput, Button, TouchableOpacity} from 'react-native'
+import { View, Image, Text, StyleSheet, TextInput, Button, TouchableOpacity,Alert} from 'react-native'
 import Icon from 'react-native-vector-icons/dist/FontAwesome5'
 
 import AuthContext from '../contexts/AuthContext'
@@ -25,6 +25,14 @@ function CreateGroup({ data }) {
 
   const { signIn } = React.useContext(AuthContext);
     const [selectedList, setList] = useState([]);
+
+    const createWarning = () =>
+    Alert.alert(
+      "Group created sucessufly!",
+      "",
+      [{ text: "OK" }],
+      { cancelable: false }
+    );
 
     return (
     <>
@@ -52,7 +60,7 @@ function CreateGroup({ data }) {
 
       <View style = {styles.buttons}>
 
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={createWarning}>
             <Text style= {{color: '#fbfbfb'}}>
               Create
               </Text>

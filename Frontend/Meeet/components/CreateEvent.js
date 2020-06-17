@@ -24,7 +24,6 @@ function CreateEvent({ data }) {
     }
     else{
       let auxArray= selectedList.filter(value => { return value != item.username })
-      //console.log('AUX:' + auxArray);
       setList(auxArray);
       item.selectedClass = styles.itemPress;
     }

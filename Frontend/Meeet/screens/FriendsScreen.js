@@ -1,34 +1,27 @@
 import React, { Component , useState, useEffect } from 'react'
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image} from 'react-native'
+import { View,StyleSheet} from 'react-native'
 import Icon from 'react-native-vector-icons/dist/FontAwesome5'
 
 import Title from '../components/Title'
-import TouchableSearchList from '../components/TouchableSearchList'
+import MyFriends from '../components/MyFriends';
 import AuthContext from '../contexts/AuthContext'
-import ProfileFriend from '../components/ProfileFriend'
+
 
 function FriendsScreen({ navigation }) {
 
-   
   const [userData, setUserData] = useState(null);
   const [isLoading, setLoading] = useState(true);
 
+const { signOut } = React.useContext(AuthContext);
 
-function nothing(item){
- navigation.navigate('ProfileFriend', {id: item.id});
-}
-
-const { signIn } = React.useContext(AuthContext);
-
-
-  return (
-    <View style = {styles.background}>
-      <Title title = {'My Friends'}/>
-      <View style = {styles.body}>
-        <TouchableSearchList data={DATA} touchFunction={nothing}/>
-        </View>
-      </View>
-  )
+return (
+  <View style = {styles.background}>
+  <Title title = {'My Friends'}/>
+  <View style = {styles.body}>
+      <MyFriends data={data}/>
+    </View>
+</View>
+)
 }
 
 const styles = StyleSheet.create({
@@ -49,26 +42,31 @@ const styles = StyleSheet.create({
 
 
 
-  const DATA = [
+  const data = [
     {
       id: '1',
       username: 'Joaquim Silva Silva',
+      image:"https://bootdey.com/img/Content/avatar/avatar7.png",
     },
     {
       id: '2',
       username: 'Ricardo Esteves Esteves',
+      image:"https://bootdey.com/img/Content/avatar/avatar5.png",
     },
     {
       id: '3',
       username: 'Ricardinho',
+      image:"https://bootdey.com/img/Content/avatar/avatar3.png",
     },
     {
       id: '9',
       username: 'Rui Costa',
+      image:"https://bootdey.com/img/Content/avatar/avatar2.png",
     },
     {
       id: '4',
       username: 'Rivaldo Esteves Esteves',
+      image:"https://bootdey.com/img/Content/avatar/avatar1.png",
     },
     {
       id: '5',

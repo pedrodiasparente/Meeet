@@ -48,7 +48,7 @@ function EventUsers({ data }) {
                 <Text style={styles.textStyle}>Send Mensage</Text>
               </TouchableOpacity>
               <TouchableOpacity
-               style={styles.openButton}
+               style={styles.openButtonFinal}
                onPress={() => {setModalVisible(!modalVisible);}}>
                 <Text style={styles.textStyle}>Go Back</Text>
               </TouchableOpacity>
@@ -186,12 +186,24 @@ function EventUsers({ data }) {
       elevation: 5
     },
     openButton: {
+      height: 40,
+      width: 140,
       backgroundColor: "#F194FF",
       borderRadius: 20,
       padding: 10,
       elevation: 2,
       backgroundColor: "#2196F3" ,
       marginTop: 10,
+    },
+    openButtonFinal: {
+      backgroundColor: "#F194FF",
+      borderRadius: 20,
+      height: 40,
+      width: 90,
+      padding: 10,
+      elevation: 2,
+      backgroundColor: "#2196F3" ,
+      marginTop: 30,
     },
     textStyle: {
       color: "white",
