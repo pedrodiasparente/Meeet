@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity} from 'react-native'
 import Icon from 'react-native-vector-icons/dist/FontAwesome5'
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 import AuthContext from '../contexts/AuthContext'
 
@@ -10,10 +11,49 @@ function SignUp() {
   const [emailText, setEmail] = React.useState('');
   const [passwordText, setPassword] = React.useState('');
   const [cityText, setCity] = React.useState('');
+  const [isDatePickerVisible, setDatePickerVisibility] = React.useState(false);
 
   const [user, setUser] = React.useState(null);
 
+  React.useEffect(() => {
+
+    setUser({
+      "username": usernameText,
+      "email": emailText,
+      "password": passwordText,
+      "longitude": 0,
+      "latitude": 0,
+      "urlFoto": "https://i0.wp.com/ipc.digital/wp-content/uploads/2016/07/icon-user-default.png?fit=462%2C462&ssl=1",
+      "morada": cityText,
+      "dataNascimento": "2014-01-01",
+      "genero": null,
+      "bio": null,
+      "amigo": null,
+      "evento": null,
+      "utilizadorConvites": null,
+      "utilizadorEvento": null,
+      "utilizadorGrupo": null,
+      "utilizadorOpcao": null,
+      "utilizadorPedidosAmizade": null
+  });
+
+  },[usernameText, emailText, passwordText, cityText]);
+
+
   const { signUp } = React.useContext(AuthContext);
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (date) => {
+    console.log("A date has been picked: ", date);
+    hideDatePicker();
+  };
 
   return (
 
@@ -85,10 +125,22 @@ function SignUp() {
           />
 
         </View>
+        <TouchableOpacity onPress={showDatePicker} style={styles.button}>
+          <Text style= {{color: '#fbfbfb'}}>
+            Date
+          </Text>
+        </TouchableOpacity>
+
+        <DateTimePickerModal
+            isVisible={isDatePickerVisible}
+            mode="date"
+            onConfirm={handleConfirm}
+            onCancel={hideDatePicker}
+         />
 
     <View style = {styles.buttons}>
 
-      <TouchableOpacity style={styles.button} onPress={signUp}>
+      <TouchableOpacity style={styles.button} onPress={() => signUp(user)}>
         <Text style= {{color: '#fbfbfb'}}>
           SignUp
           </Text>

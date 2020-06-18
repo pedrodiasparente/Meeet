@@ -98,7 +98,7 @@ export default function App({ navigation }) {
         console.log('Saving to AsyncStorage error: \n' + e)
       }
     }
-    
+
     if(tempToken >= 0){
       dispatch({ type: 'SIGN_IN', token: {tempToken} });
       setTokenAsync(tempToken);
@@ -151,6 +151,7 @@ export default function App({ navigation }) {
           },
           body: JSON.stringify(data)
         });*/
+        console.log(data);
         dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
       },
     }),
