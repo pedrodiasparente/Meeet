@@ -22,7 +22,7 @@ namespace TodoApi
         public void ConfigureServices(IServiceCollection services)
         {
             
-            services.AddDbContext<meeetdbContext>(x => x.UseSqlServer("Server=tcp:meeetdb-server.database.windows.net,1433;Initial Catalog=meeetdb;Persist Security Info=False;User ID=meeet;Password=Sporting1906;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"));
+            services.AddDbContext<meeetdbContext>(x => x.UseSqlServer("Server=tcp:meeetdb.database.windows.net,1433;Initial Catalog=meeetdb;Persist Security Info=False;User ID=meeet;Password=Sporting1906;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"));
             services.AddMvc();
 
         }
