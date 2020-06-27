@@ -124,7 +124,7 @@ export default function App({ navigation }) {
         // We will also need to handle errors if sign in failed
         // After getting token, we need to persist the token using `AsyncStorage`
         // In the example, we'll use a dummy token
-        fetch('https://meeet-app.azurewebsites.net/api/meeet/Login/' + data.username + '/' + data.password)
+        fetch('https://meeet-projeto.azurewebsites.net/api/meeet/Login/' + data.username + '/' + data.password)
           .then((response) => response.json())
           .then((json) => {
             setTempToken(json);
@@ -143,14 +143,14 @@ export default function App({ navigation }) {
         // After getting token, we need to persist the token using `AsyncStorage`
         // In the example, we'll use a dummy token
 
-        /*fetch('https://meeet-app.azurewebsites.net/api/meeet/PostUser", {
+        fetch('https://meeet-projeto.azurewebsites.net/api/meeet/PostUser', {
           method: 'POST',
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json'
           },
           body: JSON.stringify(data)
-        });*/
+        });
         console.log(data);
         dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
       },
