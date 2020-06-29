@@ -437,6 +437,23 @@ namespace TodoApi.Controllers
             _context.SaveChanges();
         }
 
+        // Set na latitude e longitude de um user
+        // POST: api/MeeeT/setLatLon
+        [Route("SetLatLong/{id:int}/{lat:float}/{lon:float}")]
+        [HttpPost]
+        public void SetLatLon(int id, float lat, float lon)
+        {
+            foreach(Utilizador u in _context.Utilizador)
+            {
+                if(id == u.Id)
+                {
+                    u.Latitude = lat;
+                    u.Longitude = lon;
+                }
+            }
+            _context.SaveChanges();
+        }
+
         // POR TESTAR
         // Adiciona uma opção
         // POST: 
