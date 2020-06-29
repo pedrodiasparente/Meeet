@@ -1,13 +1,70 @@
-import React, { Component, useState } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native'
+import React, { Component, useState, useEffect } from 'react'
+import { View, Text, StyleSheet, TouchableOpacity, Image, PermissionsAndroid} from 'react-native'
 import Icon from 'react-native-vector-icons/dist/FontAwesome5'
 import MapView, { Marker } from 'react-native-maps'
+import Geolocation from 'react-native-geolocation-service';
 
 import Title from '../components/Title'
 import AuthContext from '../contexts/AuthContext'
 
 
 function ShareLocationScreen({ navigation }) {
+
+  const [location, setLocation] = useState({latitude: 40, longitude:8});
+  const [hasLocationPermission, setLocationPermission] = useState(false);
+
+  const requestLocationPermission = async () => {
+  try {
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      {
+        title: "Location Permission",
+        message:
+          "Meeet need to access yout location to share it",
+        buttonNeutral: "Ask Me Later",
+        buttonNegative: "Cancel",
+        buttonPositive: "OK"
+      }
+    );
+    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+      setLocationPermission(true);
+    } else {
+      setLocationPermission(false);
+    }
+  } catch (err) {
+    console.warn(err);
+  }
+  };
+
+  useEffect(() => {
+    requestLocationPermission();
+  },[]);
+
+  useEffect(() => {
+    if (hasLocationPermission) {
+      Geolocation.getCurrentPosition(
+        (position) => {
+          console.log(position);
+          console.log(position.coords.latitude + '/' + position.coords.longitude);
+          setLocation(position.coords)
+        },
+        (error) => {
+          // See error code charts below.
+          console.log(error.code, error.message);
+        },
+        { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+      );
+    }
+
+  },[hasLocationPermission]);
+
+  useEffect(() => {
+
+    console.log(location.longitude + '/' + location.latitude)
+
+  },[location]);
+
+
 
   return (
     <View style = {styles.background}>
@@ -20,15 +77,15 @@ function ShareLocationScreen({ navigation }) {
         <MapView
           style={styles.map}
           region={{
-            latitude: 41.56016,
-            longitude: -8.3990428,
+            latitude: location.latitude,
+            longitude: location.longitude,
             latitudeDelta: 0.015,
             longitudeDelta: 0.0121,
           }}
           customMapStyle={mapStyle}
           >
           <Marker
-            coordinate={{  latitude: 41.56016,longitude: -8.3990428, }}
+            coordinate={{  latitude: location.latitude, longitude: location.longitude, }}
             title={"ExampleUser"}
             description={"Uni fechada"}
             />

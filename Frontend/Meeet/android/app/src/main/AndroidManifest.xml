@@ -2,6 +2,7 @@
   package="com.meeet">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
       android:name=".MainApplication"
@@ -12,7 +13,7 @@
       android:theme="@style/AppTheme">
       <meta-data
         android:name="com.google.android.geo.API_KEY"
-        android:value="AIzaSyCSI-QAU5Y01NV3dx_WaTYojNw0fZ7oRwk"/>
+        android:value="AIzaSyA2BjSqzfdbdvFdzhLkcf0WXNSBiBB3XDI"/>
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
