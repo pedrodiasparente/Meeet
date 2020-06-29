@@ -439,7 +439,7 @@ namespace TodoApi.Controllers
 
         // Set na latitude e longitude de um user
         // POST: api/MeeeT/setLatLon
-        [Route("SetLatLong/{id:int}/{lat:float}/{lon:float}")]
+        [Route("SetLatLon/{id:int}/{lat:float}/{lon:float}")]
         [HttpPost]
         public void SetLatLon(int id, float lat, float lon)
         {
