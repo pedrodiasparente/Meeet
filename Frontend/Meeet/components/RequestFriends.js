@@ -27,7 +27,6 @@ function searchFilterFunction(text){
 
 
 const createWarning = () => {
-
     Alert.alert(
       "Request send sucessufly!",
       "",

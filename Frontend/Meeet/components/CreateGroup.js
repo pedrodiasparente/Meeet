@@ -7,8 +7,10 @@ import TouchableSearchList from '../components/TouchableSearchList'
 
 
 function CreateGroup({ data }) {
+  const { signIn } = React.useContext(AuthContext);
+  const [selectedList, setList] = useState([]);
   const [groupName, updateGroupName] = useState('');
-
+  const [group, setGroup] = React.useState(null);
 
   function nothing(item){
     item.isSelected = !item.isSelected;
@@ -21,10 +23,38 @@ function CreateGroup({ data }) {
       setList(auxArray);
       item.selectedClass = styles.itemPress;
     }
+    console.log(selectedList);
+    console.log(groupName);
   }
 
-  const { signIn } = React.useContext(AuthContext);
-    const [selectedList, setList] = useState([]);
+  
+
+  React.useEffect(() => {
+    setGroup({
+      "name": groupName,
+  });
+  },[groupName]);
+
+    async function chamada() {
+      try {
+        let response = await fetch('https://meeet-projeto.azurewebsites.net/api/meeet/PostGroup', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          "name": groupName
+        })
+      });
+      console.log("im here");
+      console.log(response);
+    }
+      catch (error) {
+        console.error(error);
+      }
+    };
+
 
     const createWarning = () =>
     Alert.alert(
@@ -60,7 +90,7 @@ function CreateGroup({ data }) {
 
       <View style = {styles.buttons}>
 
-          <TouchableOpacity style={styles.button} onPress={createWarning}>
+          <TouchableOpacity style={styles.button} onPress={chamada(group),createWarning}>
             <Text style= {{color: '#fbfbfb'}}>
               Create
               </Text>
