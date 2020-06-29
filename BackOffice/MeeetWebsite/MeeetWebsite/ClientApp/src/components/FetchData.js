@@ -5,31 +5,31 @@ export class FetchData extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { forecasts: [], loading: true };
+    this.state = { users: [], loading: true };
   }
 
   componentDidMount() {
-    this.populateWeatherData();
+    this.populateUsers();
   }
 
-  static renderForecastsTable(forecasts) {
+  static renderUsersTable(users) {
     return (
       <table className='table table-striped' aria-labelledby="tabelLabel">
         <thead>
           <tr>
-            <th>Date</th>
-            <th>Temp. (C)</th>
-            <th>Temp. (F)</th>
-            <th>Summary</th>
+            <th>Id</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Password</th>
           </tr>
         </thead>
         <tbody>
-          {forecasts.map(forecast =>
-            <tr key={forecast.date}>
-              <td>{forecast.date}</td>
-              <td>{forecast.temperatureC}</td>
-              <td>{forecast.temperatureF}</td>
-              <td>{forecast.summary}</td>
+          {users.map(user =>
+            <tr key={user.id}>
+              <td>{user.id}</td>
+              <td>{user.username}</td>
+              <td>{user.email}</td>
+              <td>{user.password}</td>
             </tr>
           )}
         </tbody>
@@ -40,20 +40,21 @@ export class FetchData extends Component {
   render() {
     let contents = this.state.loading
       ? <p><em>Loading...</em></p>
-      : FetchData.renderForecastsTable(this.state.forecasts);
+      : FetchData.renderUsersTable(this.state.users);
 
     return (
       <div>
-        <h1 id="tabelLabel" >Weather forecast</h1>
+        <h1 id="tabelLabel" >All Users</h1>
         <p>This component demonstrates fetching data from the server.</p>
         {contents}
       </div>
     );
   }
 
-  async populateWeatherData() {
-    const response = await fetch('weatherforecast');
+  async populateUsers() {
+      const response = await fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getusers', { mode: 'cors' });
     const data = await response.json();
-    this.setState({ forecasts: data, loading: false });
+    console.log(data);
+    this.setState({ users: data, loading: false });
   }
 }
