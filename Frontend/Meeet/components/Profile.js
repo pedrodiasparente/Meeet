@@ -10,7 +10,7 @@ function Profile({ id }) {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('https://meeet-app.azurewebsites.net/api/meeet/getuser/' + id)
+    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getuser/' + id)
       .then((response) => response.json())
       .then((json) => {
         setUserData(json);
