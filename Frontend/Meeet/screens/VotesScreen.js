@@ -7,6 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 
 import FirstVoteScreen from './FirstVoteScreen'
+import VoteScreen from './VoteScreen'
 
 
 const Stack = createStackNavigator();
