@@ -1,16 +1,28 @@
 import React, { Component , useState, useEffect } from 'react'
-import { View, Image, Text, StyleSheet, ActivityIndicator, Button, TouchableOpacity} from 'react-native'
+import { View, Image, Text, StyleSheet, ActivityIndicator, TextInput, Button, TouchableOpacity} from 'react-native'
 import Icon from 'react-native-vector-icons/dist/FontAwesome5'
 
-import AuthContext from '../contexts/AuthContext'
-
-function Profile({ id }) {
+function Profile() {
 
   const [userData, setUserData] = useState(null);
   const [isLoading, setLoading] = useState(true);
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [city, setCity] = useState('');
+
+    React.useEffect(() => {
+     setUserData({
+      "username": username,
+      "email": email,
+      "morada": city,
+    });
+    console.log(userData);
+  },[username, email, city]);
+
 
   useEffect(() => {
-    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getuser/' + id)
+    console.log("aa" + global.userID);
+    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getUser/' + global.userID)
       .then((response) => response.json())
       .then((json) => {
         setUserData(json);
@@ -18,7 +30,7 @@ function Profile({ id }) {
       .catch((error) => {
         console.error(error);
       })
-      .finally(() => { setLoading(false); console.log(userData); } );
+      .finally(() => { setLoading(false); } );
     }, []);
 
 
@@ -33,7 +45,8 @@ function Profile({ id }) {
             }}
             />
         </View>
-
+      
+     
       <View style = {styles.profileRow}>
 
         <Icon
@@ -41,11 +54,23 @@ function Profile({ id }) {
           size={20}
           color='#2c365d'
           />
+
         <View style={styles.textInput}>
-          <Text> {userData.username} </Text>
+        <TextInput
+           
+          style={styles.textInput}
+          textAlign={'center'}
+          placeholder={userData.username}
+          onChangeText={setUsername}
+          value={username}
+          />         
+
           </View>
+         
 
         </View>
+
+        
 
       <View style = {styles.profileRow}>
 
@@ -55,7 +80,13 @@ function Profile({ id }) {
           color='#2c365d'
           />
         <View style={styles.textInput}>
-          <Text> {userData.email} </Text>
+        <TextInput
+          style={styles.textInput}
+          textAlign={'center'}
+          placeholder={userData.email}
+          onChangeText={setEmail}
+          value={email}
+          />
           </View>
 
         </View>
@@ -68,7 +99,13 @@ function Profile({ id }) {
           color='#2c365d'
           />
           <View style={styles.textInput}>
-            <Text> {userData.morada} </Text>
+          <TextInput
+          style={styles.textInput}
+          textAlign={'center'}
+          placeholder={userData.morada}
+          onChangeText={setCity}
+          value={city}
+          />
             </View>
 
         </View>
