@@ -11,6 +11,7 @@ function CreateGroup({ data }) {
   const [selectedList, setList] = useState([]);
   const [groupName, updateGroupName] = useState('');
   const [group, setGroup] = React.useState(null);
+  const [res, setRes] = React.useState(null);
 
   function nothing(item){
     item.isSelected = !item.isSelected;
@@ -27,33 +28,48 @@ function CreateGroup({ data }) {
     console.log(groupName);
   }
 
-  
-
   React.useEffect(() => {
     setGroup({
-      "name": groupName,
+      "nome": groupName,
+      "utilizadorGrupo": null,
   });
   },[groupName]);
 
-    async function chamada() {
-      try {
-        let response = await fetch('https://meeet-projeto.azurewebsites.net/api/meeet/PostGroup', {
+    async function createGroup() {
+        fetch('https://meeet-projeto.azurewebsites.net/api/meeet/PostGrupo', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          "name": groupName
-        })
-      });
-      console.log("im here");
-      console.log(response);
-    }
-      catch (error) {
+        body: JSON.stringify(group)
+      })
+      .then((response) => response.json())
+      .then((json) => {
+        setRes(json);
+        console.log(JSON.stringify(res));
+        createWarning();
+      })
+      .catch((error) => {
         console.error(error);
-      }
+      });
     };
+
+    
+
+    async function addToGroup(id) {
+      fetch('https://meeet-projeto.azurewebsites.net/api/meeet/AddToGroup' + id, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(res)
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  };
 
 
     const createWarning = () =>
@@ -90,7 +106,7 @@ function CreateGroup({ data }) {
 
       <View style = {styles.buttons}>
 
-          <TouchableOpacity style={styles.button} onPress={chamada(group),createWarning}>
+          <TouchableOpacity style={styles.button} onPress={() => createGroup()}>
             <Text style= {{color: '#fbfbfb'}}>
               Create
               </Text>

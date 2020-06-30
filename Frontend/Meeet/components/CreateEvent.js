@@ -12,20 +12,19 @@ function CreateEvent({ data }) {
   const [eventName, updateEventName] = useState('');
   const [eventLongitude, updateEventLongitude] = useState('0');
   const [eventLatitude, updateEventLatitude] = useState('0');
-  const [eventDate, updateEventDate] = useState('');
-  const [eventTime, updateEventTime] = useState('');
+  const [eventDateTime, updateEventDateTime] = useState('');
   const [eventType, updateEventType] = useState('');
   const [eventAge, updateEventAge] = useState(null);
   const [eventDescription, updateEventDescription] = useState('');
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
+  const [isDateTimePickerVisible, setDateTimePickerVisibility] = useState(false);
+
 
   const [event, setEvent] = React.useState(null);
 
     React.useEffect(() => {
      setEvent({
       "nome": eventName,
-      "dataHora": 0,
+      "dataHora": eventDateTime,
       "longitude": eventLongitude,
       "latitude": eventLatitude,
       "tipoEvento": eventType,
@@ -33,37 +32,24 @@ function CreateEvent({ data }) {
       "idadeMinima": eventAge,
     });
 
-  },[eventName, eventDate, eventLongitude, eventLatitude, eventDescription, eventAge]);
+  },[eventName, eventDateTime, eventLongitude, eventLatitude, eventDescription, eventAge]);
 
 
     const showDatePicker = () => {
-      setDatePickerVisibility(true);
+      setDateTimePickerVisibility(true);
     };
 
     const hideDatePicker = () => {
-      setDatePickerVisibility(false);
+      setDateTimePickerVisibility(false);
     };
   
     const handleConfirm = (date) => {
       console.log("A date has been picked: ", date);
       hideDatePicker();
-      updateEventDate(date);
+      updateEventDateTime(date);
     };
 
-    const showTimePicker = () => {
-      setTimePickerVisibility(true);
-    };
   
-    const hideTimePicker = () => {
-      setTimePickerVisibility(false);
-    };
-  
-    const handleConfirmTime = (time) => {
-      console.log("A time has been picked: ", time);
-      hideTimePicker();
-      updateEventTime(time);
-    };
-
     const createAlert = () =>
     Alert.alert(
       "Create Event",
@@ -137,6 +123,7 @@ function CreateEvent({ data }) {
 
         <TextInput
           style={styles.input}
+          multiline
           placeholder={"Description"}
           onChangeText={updateEventDescription}
           value={eventDescription}
@@ -164,24 +151,10 @@ function CreateEvent({ data }) {
             </TouchableOpacity>
       
           <DateTimePickerModal
-              isVisible={isDatePickerVisible}
-              mode="date"
+              isVisible={isDateTimePickerVisible}
+              mode="datetime"
               onConfirm={handleConfirm}
               onCancel={hideDatePicker}
-           />
-          <TouchableOpacity onPress={showTimePicker}>
-          <Icon
-            name="clock"
-            size={70}
-            color='#2c365d'
-            />
-            </TouchableOpacity>
-
-            <DateTimePickerModal
-              isVisible={isTimePickerVisible}
-              mode="time"
-              onConfirm={handleConfirmTime}
-              onCancel={hideTimePicker}
            />
       </View>
 
@@ -213,6 +186,7 @@ const styles = StyleSheet.create({
   },
   input:{
     marginLeft: 10,
+    marginRight: 10,
   },
   profileInput:{
     flexDirection: 'row',
@@ -232,7 +206,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-evenly',
-    width: '100%',
+    width: '70%',
   },
   buttons: {
     alignItems: 'center',
