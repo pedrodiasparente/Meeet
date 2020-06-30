@@ -109,18 +109,37 @@ namespace TodoApi.Controllers
         // NEW FUNC
         // Amigos de um user
         // GET:
-        /*[Route("getAmigosUser/{id_user:int}")]
+        [Route("getAmizadesUser/{id_user:int}")]
         [HttpGet]
-        public List<Amigo> GetAmigosUser(int id_user)
+        public List<int> GetAmizadesUser(int id_user)
         {
-            List<Amigo> ret = new List<Amigo>();
-            
-            foreach(var t in _context.Amigo)
+            List<int> amigos = new List<int>();
+            foreach(var t in _context.Amigos)
             {
-                if (id_user == t.UtilizadorId) ret.Add(t);
+                if (id_user == t.IdUser1) amigos.Add(t.IdUser2);
+                else if (id_user == t.IdUser2) amigos.Add(t.IdUser1);
             }
-            return ret;
-        }*/
+            return amigos;
+        }
+
+        // Utilizadores por lista de id
+        // GET:
+        [Route("getUsersPerIDs")]
+        [HttpGet]
+        public List<Utilizador> GetUsersPerIDs([FromBody] List<int> li)
+        {
+            List<Utilizador> users = new List<Utilizador>();
+            foreach(int i in li) {
+                foreach (Utilizador u in _context.Utilizador)
+                {
+                    if (i == u.Id) users.Add(u);
+                }
+            }
+            
+            return users;
+        }
+
+
 
 
         // Longitude de um user
@@ -190,18 +209,19 @@ namespace TodoApi.Controllers
 
         // UtilizadorEventos de um Evento
         // GET
-        /*[Route("getAmigosNotEvent/{id_user:int}")]
+        [Route("getAmigosNotEvent/{id_user:int}")]
         [HttpGet]
-        public List<Amigo> GetAmigosNotEvent([FromBody] List<Utilizador> lu, int id_user)
+        public List<Utilizador> GetAmigosNotEvent([FromBody] List<List<Utilizador>> llu)
         {
-            List<Amigo> la = GetAmigosUser(id_user);
-            List<Amigo> ret = new List<Amigo>();
+            List<Utilizador> amigos = llu[0];
+            List<Utilizador> uEvento = llu[1];
+            List<Utilizador> ret = new List<Utilizador>();
             bool flag = true;
-            foreach(Amigo a in la)
+            foreach(Utilizador a in amigos)
             {
-                foreach (Utilizador u in lu)
+                foreach (Utilizador u in uEvento)
                 {
-                    if (u.Username == a.Username){
+                    if (u.Id == a.Id){
                         flag = false;
                     }
                     if (!flag) break;
@@ -210,7 +230,7 @@ namespace TodoApi.Controllers
                 flag = true;
             }
             return ret;
-        }*/
+        }
 
         // POR TESTAR
         // UtilizadorEventos de um User
@@ -368,14 +388,13 @@ namespace TodoApi.Controllers
         // POR TESTAR
         // Insere um amigo
         // POST: api/MeeeT/postamigo
-        /*[Route("PostAmigo")]
+        [Route("PostAmigos")]
         [HttpPost]
-        public Amigo PostAmigo([FromBody] Amigo a)
+        public void PostAmigos([FromBody] Amigos a)
         {
-            _context.Amigo.Add(a);
+            _context.Amigos.Add(a);
             _context.SaveChanges();
-            return a;
-        }*/
+        }
 
         // POR TESTAR
         // Cria convite e adiciona-o à data base
