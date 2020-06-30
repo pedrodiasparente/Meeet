@@ -15,7 +15,7 @@ namespace TodoApi.DB
         {
         }
 
-        public virtual DbSet<Amigo> Amigo { get; set; }
+        public virtual DbSet<Amigos> Amigos { get; set; }
         public virtual DbSet<Convites> Convites { get; set; }
         public virtual DbSet<Evento> Evento { get; set; }
         public virtual DbSet<EventoHasRequests> EventoHasRequests { get; set; }
@@ -42,27 +42,34 @@ namespace TodoApi.DB
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Amigo>(entity =>
+            modelBuilder.Entity<Amigos>(entity =>
             {
-                entity.ToTable("amigo", "meeet");
+                entity.HasKey(e => new { e.IdUser1, e.IdUser2 })
+                    .HasName("PK_amigos_id_user1");
 
-                entity.HasIndex(e => e.UtilizadorId)
-                    .HasName("fk_Amigo_Utilizador1_idx");
+                entity.ToTable("amigos", "meeet");
 
-                entity.Property(e => e.Id).HasColumnName("id");
+                entity.HasIndex(e => e.IdUser1)
+                    .HasName("fk_Utilizador_has_Utilizador_Utilizador1_idx");
 
-                entity.Property(e => e.Username)
-                    .IsRequired()
-                    .HasColumnName("username")
-                    .HasMaxLength(100);
+                entity.HasIndex(e => e.IdUser2)
+                    .HasName("fk_Utilizador_has_Utilizador_Utilizador2_idx");
 
-                entity.Property(e => e.UtilizadorId).HasColumnName("Utilizador_id");
+                entity.Property(e => e.IdUser1).HasColumnName("id_user1");
 
-                entity.HasOne(d => d.Utilizador)
-                    .WithMany(p => p.Amigo)
-                    .HasForeignKey(d => d.UtilizadorId)
+                entity.Property(e => e.IdUser2).HasColumnName("id_user2");
+
+                entity.HasOne(d => d.IdUser1Navigation)
+                    .WithMany(p => p.AmigosIdUser1Navigation)
+                    .HasForeignKey(d => d.IdUser1)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("amigo$fk_Amigo_Utilizador1");
+                    .HasConstraintName("amigos$fk_Utilizador_has_Utilizador_Utilizador1");
+
+                entity.HasOne(d => d.IdUser2Navigation)
+                    .WithMany(p => p.AmigosIdUser2Navigation)
+                    .HasForeignKey(d => d.IdUser2)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("amigos$fk_Utilizador_has_Utilizador_Utilizador2");
             });
 
             modelBuilder.Entity<Convites>(entity =>

@@ -109,7 +109,7 @@ namespace TodoApi.Controllers
         // NEW FUNC
         // Amigos de um user
         // GET:
-        [Route("getAmigosUser/{id_user:int}")]
+        /*[Route("getAmigosUser/{id_user:int}")]
         [HttpGet]
         public List<Amigo> GetAmigosUser(int id_user)
         {
@@ -120,7 +120,7 @@ namespace TodoApi.Controllers
                 if (id_user == t.UtilizadorId) ret.Add(t);
             }
             return ret;
-        }
+        }*/
 
 
         // Longitude de um user
@@ -187,6 +187,30 @@ namespace TodoApi.Controllers
             }
             return ret;
         }
+
+        // UtilizadorEventos de um Evento
+        // GET
+        /*[Route("getAmigosNotEvent/{id_user:int}")]
+        [HttpGet]
+        public List<Amigo> GetAmigosNotEvent([FromBody] List<Utilizador> lu, int id_user)
+        {
+            List<Amigo> la = GetAmigosUser(id_user);
+            List<Amigo> ret = new List<Amigo>();
+            bool flag = true;
+            foreach(Amigo a in la)
+            {
+                foreach (Utilizador u in lu)
+                {
+                    if (u.Username == a.Username){
+                        flag = false;
+                    }
+                    if (!flag) break;
+                }
+                if (flag) ret.Add(a);
+                flag = true;
+            }
+            return ret;
+        }*/
 
         // POR TESTAR
         // UtilizadorEventos de um User
@@ -344,14 +368,14 @@ namespace TodoApi.Controllers
         // POR TESTAR
         // Insere um amigo
         // POST: api/MeeeT/postamigo
-        [Route("PostAmigo")]
+        /*[Route("PostAmigo")]
         [HttpPost]
         public Amigo PostAmigo([FromBody] Amigo a)
         {
             _context.Amigo.Add(a);
             _context.SaveChanges();
             return a;
-        }
+        }*/
 
         // POR TESTAR
         // Cria convite e adiciona-o à data base

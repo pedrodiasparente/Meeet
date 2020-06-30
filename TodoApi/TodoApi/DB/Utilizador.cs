@@ -7,7 +7,8 @@ namespace TodoApi.DB
     {
         public Utilizador()
         {
-            Amigo = new HashSet<Amigo>();
+            AmigosIdUser1Navigation = new HashSet<Amigos>();
+            AmigosIdUser2Navigation = new HashSet<Amigos>();
             Evento = new HashSet<Evento>();
             UtilizadorConvites = new HashSet<UtilizadorConvites>();
             UtilizadorEvento = new HashSet<UtilizadorEvento>();
@@ -28,7 +29,8 @@ namespace TodoApi.DB
         public string Genero { get; set; }
         public string Bio { get; set; }
 
-        public virtual ICollection<Amigo> Amigo { get; set; }
+        public virtual ICollection<Amigos> AmigosIdUser1Navigation { get; set; }
+        public virtual ICollection<Amigos> AmigosIdUser2Navigation { get; set; }
         public virtual ICollection<Evento> Evento { get; set; }
         public virtual ICollection<UtilizadorConvites> UtilizadorConvites { get; set; }
         public virtual ICollection<UtilizadorEvento> UtilizadorEvento { get; set; }
