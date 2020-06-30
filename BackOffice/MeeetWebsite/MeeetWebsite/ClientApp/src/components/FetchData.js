@@ -5,11 +5,27 @@ export class FetchData extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { users: [], loading: true };
+      this.state = {
+          users: [],
+          text: [],
+          loading: true
+      };
   }
 
   componentDidMount() {
     this.populateUsers();
+    }
+
+  addUser(txt) {
+      console.log("ola maltinha");
+      this.setState(state => {
+          const text = state.text.push(txt);
+
+          return {
+              text,
+              value: '',
+          };
+      });
   }
 
   static renderUsersTable(users) {
@@ -51,6 +67,10 @@ export class FetchData extends Component {
         <h1 id="tabelLabel" >All Users</h1>
         <p>This component demonstrates fetching data from the server.</p>
         {contents}
+        {this.state.text.map(item => (
+            <li key={item}>{item}</li>
+        ))}
+        <button onClick={(e) => { this.addUser("txt"); }}>The button</button>
       </div>
     );
   }
