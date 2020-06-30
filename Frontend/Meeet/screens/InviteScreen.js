@@ -81,7 +81,7 @@ function InviteScreen() {
 
   return (
     <View style = {styles.background}>
-    <Title title = {'Create Group'}/>
+    <Title title = {'Invite Friends'}/>
     <View style = {styles.body}>
 
       <View style = {styles.list}>
