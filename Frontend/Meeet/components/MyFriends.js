@@ -1,19 +1,16 @@
 import React, { Component , useState, useEffect } from 'react'
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image,Modal,Alert} from 'react-native'
+import { View, Text, StyleSheet, FlatList, ActivityIndicator, TouchableOpacity, Image,Modal,Alert} from 'react-native'
 
-import AuthContext from '../contexts/AuthContext'
 import SearchBar from '../components/SearchBar';
 
-function MyFriends({data}) {
+function MyFriends() {
 
   const [modalVisible, setModalVisible] = React.useState(false);
   const [itemAtual, setItemAtual] = React.useState(false);
-
-const { signIn } = React.useContext(AuthContext);
-
-const [state, setState] = React.useState({ text: '' , list: data });
-
-const[listaAtual,setListaAtual] = React.useState(data);
+  const [state, setState] = React.useState({ text: '' , list: data });
+  const [listaAtual,setListaAtual] = React.useState(data);
+  const [userData, setUserData] = useState(null);
+  const [isLoading, setLoading] = useState(false);
 
 
 function searchFilterFunction(text){
@@ -36,6 +33,37 @@ const deleteItemById = id => () => {
 }
 
 
+
+useEffect(() => {
+  fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getAmigosUser/' + global.userID)
+    .then((response) => response.json())
+    .then((json) => {
+      setUserData(json);
+    })
+    .catch((error) => {
+      console.error(error);
+    })
+    .finally(() => { setLoading(false); console.log("oi" + JSON.stringify(userData)); } );
+  }, []);
+
+
+
+
+const createAlert = id => () =>
+    Alert.alert(
+      "Remove friend",
+      "Are you sure?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        { text: "OK", onPress: deleteItemById(id) }
+      ],
+      { cancelable: false }
+    );
+
 const createWarning = () => {
   Alert.alert(
     "Removed sucessufly!",
@@ -47,6 +75,9 @@ const createWarning = () => {
 
 
   return (
+    <>
+    {isLoading ? <ActivityIndicator/> : (
+      <>
     <View style={styles.container}>
 
         <Modal
@@ -70,7 +101,7 @@ const createWarning = () => {
               </TouchableOpacity>
               <TouchableOpacity
                style={styles.openButton}
-               onPress={deleteItemById(itemAtual.id)}>
+               onPress={createAlert(itemAtual.id)}>
                 <Text style={styles.textStyle}>Remove Friend</Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -109,8 +140,10 @@ const createWarning = () => {
         />
         </View>
         </View>
-     
-  )
+        </>
+  )}
+    </>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -217,6 +250,84 @@ const styles = StyleSheet.create({
   }
   });
 
-
+  const data = [
+    {
+      id: '1',
+      username: 'Joaquim Silva Silva',
+      image:"https://bootdey.com/img/Content/avatar/avatar7.png",
+    },
+    {
+      id: '2',
+      username: 'Ricardo Esteves Esteves',
+      image:"https://bootdey.com/img/Content/avatar/avatar5.png",
+    },
+    {
+      id: '3',
+      username: 'Ricardinho',
+      image:"https://bootdey.com/img/Content/avatar/avatar3.png",
+    },
+    {
+      id: '9',
+      username: 'Rui Costa',
+      image:"https://bootdey.com/img/Content/avatar/avatar2.png",
+    },
+    {
+      id: '4',
+      username: 'Rivaldo Esteves Esteves',
+      image:"https://bootdey.com/img/Content/avatar/avatar1.png",
+    },
+    {
+      id: '5',
+      username: 'Paulo Jorge Jorge',
+    },
+    {
+      id: '6',
+      username: 'Joaquim Silva Silva',
+    },
+    {
+      id: '7',
+      username: 'Ricardo Esteves Esteves',
+    },
+    {
+      id: '8',
+      username: 'Paulo Jorge Jorge',
+    },
+    {
+      id: '10',
+      username: 'Joaquim Silva Silva',
+    },
+    {
+      id: '11',
+      username: 'Ricardo Esteves Esteves',
+    },
+    {
+      id: '12',
+      username: 'Paulo Jorge Jorge',
+    },
+    {
+      id: '13',
+      username: 'Joaquim Silva Silva',
+    },
+    {
+      id: '14',
+      username: 'Ricardo Esteves Esteves',
+    },
+    {
+      id: '15',
+      username: 'Paulo Jorge Jorge',
+    },
+    {
+      id: '16',
+      username: 'Joaquim Silva Silva',
+    },
+    {
+      id: '17',
+      username: 'Ricardo Esteves Esteves',
+    },
+    {
+      id: '18',
+      username: 'Paulo Jorge Jorge',
+    },
+  ];
 
 export default MyFriends;

@@ -18,7 +18,7 @@ return (
   <View style = {styles.background}>
   <Title title = {'My Friends'}/>
   <View style = {styles.body}>
-      <MyFriends data={data}/>
+      <MyFriends />
     </View>
 </View>
 )

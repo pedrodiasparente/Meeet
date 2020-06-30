@@ -6,11 +6,12 @@ import SearchBar from '../components/SearchBar';
 import AuthContext from '../contexts/AuthContext'
 
 
-function RequestFriends({data }) {
+function RequestFriends() {
 
   const [modalVisible, setModalVisible] = React.useState(false);
   const [itemAtual, setItemAtual] = React.useState(false);
   const [state, setState] = React.useState({ text: '' , list: data });
+  const [data, setData] = React.useState(null);
 
 let arrayholder = data;
 
@@ -25,6 +26,19 @@ function searchFilterFunction(text){
   setState({text: state.text, list: newData });
 };
 
+async function findUsers() {
+  fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getUsers', {
+  method: 'GET',
+})
+.then((response) => response.json())
+.then((json) => {
+  setData(json);
+  console.log("aqui" + JSON.stringify(res));
+})
+.catch((error) => {
+  console.error(error);
+});
+};
 
 const createWarning = () => {
     Alert.alert(
