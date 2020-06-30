@@ -44,8 +44,6 @@ function ShareLocationScreen({ navigation }) {
     if (hasLocationPermission) {
       Geolocation.getCurrentPosition(
         (position) => {
-          console.log(position);
-          console.log(position.coords.latitude + '/' + position.coords.longitude);
           setLocation(position.coords)
         },
         (error) => {
@@ -58,13 +56,21 @@ function ShareLocationScreen({ navigation }) {
 
   },[hasLocationPermission]);
 
-  useEffect(() => {
+  function shareLocation(){
+    console.log("USERID: https://meeet-projeto.azurewebsites.net/api/meeet/SetLatLon/" + global.userID + '/' + location.latitude + '/' + location.longitude);
 
-    console.log(location.longitude + '/' + location.latitude)
-
-  },[location]);
-
-
+    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/setlatlon/'
+     + global.userID + '/' + location.latitude + '/' + location.longitude, {
+       method: 'POST',
+       headers: {
+         Accept: 'application/json',
+         'Content-Type': 'application/json'
+       }
+     })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
 
   return (
     <View style = {styles.background}>
@@ -94,9 +100,9 @@ function ShareLocationScreen({ navigation }) {
 
         <View style = {styles.buttons}>
 
-          <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()}>
+          <TouchableOpacity style={styles.button} onPress={() => shareLocation()}>
             <Text style= {{color: '#fbfbfb'}}>
-              Exit
+              Share
               </Text>
           </TouchableOpacity>
 
