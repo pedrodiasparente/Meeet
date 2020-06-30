@@ -8,7 +8,7 @@ import AuthContext from '../contexts/AuthContext'
 import TouchableSearchList from '../components/TouchableSearchList'
 import DateInput from '../components/DateInput'
 
-function CreateEvent({ data }) {
+function CreateEvent({ data , navigation }) {
   const [eventName, updateEventName] = useState('');
   const [eventLongitude, updateEventLongitude] = useState('0');
   const [eventLatitude, updateEventLatitude] = useState('0');
@@ -42,14 +42,14 @@ function CreateEvent({ data }) {
     const hideDatePicker = () => {
       setDateTimePickerVisibility(false);
     };
-  
+
     const handleConfirm = (date) => {
       console.log("A date has been picked: ", date);
       hideDatePicker();
       updateEventDateTime(date);
     };
 
-  
+
     const createAlert = () =>
     Alert.alert(
       "Create Event",
@@ -65,19 +65,19 @@ function CreateEvent({ data }) {
       { cancelable: false }
     );
 
-    const createWarning = () =>
+    const createWarning = (nav) =>
     Alert.alert(
       "Event created sucessufly!",
        "",
       [
-        { text: "OK", onPress: () => console.log("OK Pressed") }
+        { text: "OK", onPress: () => (navigation.navigate('Invite')) }
       ],
       { cancelable: false }
     );
 
-    
- 
-    
+
+
+
     return (
     <>
 
@@ -117,7 +117,7 @@ function CreateEvent({ data }) {
 
         </View>
 
-      
+
 
         <View style = {styles.description}>
 
@@ -132,7 +132,7 @@ function CreateEvent({ data }) {
         </View>
 
         <View style = {styles.icons}>
-          
+
           <TouchableOpacity >
             <Icon
             style={styles.input}
@@ -149,7 +149,7 @@ function CreateEvent({ data }) {
             color='#2c365d'
             />
             </TouchableOpacity>
-      
+
           <DateTimePickerModal
               isVisible={isDateTimePickerVisible}
               mode="datetime"

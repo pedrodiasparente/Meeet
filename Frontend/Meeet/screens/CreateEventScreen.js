@@ -6,14 +6,14 @@ import Title from '../components/Title'
 import CreateEvent from '../components/CreateEvent'
 import AuthContext from '../contexts/AuthContext'
 
-function CreateEventScreen() {
+function CreateEventScreen( { navigation } ) {
   const { signOut } = React.useContext(AuthContext);
 
   return (
     <View style = {styles.background}>
     <Title title = {'Create Event'}/>
     <View style = {styles.body}>
-        <CreateEvent data={DATA}/>
+        <CreateEvent data={DATA} navigation={navigation}/>
       </View>
 
         </View>
