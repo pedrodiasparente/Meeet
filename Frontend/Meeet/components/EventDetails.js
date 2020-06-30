@@ -15,6 +15,10 @@ function EventDetails({ data }) {
         return 'Sem Idade Minima!';
     }   
 
+    function formatDate(string){
+      var options = { year: 'numeric', month: 'long', day: 'numeric' };
+      return new Date(string).toLocaleDateString([],options);
+  }
 
     return (
     <>
@@ -40,7 +44,7 @@ function EventDetails({ data }) {
         </Text>
 
         <Text style = {styles.textNegrito}>
-            Date: {data.dataHora.substring(0,10)}
+            Date: {formatDate(data.dataHora)}
         </Text>
 
         <Text style = {styles.textNegrito}>

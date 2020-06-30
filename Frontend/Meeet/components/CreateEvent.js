@@ -10,34 +10,36 @@ import DateInput from '../components/DateInput'
 
 function CreateEvent({ data }) {
   const [eventName, updateEventName] = useState('');
-  const [eventLocation, updateEventLocation] = useState('');
+  const [eventLongitude, updateEventLongitude] = useState('0');
+  const [eventLatitude, updateEventLatitude] = useState('0');
   const [eventDate, updateEventDate] = useState('');
   const [eventTime, updateEventTime] = useState('');
+  const [eventType, updateEventType] = useState('');
+  const [eventAge, updateEventAge] = useState(null);
+  const [eventDescription, updateEventDescription] = useState('');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
 
-  function nothing(item){
-    item.isSelected = !item.isSelected;
-    if(item.isSelected){
-      setList(oldArray => [...oldArray, item.username]);
-      item.selectedClass = styles.selected;
-    }
-    else{
-      let auxArray= selectedList.filter(value => { return value != item.username })
-      setList(auxArray);
-      item.selectedClass = styles.itemPress;
-    }
-    console.log(selectedList);
-    console.log('Is ' + item.username + ' Selected? ' + item.isSelected);
-  }
+  const [event, setEvent] = React.useState(null);
 
-  const { signIn } = React.useContext(AuthContext);
-    const [selectedList, setList] = useState([]);
+    React.useEffect(() => {
+     setEvent({
+      "nome": eventName,
+      "dataHora": 0,
+      "longitude": eventLongitude,
+      "latitude": eventLatitude,
+      "tipoEvento": eventType,
+      "descricao": eventDescription,
+      "idadeMinima": eventAge,
+    });
+
+  },[eventName, eventDate, eventLongitude, eventLatitude, eventDescription, eventAge]);
+
 
     const showDatePicker = () => {
       setDatePickerVisibility(true);
     };
-  
+
     const hideDatePicker = () => {
       setDatePickerVisibility(false);
     };
@@ -45,6 +47,7 @@ function CreateEvent({ data }) {
     const handleConfirm = (date) => {
       console.log("A date has been picked: ", date);
       hideDatePicker();
+      updateEventDate(date);
     };
 
     const showTimePicker = () => {
@@ -58,6 +61,7 @@ function CreateEvent({ data }) {
     const handleConfirmTime = (time) => {
       console.log("A time has been picked: ", time);
       hideTimePicker();
+      updateEventTime(time);
     };
 
     const createAlert = () =>
@@ -103,24 +107,58 @@ function CreateEvent({ data }) {
 
         </View>
 
-      <View style = {styles.profileInput}>
+        <View style = {styles.profileInput}>
 
         <TextInput
           style={styles.textInput}
           textAlign={'center'}
-          placeholder={"Local"}
-          onChangeText={updateEventLocation}
-          value={eventLocation}
+          placeholder={"Type of event"}
+          onChangeText={updateEventType}
+          value={eventType}
           />
+
         </View>
 
+        <View style = {styles.profileInput}>
+
+        <TextInput
+          style={styles.textInput}
+          textAlign={'center'}
+          placeholder={"Age restriction"}
+          onChangeText={updateEventAge}
+          value={eventAge}
+          />
+
+        </View>
+
+      
+
+        <View style = {styles.description}>
+
+        <TextInput
+          style={styles.input}
+          placeholder={"Description"}
+          onChangeText={updateEventDescription}
+          value={eventDescription}
+          />
+
+        </View>
 
         <View style = {styles.icons}>
+          
+          <TouchableOpacity >
+            <Icon
+            style={styles.input}
+            name="globe-europe"
+            size={70}
+            color='#2c365d'
+            />
+            </TouchableOpacity>
 
           <TouchableOpacity onPress={showDatePicker}>
             <Icon
             name="calendar-alt"
-            size={50}
+            size={70}
             color='#2c365d'
             />
             </TouchableOpacity>
@@ -134,7 +172,7 @@ function CreateEvent({ data }) {
           <TouchableOpacity onPress={showTimePicker}>
           <Icon
             name="clock"
-            size={50}
+            size={70}
             color='#2c365d'
             />
             </TouchableOpacity>
@@ -148,14 +186,6 @@ function CreateEvent({ data }) {
       </View>
 
 
-    <View style = {styles.list}>
-
-      <TouchableSearchList 
-       data={data} 
-       touchFunction={nothing}
-      />
-
-    </View>
 
     <View style = {styles.buttons}>
 
@@ -181,21 +211,32 @@ const styles = StyleSheet.create({
     fontSize: 16,
     borderRadius: 10,
   },
+  input:{
+    marginLeft: 10,
+  },
   profileInput:{
     flexDirection: 'row',
     alignItems: 'center',
-    
+  },
+  description:{
+    margin: 10,
+    marginHorizontal: 10,
+    backgroundColor: '#cbcbcb',
+    height: '20%',
+    width: '70%',
+    fontSize: 16,
+    borderRadius: 10,
   },
   icons: {
-    marginTop: 10,
+    marginTop: 20,
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-evenly',
-    width: '50%',
+    width: '100%',
   },
   buttons: {
     alignItems: 'center',
-    width: '70%',
+    width: '80%',
   },
   button: {
     alignItems: 'center',
@@ -211,7 +252,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '60%',
     height: 45,
-    margin: 15,
+    margin: 40,
     borderRadius: 10,
     backgroundColor: '#2c365d',
   },
