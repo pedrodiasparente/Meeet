@@ -21,6 +21,8 @@ export class FetchData extends Component {
             <th>Username</th>
             <th>Email</th>
             <th>Password</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
           </tr>
         </thead>
         <tbody>
@@ -30,6 +32,8 @@ export class FetchData extends Component {
               <td>{user.username}</td>
               <td>{user.email}</td>
               <td>{user.password}</td>
+              <td>{user.latitude}</td>
+              <td>{user.longitude}</td>
             </tr>
           )}
         </tbody>
@@ -52,7 +56,7 @@ export class FetchData extends Component {
   }
 
   async populateUsers() {
-      const response = await fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getusers', { mode: 'cors' });
+    const response = await fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getusers', { mode: 'cors' });
     const data = await response.json();
     console.log(data);
     this.setState({ users: data, loading: false });
