@@ -16,16 +16,15 @@ function CreateGroup({ data }) {
   function nothing(item){
     item.isSelected = !item.isSelected;
     if(item.isSelected){
-      setList(oldArray => [...oldArray, item.username]);
+      setList(oldArray => [...oldArray, item.id]);
       item.selectedClass = styles.selected;
     }
     else{
-      let auxArray= selectedList.filter(value => { return value != item.username })
+      let auxArray= selectedList.filter(value => { return value != item.id })
       setList(auxArray);
       item.selectedClass = styles.itemPress;
     }
     console.log(selectedList);
-    console.log(groupName);
   }
 
   React.useEffect(() => {
@@ -33,6 +32,7 @@ function CreateGroup({ data }) {
       "nome": groupName,
       "utilizadorGrupo": null,
   });
+  console.log("nome " + groupName);
   },[groupName]);
 
     async function createGroup() {
@@ -47,18 +47,25 @@ function CreateGroup({ data }) {
       .then((response) => response.json())
       .then((json) => {
         setRes(json);
-        console.log(JSON.stringify(res));
-        createWarning();
+        console.log("aqui" + JSON.stringify(res));
+        addAllToGroup();
       })
       .catch((error) => {
         console.error(error);
       });
     };
 
-    
+    function addAllToGroup() {
+      console.log("id-> " + global.userID);
+      addToGroup(global.userID);
+      selectedList.forEach(item => {
+        console.log("id-> " + item);
+        addToGroup(item);});
+      createWarning();
+    }
 
     async function addToGroup(id) {
-      fetch('https://meeet-projeto.azurewebsites.net/api/meeet/AddToGroup' + id, {
+      fetch('https://meeet-projeto.azurewebsites.net/api/meeet/AddToGroup/' + id, {
       method: 'POST',
       headers: {
         Accept: 'application/json',

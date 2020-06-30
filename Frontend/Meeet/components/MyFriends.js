@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, FlatList, ActivityIndicator, TouchableOpacity, 
 
 import SearchBar from '../components/SearchBar';
 
-function MyFriends({id}) {
+function MyFriends() {
 
   const [modalVisible, setModalVisible] = React.useState(false);
   const [itemAtual, setItemAtual] = React.useState(false);
@@ -33,9 +33,9 @@ const deleteItemById = id => () => {
 }
 
 
-/* //comando para ir buscar os amigos
+
 useEffect(() => {
-  fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getAmigosUser/' + id)
+  fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getAmigosUser/' + global.userID)
     .then((response) => response.json())
     .then((json) => {
       setUserData(json);
@@ -43,9 +43,9 @@ useEffect(() => {
     .catch((error) => {
       console.error(error);
     })
-    .finally(() => { setLoading(false); console.log("oi" + userData); } );
+    .finally(() => { setLoading(false); console.log("oi" + JSON.stringify(userData)); } );
   }, []);
-*/
+
 
 
 
