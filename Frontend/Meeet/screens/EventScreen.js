@@ -7,7 +7,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import EventTabBar from '../components/EventTabBar'
 
 import EventDetailsScreen from './EventDetailsScreen'
-import VoteScreen from './VoteScreen'
+import VotesScreen from './VotesScreen'
 import EventUsersScreen from './EventUsersScreen'
 import ShareLocationScreen from './ShareLocationScreen'
 
@@ -21,7 +21,7 @@ function EventScreen() {
       <Tab.Screen name="EventDetails" component={EventDetailsScreen} />
       <Tab.Screen name="EventUsers" component={EventUsersScreen} />
       <Tab.Screen name="ShareLocation" component={ShareLocationScreen} />
-      <Tab.Screen name="Vote" component={VoteScreen} />
+      <Tab.Screen name="Vote" component={VotesScreen} />
     </Tab.Navigator>
   )
 }
