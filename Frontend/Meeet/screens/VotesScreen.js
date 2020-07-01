@@ -3,9 +3,10 @@ import { AsyncStorage, Button, Text, TextInput, View, StyleSheet } from 'react-n
 import { NavigationContainer } from '@react-navigation/native';
 //import { AsyncStorage } from '@react-native-comunity/async-storage';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
 
-import EventTabBar from '../components/EventTabBar'
 
+import FirstVoteScreen from './FirstVoteScreen'
 import VoteScreen from './VoteScreen'
 
 
@@ -14,8 +15,11 @@ const Stack = createStackNavigator();
 function VotesScreen() {
 
     return (
-    <Stack.Navigator headerMode='none'>>
+    <Stack.Navigator headerMode='none'>
+      
+      <Stack.Screen name="VoteOptions" component={FirstVoteScreen} />
       <Stack.Screen name="Vote" component={VoteScreen} />
+      
     </Stack.Navigator>
   )
 }

@@ -4,20 +4,16 @@ import Icon from 'react-native-vector-icons/dist/FontAwesome5'
 
 import Title from '../components/Title'
 import Profile from '../components/Profile'
-import AuthContext from '../contexts/AuthContext'
 
-function ProfileScreen( {route} ) {
 
-    const { signIn } = React.useContext(AuthContext);
-
-    const { id } = route.params;
+function ProfileScreen() {
 
     return (
         <View style = {styles.background}>
         <Title title = {'Profile'}/>
 
       <View style = {styles.profileBox}>
-        <Profile id={id}/>
+        <Profile/>
       </View>
     </View>
     )
