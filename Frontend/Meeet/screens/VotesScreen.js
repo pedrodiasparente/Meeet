@@ -16,7 +16,10 @@ function VotesScreen() {
 
     return (
     <Stack.Navigator headerMode='none'>
+      
       <Stack.Screen name="VoteOptions" component={FirstVoteScreen} />
+      <Stack.Screen name="Vote" component={VoteScreen} />
+      
     </Stack.Navigator>
   )
 }

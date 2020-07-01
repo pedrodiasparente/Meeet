@@ -1,23 +1,84 @@
-import { View, StyleSheet, SafeAreaView, FlatList} from 'react-native'
+import { View, StyleSheet, SafeAreaView, Text,FlatList, useState,TouchableOpacity} from 'react-native'
 import * as React from 'react';
 
 import Title from '../components/Title'
 import UserVote from '../components/UserVote'
-import AuthContext from '../contexts/AuthContext'
+
 
 function VoteScreen() {
+
+  const [v1, setV1] = React.useState(false);
+  const [v2, setV2] = React.useState(false);
+  const [v3, setV3] = React.useState(false);
+  const [v4, setV4] = React.useState(false);
+
+
 
 return (
     <View style = {styles.background}>
         <Title title = {'Vote'}/>
         <View style = {styles.body}>
-          <SafeAreaView style={styles.container}>
+          <Text>
+              Opção 1 -> blalbla{"\n"}
+              Opção 2 -> blalbla{"\n"}
+              Opção 3 -> blalbla{"\n"}
+              Opção 4 -> blalbla
+              </Text>
+
+
+          <SafeAreaView style={{...styles.container,marginTop:20,height:'62%'}}>
             <FlatList
               data={USERDATA}
               renderItem={({ item }) => <UserVote votes={OPTIONSDATA} user= {item} />}
               keyExtractor={item => item.id}
             />
           </SafeAreaView>
+
+
+
+          <View style={styles.textSide}>
+          <TouchableOpacity onPress={() => v1 ? setV1(false) : setV1(true)}>
+          <View style = {{backgroundColor: v1 ? '#4b6937' : '#9c3d3d' , margin: 5, borderRadius:10, overflow:'hidden'}}>
+              <View style={{height: 50, width: 70, alignItems: 'center', justifyContent: 'center'}}>
+               <Text>Opção 1</Text>
+               
+               
+              </View>
+           </View>
+           </TouchableOpacity>
+
+
+
+           <TouchableOpacity onPress={() => v2 ? setV2(false) : setV2(true)}>
+          <View style = {{backgroundColor: v2 ? '#4b6937' : '#9c3d3d' , margin: 5, borderRadius:10, overflow:'hidden'}}>
+              <View style={{height: 50, width: 70, alignItems: 'center', justifyContent: 'center'}}>
+               <Text>Opção 2</Text>
+              </View>
+           </View>
+           </TouchableOpacity>
+
+
+
+           <TouchableOpacity onPress={() => v3 ? setV3(false) : setV3(true)}>
+          <View style = {{backgroundColor: v3 ? '#4b6937' : '#9c3d3d' , margin: 5, borderRadius:10, overflow:'hidden'}}>
+              <View style={{height: 50, width: 70, alignItems: 'center', justifyContent: 'center'}}>
+               <Text>Opção 3</Text>
+              </View>
+           </View>
+           </TouchableOpacity>
+
+
+
+           <TouchableOpacity onPress={() => v4 ? setV4(false) : setV4(true)}>
+          <View style = {{backgroundColor: v4 ? '#4b6937' : '#9c3d3d' , margin:5, borderRadius:10, overflow:'hidden'}}>
+              <View style={{height: 50, width: 70, alignItems: 'center', justifyContent: 'center'}}>
+               <Text>Opção 4</Text>
+              </View>
+           </View>
+           </TouchableOpacity>
+           
+
+           </View>
         </View>
     </View>
   )
@@ -32,6 +93,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flex: 1,
       },
+    textSide: {
+        marginTop:20,
+        flexDirection: 'row',
+        alignItems:"center", 
+        justifyContent:"center"
+    },
   });
 
 
