@@ -9,6 +9,7 @@ import LoginScreen from './screens/LoginScreen'
 import HomeScreen from './screens/HomeScreen'
 import FriendScreen from './screens/FriendsScreen'
 import ProfileScreen from './screens/ProfileScreen'
+import FriendProfileScreen from './screens/FriendProfileScreen'
 import EventMenuScreen from './screens/EventMenuScreen'
 import EventScreen from './screens/EventScreen'
 import ShareLocationScreen from './screens/ShareLocationScreen'
@@ -76,7 +77,7 @@ export default function App({ navigation }) {
         // Restoring token failed
       } finally{
         console.log(userToken);
-        global.userID = userToken;
+        global.userID = Number(userToken);
       }
 
       // After restoring token, we may need to validate it in production apps
@@ -104,7 +105,7 @@ export default function App({ navigation }) {
     if(tempToken >= 0){
       dispatch({ type: 'SIGN_IN', token: {tempToken} });
       setTokenAsync(tempToken);
-      global.userID = tempToken;
+      global.userID = Number(tempToken);
     }
   },[tempToken]);
 
@@ -181,6 +182,7 @@ export default function App({ navigation }) {
               <Stack.Screen name="MyFriends" component={FriendScreen} />
               <Stack.Screen name="RequestFriends" component={RequestFriendsScreen} />
               <Stack.Screen name="Profile" component={ProfileScreen} />
+              <Stack.Screen name="FriendProfile" component={FriendProfileScreen} />
               <Stack.Screen name="EventMenu" component={EventMenuScreen} />
               <Stack.Screen name="EventScreen" component={EventScreen} />
               <Stack.Screen name="CreateEvent" component={CreateEventScreen} />
