@@ -77,7 +77,7 @@ export default function App({ navigation }) {
         // Restoring token failed
       } finally{
         console.log(userToken);
-        global.userID = userToken;
+        global.userID = Number(userToken);
       }
 
       // After restoring token, we may need to validate it in production apps
@@ -105,7 +105,7 @@ export default function App({ navigation }) {
     if(tempToken >= 0){
       dispatch({ type: 'SIGN_IN', token: {tempToken} });
       setTokenAsync(tempToken);
-      global.userID = tempToken;
+      global.userID = Number(tempToken);
     }
   },[tempToken]);
 
