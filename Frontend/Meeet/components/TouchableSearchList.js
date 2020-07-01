@@ -13,9 +13,11 @@ import  SearchBar from '../components/SearchBar';
 
 
 function TouchableSearchList({ data , touchFunction }) {
-  const [state, setState] = React.useState({ text: '' , list: data });
-
   let arrayholder = data;
+  const [state, setState] = React.useState({ text: '' , list: arrayholder });
+
+  console.log('arrayholder: ' + JSON.stringify(arrayholder));
+
 
   function searchFilterFunction(text){
     const newData = arrayholder.filter(item => {
@@ -40,20 +42,20 @@ function TouchableSearchList({ data , touchFunction }) {
         onChangeText={state.text}
         />
       <FlatList
-        data={state.list}
+        data={data}
         renderItem={({ item }) => (
-          <TouchableOpacity 
-  
+          <TouchableOpacity
+
             style={[styles.itemPress, item.selectedClass]}
             onPress={() => touchFunction(item) }>
               <View style={{flexDirection: "row"}}>
-              <Image style={styles.userImage} source={{uri:item.image}}/>
+              <Image style={styles.userImage} source={{uri:item.urlFoto}}/>
               <Text style={styles.text}>
                 {item.username}
               </Text>
               </View>
             </TouchableOpacity>
-         
+
           )}
           keyExtractor={item => item.id}
           extraData={state}

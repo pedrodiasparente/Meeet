@@ -9,7 +9,7 @@ import AuthContext from '../contexts/AuthContext'
 function FriendsMenuScreen({ navigation }) {
   const { signOut } = React.useContext(AuthContext);
   const [data, setData] = useState([]);
-  
+
 
   return (
     <View style = {styles.background}>
@@ -37,7 +37,7 @@ function FriendsMenuScreen({ navigation }) {
           </View>
         <View style = {styles.buttons}>
 
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('HandleRequest')}>
             <Text style= {{color: '#fbfbfb'}}>
               Accept Request
               </Text>
