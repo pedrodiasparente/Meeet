@@ -488,7 +488,10 @@ namespace TodoApi.Controllers
             upa.IdSend = pe.IdUserSend;
             upa.IdReceive = id_user_receive;
             _context.UtilizadorPedidosAmizade.Add(upa);
-            _context.PedidosAmizade.Add(pe);
+            if(_context.PedidosAmizade.Find(pe.IdUserSend) == null)
+            {
+                _context.PedidosAmizade.Add(pe);
+            }
             _context.SaveChanges();
         }
 
