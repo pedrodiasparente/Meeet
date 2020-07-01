@@ -135,9 +135,9 @@ namespace TodoApi.Controllers
         }
 
         // Utilizadores por lista de id
-        // GET:
+        // POST:
         [Route("getUsersPerIDs")]
-        [HttpGet]
+        [HttpPost]
         public List<Utilizador> GetUsersPerIDs([FromBody] List<int> li)
         {
             List<Utilizador> users = new List<Utilizador>();
@@ -323,36 +323,14 @@ namespace TodoApi.Controllers
         // GET
         [Route("getUserPedidosAmizade/{id_user:int}")]
         [HttpGet]
-        public List<UtilizadorPedidosAmizade> GetUserPedidosAmizade(int id_user)
+        public List<int> GetUserPedidosAmizade(int id_user)
         {
-            List<UtilizadorPedidosAmizade> lup = new List<UtilizadorPedidosAmizade>();
+            List<int> lup = new List<int>();
             foreach (var aux in _context.UtilizadorPedidosAmizade)
             {
-                if (aux.IdReceive == id_user) lup.Add(aux);
+                if (aux.IdReceive == id_user) lup.Add(aux.IdSend);
             }
             return lup;
-        }
-
-        // POR TESTAR
-        // Pedidos de amizade de um user
-        // GET
-        [Route("getPedidosAmizade")]
-        [HttpGet]
-        public List<PedidosAmizade> GetPedidosAmizade([FromBody] List<UtilizadorPedidosAmizade> lup)
-        {
-            List<PedidosAmizade> ret = new List<PedidosAmizade>();
-            foreach (var aux in lup)
-            {
-                foreach (var u in _context.PedidosAmizade)
-                {
-                    if (u.IdUserSend == aux.IdSend)
-                    {
-                        ret.Add(u);
-                        break;
-                    }
-                }
-            }
-            return ret;
         }
 
         // POR TESTAR
@@ -616,6 +594,24 @@ namespace TodoApi.Controllers
         public void DeleteUser([FromBody] Utilizador u)
         {
             _context.Utilizador.Remove(u);
+            _context.SaveChanges();
+        }
+
+        // DELETE: api/ApiWithActions/5
+        [Route("DeleteEvent")]
+        [HttpDelete]
+        public void DeleteEvent([FromBody] Evento e)
+        {
+            _context.Evento.Remove(e);
+            _context.SaveChanges();
+        }
+
+        // DELETE: api/ApiWithActions/5
+        [Route("DeleteUserPedidosAmizade")]
+        [HttpDelete]
+        public void DeleteUserPedidosAmizade([FromBody] UtilizadorPedidosAmizade upa)
+        {
+            _context.UtilizadorPedidosAmizade.Remove(upa);
             _context.SaveChanges();
         }
     }
