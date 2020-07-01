@@ -105,11 +105,7 @@ export default function App({ navigation }) {
     if(tempToken >= 0){
       dispatch({ type: 'SIGN_IN', token: {tempToken} });
       setTokenAsync(tempToken);
-<<<<<<< HEAD
       global.userID = Number(tempToken);
-=======
-      global.userID = (tempToken);
->>>>>>> 1a9f52a5cf8f83ef3aab8af4e9392ad1a0dd62e3
     }
   },[tempToken]);
 
