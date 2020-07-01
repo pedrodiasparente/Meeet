@@ -65,6 +65,18 @@ namespace TodoApi.Controllers
             return _context.Utilizador.Find(id);
         }
 
+        //GET: api/meeet/getUserByName
+        [Route("getUserByName/{username}")]
+        [HttpGet]
+        public Utilizador GetUserByName(string username)
+        {
+            foreach(Utilizador u in _context.Utilizador)
+            {
+                if (u.Username == username) return u;
+            }
+            return null;
+        }
+
 
         // Login
         // GET: api/MeeeT/Login/user/password
@@ -596,9 +608,12 @@ namespace TodoApi.Controllers
         \**********/
 
         // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [Route("DeleteUser")]
+        [HttpDelete]
+        public void DeleteUser([FromBody] Utilizador u)
         {
+            _context.Utilizador.Remove(u);
+            _context.SaveChanges();
         }
     }
 }

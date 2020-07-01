@@ -7,18 +7,86 @@ export class FetchData extends Component {
     super(props);
       this.state = {
           users: [],
-          text: [],
+          id: "",
+          username: "",
+          email: "",
+          password: "",
+          morada: "",
           loading: true
       };
-  }
+    }
 
   componentDidMount() {
     this.populateUsers();
     }
 
-  addUser(txt) {
-      console.log("ola maltinha");
-  }
+  addUser(usernameText,emailText,passwordText,cityText) {
+      const user = {
+          "username": usernameText,
+          "email": emailText,
+          "password": passwordText,
+          "longitude": 0,
+          "latitude": 0,
+          "urlFoto": "https://i0.wp.com/ipc.digital/wp-content/uploads/2016/07/icon-user-default.png?fit=462%2C462&ssl=1",
+          "morada": cityText,
+          "dataNascimento": "2014-01-01",
+          "genero": null,
+          "bio": null,
+          "amigo": null,
+          "evento": null,
+          "utilizadorConvites": null,
+          "utilizadorEvento": null,
+          "utilizadorGrupo": null,
+          "utilizadorOpcao": null,
+          "utilizadorPedidosAmizade": null
+      }
+
+      fetch('https://meeet-projeto.azurewebsites.net/api/meeet/PostUser', {
+          method: 'POST',
+          headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(user)
+      }).then((update) => { this.populateUsers() });
+
+    }
+
+    async removeUser(idInt) {
+
+        const data = await fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getuser/' + idInt, { mode: 'cors' });
+        const user = await data.json();
+
+        fetch('https://meeet-projeto.azurewebsites.net/api/meeet/DeleteUser', {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        }).then((update) => { this.populateUsers() });
+
+    }
+
+    handleUsernameChange(event) {
+        this.setState({ username: event.target.value })
+    }
+
+    handleEmailChange(event) {
+        this.setState({ email: event.target.value })
+    }
+
+    handlePasswordChange(event) {
+        this.setState({password: event.target.value })
+    }
+
+    handleMoradaChange(event) {
+        this.setState({ morada: event.target.value })
+    }
+
+    handleIdChange(event) {
+        this.setState({ id: event.target.value })
+    }
 
   static renderUsersTable(users) {
     return (
@@ -31,6 +99,7 @@ export class FetchData extends Component {
             <th>Password</th>
             <th>Latitude</th>
             <th>Longitude</th>
+            <th>Morada</th>
           </tr>
         </thead>
         <tbody>
@@ -42,25 +111,49 @@ export class FetchData extends Component {
               <td>{user.password}</td>
               <td>{user.latitude}</td>
               <td>{user.longitude}</td>
+              <td>{user.morada}</td>
             </tr>
           )}
         </tbody>
       </table>
     );
-  }
+    }
 
   render() {
     let contents = this.state.loading
       ? <p><em>Loading...</em></p>
       : FetchData.renderUsersTable(this.state.users);
 
-    return (
-      <div>
+      return (
+          <div>
         <h1 id="tabelLabel" >All Users</h1>
         <p>This component demonstrates fetching data from the server.</p>
         {contents}
-        <input></input>
-        <button onClick={(e) => { this.addUser("txt"); }}>The button</button>
+        <label>
+            Username:
+            <input type="text" value={this.state.username} onChange={this.handleUsernameChange.bind(this)} />
+        </label>
+        <label>
+            Email:
+            <input type="text" value={this.state.email} onChange={this.handleEmailChange.bind(this)} />
+        </label>
+        <label>
+            Password:
+            <input type="text" value={this.state.password} onChange={this.handlePasswordChange.bind(this)} />
+        </label>
+        <label>
+            Morada:
+            <input type="text" value={this.state.morada} onChange={this.handleMoradaChange.bind(this)} />
+        </label>
+        <button onClick={(e) => { this.addUser(this.state.username, this.state.email, this.state.password,this.state.morada); }}>Add User</button>
+
+        <label>
+            Id:
+            <input type="number" value={this.state.id} onChange={this.handleIdChange.bind(this)} />
+        </label>
+        <button onClick={(e) => { this.removeUser(this.state.id); }}>Remove User</button>
+
+
       </div>
     );
   }
