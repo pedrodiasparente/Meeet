@@ -1,4 +1,4 @@
-import React, { Component , useState, useEffect } from 'react'
+import React, { Component , useState, useEffect, document } from 'react'
 import { View, Image, TouchableOpacity, Alert, Text, StyleSheet, ActivityIndicator, TextInput, Button, ActionSheetIOS} from 'react-native'
 import Icon from 'react-native-vector-icons/dist/FontAwesome5'
 
@@ -20,6 +20,7 @@ function Profile() {
    const [bool2,setBool2] = useState(true);
    const [bool3,setBool3] = useState(false);
    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+   const [data,setData] = useState(null);
  
    
 
@@ -117,6 +118,7 @@ function Profile() {
     });
   };
 
+
     const showDatePicker = () => {
       setDatePickerVisibility(true);
     };
@@ -130,7 +132,7 @@ function Profile() {
       setDate(date);
     };
 
-    
+
 
  
     return (
@@ -140,12 +142,13 @@ function Profile() {
         
         <View style = {styles.profilePic}>
         <TouchableOpacity onPress={() => selectFile()}>
-          <Image style = {{width: '100%', height:'100%' , borderRadius:20000}}
+          <Image style = {{width: '100%', height:'100%' , borderRadius:20000}}        
             source={{
-              uri: bool ? state.resourcePath.uri : userData.urlFoto ,
+                uri: bool ? state.resourcePath.uri : userData.urlFoto ,
             }}         
-            />
+            />          
             </TouchableOpacity>
+          
         </View>
         
 
