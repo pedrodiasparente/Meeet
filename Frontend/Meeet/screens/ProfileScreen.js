@@ -9,21 +9,20 @@ import Profile from '../components/Profile'
 function ProfileScreen() {
 
     return (
-        <View style = {styles.background}>
-        <Title title = {'Profile'}/>
+    <View style = {styles.background}>
+      <Title title = {'Profile'}/>
 
-      <View style = {styles.profileBox}>
-        <Profile/>
-      </View>
+        <View style = {styles.body}>
+          <Profile/>
+        </View>
     </View>
     )
 }
 
 const styles = StyleSheet.create({
-  profileBox: {
-    flex : 1,
-    alignItems : 'center',
-    backgroundColor:'#ebebeb',
+  body: {
+    alignItems: 'center',
+    flex: 1,
   },
   background: {
     flex : 1,
