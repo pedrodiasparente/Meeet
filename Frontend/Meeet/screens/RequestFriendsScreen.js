@@ -10,7 +10,6 @@ import AuthContext from '../contexts/AuthContext'
 function RequestFriendsScreen({ navigation }) {
 
   const [userData, setUserData] = useState(null);
-  const [isLoading, setLoading] = useState(true);
 
 const { signOut } = React.useContext(AuthContext);
 
@@ -18,7 +17,7 @@ return (
   <View style = {styles.background}>
   <Title title = {'Request Friends'}/>
   <View style = {styles.body}>
-      <RequestFriends data={data}/>
+      <RequestFriends navigation={navigation}/>
     </View>
 </View>
 )

@@ -10,7 +10,7 @@ function ProfileFriend({ id }) {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('https://meeet-project.azurewebsites.net/api/meeet/getuser/' + id)
+    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getuser/' + id)
       .then((response) => response.json())
       .then((json) => {
         setUserData(json);
@@ -73,16 +73,6 @@ function ProfileFriend({ id }) {
             </View>
 
         </View>
-
-    <View style = {styles.buttons}>
-
-      <TouchableOpacity style={styles.button}>
-        <Text style= {{color: '#fbfbfb'}}>
-          Remove
-          </Text>
-        </TouchableOpacity>
-
-      </View>
       </>
       )}
     </>

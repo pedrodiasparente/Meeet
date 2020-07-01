@@ -21,7 +21,6 @@ function Profile() {
 
 
   useEffect(() => {
-    console.log("aa" + global.userID);
     fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getUser/' + global.userID)
       .then((response) => response.json())
       .then((json) => {
@@ -45,8 +44,8 @@ function Profile() {
             }}
             />
         </View>
-      
-     
+
+
       <View style = {styles.profileRow}>
 
         <Icon
@@ -57,20 +56,20 @@ function Profile() {
 
         <View style={styles.textInput}>
         <TextInput
-           
+
           style={styles.textInput}
           textAlign={'center'}
           placeholder={userData.username}
           onChangeText={setUsername}
           value={username}
-          />         
+          />
 
           </View>
-         
+
 
         </View>
 
-        
+
 
       <View style = {styles.profileRow}>
 

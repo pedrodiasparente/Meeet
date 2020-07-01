@@ -9,6 +9,7 @@ import LoginScreen from './screens/LoginScreen'
 import HomeScreen from './screens/HomeScreen'
 import FriendScreen from './screens/FriendsScreen'
 import ProfileScreen from './screens/ProfileScreen'
+import FriendProfileScreen from './screens/FriendProfileScreen'
 import EventMenuScreen from './screens/EventMenuScreen'
 import EventScreen from './screens/EventScreen'
 import ShareLocationScreen from './screens/ShareLocationScreen'
@@ -181,6 +182,7 @@ export default function App({ navigation }) {
               <Stack.Screen name="MyFriends" component={FriendScreen} />
               <Stack.Screen name="RequestFriends" component={RequestFriendsScreen} />
               <Stack.Screen name="Profile" component={ProfileScreen} />
+              <Stack.Screen name="FriendProfile" component={FriendProfileScreen} />
               <Stack.Screen name="EventMenu" component={EventMenuScreen} />
               <Stack.Screen name="EventScreen" component={EventScreen} />
               <Stack.Screen name="CreateEvent" component={CreateEventScreen} />

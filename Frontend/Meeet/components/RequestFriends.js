@@ -1,44 +1,61 @@
 import React, { Component , useState, useEffect } from 'react'
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image,Modal,Alert} from 'react-native'
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image,Modal,Alert,ActivityIndicator} from 'react-native'
 
+import Icon from 'react-native-vector-icons/dist/FontAwesome5'
 
 import SearchBar from '../components/SearchBar';
 import AuthContext from '../contexts/AuthContext'
 
 
-function RequestFriends() {
+function RequestFriends({ navigation }) {
 
   const [modalVisible, setModalVisible] = React.useState(false);
-  const [itemAtual, setItemAtual] = React.useState(false);
-  const [state, setState] = React.useState({ text: '' , list: data });
-  const [data, setData] = React.useState(null);
+  const [username, setUsername] = React.useState('');
+  const [user, setUser] = useState(null);
+  const [isBadUser, setBadUser] = useState(true);
+  const [isLoading, setLoading] = useState(false);
 
-let arrayholder = data;
 
-function searchFilterFunction(text){
-  const newData = arrayholder.filter(item => {
-    const itemData = `${item.username.toUpperCase()}
-    ${item.username.toUpperCase()}`;
 
-    const textData = text.toUpperCase();
-    return itemData.indexOf(textData) > -1;
- });
-  setState({text: state.text, list: newData });
+async function findUser() {
+  setLoading(true);
+  fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getUserByName/' + username)
+  .then((response) =>  {if(response.status == 200) return (response.json()); else return null;})
+  .then((json) => {
+    if( json == null ){ setBadUser(true); setLoading(false);}
+    else{
+      console.log("JSON: " + JSON.stringify(json))
+      setUser(json);
+    }
+  })
+  .catch((error) => {
+    console.error(error);
+  });
 };
 
-async function findUsers() {
-  fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getUsers', {
-  method: 'GET',
-})
-.then((response) => response.json())
-.then((json) => {
-  setData(json);
-  console.log("aqui" + JSON.stringify(res));
-})
-.catch((error) => {
-  console.error(error);
-});
-};
+useEffect(() => {
+  if(user != null){
+    setLoading(false);
+    setBadUser(false);
+    console.log("JSON: " + JSON.stringify(user));
+  }
+},[user]);
+
+async function sendRequest(id){
+  const data = {
+    idUserSend:Number(global.userID),
+    utilizadorPedidosAmizade:null
+  };
+  console.log(JSON.stringify(data) + '/ ID:' + id);
+  fetch('https://meeet-projeto.azurewebsites.net/api/meeet/PostPedidoAmizade/8', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  }).then((response) =>  console.log(JSON.stringify(response)));
+}
 
 const createWarning = () => {
     Alert.alert(
@@ -58,18 +75,19 @@ const createWarning = () => {
           transparent={true}
           visible={modalVisible}
         >
+        {!isLoading ? ( !isBadUser ? (
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Image style={styles.userImageModal} source={{uri:itemAtual.image}}/>
-            <Text style={styles.modalText}>{itemAtual.username}</Text>
+            <Image style={styles.userImageModal} source={{uri:user.urlFoto}}/>
+            <Text style={styles.modalText}>{user.username}</Text>
              <TouchableOpacity
                style={styles.openButton}
-               onPress={() => {}}>
+               onPress={() => {setModalVisible(!modalVisible);navigation.navigate('FriendProfile',{id: user.id})}}>
                 <Text style={styles.textStyle}>View Profile</Text>
               </TouchableOpacity>
               <TouchableOpacity
                style={styles.openButton}
-               onPress={() => {setModalVisible(!modalVisible);createWarning()}}>
+               onPress={() => {setModalVisible(!modalVisible);sendRequest(user.id)}}>
                 <Text style={styles.textStyle}>Send Request</Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -78,37 +96,46 @@ const createWarning = () => {
                 <Text style={styles.textStyle}>Go Back</Text>
               </TouchableOpacity>
            </View>
-         </View>
-        </Modal>      
+         </View> ) : (
 
-      <View style={styles.list}>
-      <SearchBar
-        placeholder="Type Here..."
-        filter={searchFilterFunction}
-        onChangeText={state.text}
-        />
-      <FlatList
-        data={state.list}
-        renderItem={({ item }) => (
-          <TouchableOpacity 
-  
-            style={[styles.itemPress, item.selectedClass]}
-            onPress={() => {setModalVisible(true);setItemAtual(item);}}>
-              <View style={{flexDirection: "row"}}>
-              <Image style={styles.userImage} source={{uri:item.image}}/>
-              <Text style={styles.text}>
-                {item.username}
-              </Text>
+           <View style={styles.centeredView}>
+             <View style={styles.modalView}>
+                 <Text> Couldn't find user. </Text>
+                 <TouchableOpacity
+                  style={styles.openButtonFinal}
+                  onPress={() => {setModalVisible(!modalVisible);}}>
+                   <Text style={styles.textStyle}>Go Back</Text>
+                 </TouchableOpacity>
               </View>
-            </TouchableOpacity>
-         
-          )}
-          keyExtractor={item => item.id}
-          extraData={state}
-        />
+            </View>)
+
+          ) : (
+
+         <ActivityIndicator/>)
+       }
+        </Modal>
+
+        <View style={styles.body}>
+          <View style={styles.inputContainer}>
+            <TextInput
+              placeholder="Type Here..."
+              textAlign={'center'}
+              onChangeText={setUsername}
+              value={username}
+            />
+          </View>
+          <TouchableOpacity style={styles.button} onPress={() => {findUser(); setModalVisible(!modalVisible); }}>
+            <Icon
+              name="user-plus"
+              size={30}
+              color='#2c365d'
+            />
+          </TouchableOpacity>
+
         </View>
-        </View>
-     
+
+      </View>
+
   )
 }
 
@@ -119,20 +146,20 @@ const styles = StyleSheet.create({
   },
   body: {
     alignItems: 'center',
-    flex: 1,
-  },
-  profileBox: {
-    flex : 1,
-    alignItems : 'center',
-    backgroundColor:'#ebebeb',
+    flex:1,
   },
   container:{
     flex:1,
-    marginTop:0,
+    paddingTop: 50,
+    flexDirection: 'row',
   },
-  list: {
-    height: '95%',
-    width: '100%',
+  inputContainer: {
+    width: '65%',
+    backgroundColor: '#cbcbcb',
+    borderRadius: 40,
+  },
+  button: {
+    paddingTop: 20,
   },
   userImage:{
     height: 40,
