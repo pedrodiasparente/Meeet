@@ -48,7 +48,7 @@ function EventMenuScreen({ navigation }) {
           </View>
         <View style = {styles.buttons}>
 
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('EventList')}>
             <Text style= {{color: '#fbfbfb'}}>
               Ongoing events
               </Text>
@@ -57,7 +57,7 @@ function EventMenuScreen({ navigation }) {
           </View>
         <View style = {styles.buttons}>
 
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('EventScreen')}>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Event')}>
             <Text style= {{color: '#fbfbfb'}}>
               Fetch API
               </Text>

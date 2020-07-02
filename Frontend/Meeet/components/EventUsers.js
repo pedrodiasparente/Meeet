@@ -16,8 +16,8 @@ function EventUsers({ data }) {
 
   function searchFilterFunction(text){
     const newData = arrayholder.filter(item => {
-      const itemData = `${item.name.toUpperCase()}
-      ${item.name.toUpperCase()}`;
+      const itemData = `${item.username.toUpperCase()}
+      ${item.username.toUpperCase()}`;
 
       const textData = text.toUpperCase();
       return itemData.indexOf(textData) > -1;
@@ -36,8 +36,8 @@ function EventUsers({ data }) {
         >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Image style={styles.userImage} source={{uri:itemAtual.image}}/>
-            <Text style={styles.modalText}>{itemAtual.name}</Text>
+            <Image style={styles.userImage} source={{uri:itemAtual.urlFoto}}/>
+            <Text style={styles.modalText}>{itemAtual.username}</Text>
              <TouchableOpacity
                style={styles.openButton}
                onPress={() => {}}>
@@ -75,10 +75,10 @@ function EventUsers({ data }) {
             return (
 
               <TouchableOpacity style={styles.card} onPress={() => {setModalVisible(true);setItemAtual(item);}}>
-                <Image style={styles.userImage} source={{uri:item.image}}/>
+                <Image style={styles.userImage} source={{uri:item.urlFoto}}/>
                 <View style={styles.cardFooter}>
                   <View style={{alignItems:"center", justifyContent:"center"}}>
-                    <Text style={styles.name}>{item.name}</Text>
+                    <Text style={styles.name}>{item.username}</Text>
                   </View>
                 </View>
               </TouchableOpacity>

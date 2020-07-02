@@ -11,18 +11,22 @@ import VotesScreen from './VotesScreen'
 import EventUsersScreen from './EventUsersScreen'
 import ShareLocationScreen from './ShareLocationScreen'
 
+import EventContext from '../contexts/EventContext'
+
 
 const Tab = createBottomTabNavigator();
 
-function EventScreen() {
+function EventScreen({ route }) {
 
     return (
-    <Tab.Navigator tabBar={props => <EventTabBar {...props} />} >
-      <Tab.Screen name="EventDetails" component={EventDetailsScreen} />
-      <Tab.Screen name="EventUsers" component={EventUsersScreen} />
-      <Tab.Screen name="ShareLocation" component={ShareLocationScreen} />
-      <Tab.Screen name="Vote" component={VotesScreen} />
-    </Tab.Navigator>
+    <EventContext.Provider value={{evento: route.params.evento}}>
+      <Tab.Navigator tabBar={props => <EventTabBar {...props} />} >
+        <Tab.Screen name="EventDetails" component={EventDetailsScreen} />
+        <Tab.Screen name="EventUsers" component={EventUsersScreen} />
+        <Tab.Screen name="ShareLocation" component={ShareLocationScreen} />
+        <Tab.Screen name="Vote" component={VotesScreen} />
+      </Tab.Navigator>
+    </EventContext.Provider>
   )
 }
 
