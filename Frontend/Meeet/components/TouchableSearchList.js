@@ -16,8 +16,6 @@ function TouchableSearchList({ data , touchFunction }) {
   let arrayholder = data;
   const [state, setState] = React.useState({ text: '' , list: arrayholder });
 
-  console.log('arrayholder: ' + JSON.stringify(arrayholder));
-
 
   function searchFilterFunction(text){
     const newData = arrayholder.filter(item => {
@@ -57,7 +55,7 @@ function TouchableSearchList({ data , touchFunction }) {
             </TouchableOpacity>
 
           )}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item.id.toString()}
           extraData={state}
         />
         </View>

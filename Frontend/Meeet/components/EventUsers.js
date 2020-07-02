@@ -1,15 +1,16 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import {StyleSheet,Text,View,TouchableOpacity,Image,FlatList,Modal} from 'react-native';
 import AuthContext from '../contexts/AuthContext'
 import SearchBar from '../components/SearchBar';
 
 
 
-function EventUsers({ data }) {    
-    
+function EventUsers({ data }) {
+
     const [state, setState] = React.useState({ text: '' , list: data });
     const [modalVisible, setModalVisible] = React.useState(false);
     const [itemAtual, setItemAtual] = React.useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
   let arrayholder = data;
 
@@ -23,9 +24,9 @@ function EventUsers({ data }) {
    });
     setState({text: state.text, list: newData });
   };
-  
-       
-    return (            
+
+
+    return (
         <View style={styles.container}>
 
         <Modal
@@ -55,7 +56,7 @@ function EventUsers({ data }) {
            </View>
          </View>
         </Modal>
-                        
+
         <SearchBar
           placeholder="Type Here..."
           filter={searchFilterFunction}
@@ -111,7 +112,7 @@ function EventUsers({ data }) {
       shadowOpacity: 0.37,
       shadowRadius: 7.49,
       elevation: 12,
-  
+
       marginVertical: 5,
       backgroundColor:"white",
       flexBasis: '46%',
@@ -123,7 +124,7 @@ function EventUsers({ data }) {
       borderTopLeftRadius: 1,
       borderTopRightRadius: 1,
       flexDirection: 'row',
-      alignItems:"center", 
+      alignItems:"center",
       justifyContent:"center"
     },
     cardContent: {
@@ -162,7 +163,7 @@ function EventUsers({ data }) {
     },
     icon:{
       height: 20,
-      width: 20, 
+      width: 20,
     },
     centeredView: {
       flex: 1,
@@ -214,7 +215,6 @@ function EventUsers({ data }) {
       marginBottom: 15,
       textAlign: "center"
     }
-  }); 
+  });
 
   export default EventUsers;
-

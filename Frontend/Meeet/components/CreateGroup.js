@@ -104,7 +104,7 @@ function CreateGroup({ data }) {
 
       <View style = {styles.list}>
 
-        <TouchableSearchList 
+        <TouchableSearchList
         data={data}
         touchFunction={nothing}
         />

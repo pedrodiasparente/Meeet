@@ -8,38 +8,14 @@ import TouchableSearchList from '../components/TouchableSearchList'
 
 function HandleRequestScreen({navigation}) {
   const [selectedList, setList] = useState([]);
-  const [groupName, updateGroupName] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
-  const [group, setGroup] = React.useState(null);
   const [idRequests, setIdRequests] = React.useState([]);
   const [requests, setRequests] = React.useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [modalUser, setModalUser] = useState(null);
-
-  function nothing(item){
-    item.isSelected = !item.isSelected;
-    if(item.isSelected){
-      setList(oldArray => [...oldArray, item.username]);
-      item.selectedClass = styles.selected;
-    }
-    else{
-      let auxArray= selectedList.filter(value => { return value != item.username })
-      setList(auxArray);
-      item.selectedClass = styles.itemPress;
-    }
-    console.log(selectedList);
-    console.log(groupName);
-  }
-
-  React.useEffect(() => {
-    setGroup({
-      "nome": groupName,
-      "utilizadorGrupo": null,
-  });
-  },[groupName]);
+  const [modalEvent, setModalEvent] = useState(null);
 
   useEffect(() => {
-    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getUserPedidosAmizade/' + global.userID, {
+    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getAllUserConvites/' + global.userID, {
         method: 'GET',
         headers: {
         "Accept": "application/json",
@@ -48,7 +24,9 @@ function HandleRequestScreen({navigation}) {
     })
     .then(response => { return response.json(); } )
     .then(json => {
-      setIdRequests(json);
+      setIdRequests(json.map((value) => {
+          return value.idEvento;
+      }));
     })
     .catch((error) => {
       console.error('ERROR:' + error);
@@ -57,7 +35,7 @@ function HandleRequestScreen({navigation}) {
 
   useEffect(() => {
     console.log("IDREQUESTS: " + idRequests);
-    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getUsersPerIDs', {
+    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getEventsPerIDs', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -67,7 +45,7 @@ function HandleRequestScreen({navigation}) {
     })
     .then((response) => response.json())
     .then((json) => {
-      setModalUser(json[0])
+      setModalEvent(json[0])
       setRequests(json);
       setIsLoading(false);
     })
@@ -81,15 +59,14 @@ function HandleRequestScreen({navigation}) {
   }, [requests]);
 
   async function acceptRequest() {
-    const data = { idUser1: global.userID , idUser2:modalUser.id, idUser1Navigation:null , idUser2Navigation:null }
-      fetch('https://meeet-projeto.azurewebsites.net/api/meeet/PostAmigos', {
+      fetch('https://meeet-projeto.azurewebsites.net/api/meeet/AddToEvent/' + global.userID, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(data)
-    })
+      body: JSON.stringify(modalEvent)
+    }).then((response) => console.log(JSON.stringify(response)))
     .catch((error) => {
       console.error(error);
     });
@@ -97,15 +74,15 @@ function HandleRequestScreen({navigation}) {
   };
 
   async function eraseRequest() {
-    const data = { idReceive: global.userID , idSend:modalUser.id, idReceiveNavigation:null , idSendNavigation:null }
-    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/DeleteUserPedidosAmizade', {
+    const data = { idUser:global.userID, idConvidador: modalEvent.idAdmin, idEvento:modalEvent.id, id: null, idUserNavigation:null }
+    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/DeleteUserSingleConvite', {
       method: 'DELETE',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
-    })
+    }).then((response) => console.log(JSON.stringify(response)))
     .catch((error) => {
       console.error(error);
     });
@@ -125,12 +102,11 @@ function HandleRequestScreen({navigation}) {
       >
       {requests.length>0 ? (<View style={styles.centeredView}>
         <View style={styles.modalView}>
-          <Image style={styles.userImageModal} source={{uri:modalUser.urlFoto}}/>
-          <Text style={styles.modalText}>{modalUser.username}</Text>
+          <Text style={styles.modalText}>{modalEvent.nome}</Text>
            <TouchableOpacity
             style={styles.openButton}
-             onPress={() => {setModalVisible(!modalVisible);navigation.navigate('FriendProfile',{id:modalUser.id})}}>
-              <Text style={styles.textStyle}>View Profile</Text>
+             onPress={() => {setModalVisible(!modalVisible);/*navigation.navigate('EventDetails',{id:modalEvent.id})*/}}>
+              <Text style={styles.textStyle}>View Event</Text>
             </TouchableOpacity>
             <TouchableOpacity
              style={styles.openButton}
@@ -163,12 +139,16 @@ function HandleRequestScreen({navigation}) {
             renderItem={({ item }) => (
               <TouchableOpacity
                 style={styles.itemPress}
-                onPress={() => { setModalUser(item); setModalVisible(true); }}>
+                onPress={() => { setModalEvent(item); setModalVisible(true); }}>
                   <View style={{flexDirection: "row"}}>
-                  <Image style={styles.userImage} source={{uri:item.urlFoto}}/>
-                  <Text style={styles.text}>
-                    {item.username}
-                  </Text>
+                    <Icon
+                      name="calendar-alt"
+                      size={35}
+                      color='#2c365d'
+                    />
+                    <Text style={styles.text}>
+                      {item.nome}
+                    </Text>
                   </View>
                 </TouchableOpacity>
 
@@ -258,7 +238,8 @@ const styles = StyleSheet.create({
     },
     modalText: {
       marginBottom: 15,
-      textAlign: "center"
+      textAlign: "center",
+      fontWeight:'bold'
     },
     list: {
       height: '95%',
@@ -294,83 +275,6 @@ const styles = StyleSheet.create({
       borderColor:"#DCDCDC",
       borderWidth:1.5,
     },
-  });
-
-  const data = [
-    {
-      id: '1',
-      username: 'Joaquim Silva Silva',
-      image:"https://bootdey.com/img/Content/avatar/avatar7.png",
-    },
-    {
-      id: '2',
-      username: 'Ricardo Esteves Esteves',
-      image:"https://bootdey.com/img/Content/avatar/avatar7.png",
-    },
-    {
-      id: '3',
-      username: 'Ricardinho',
-    },
-    {
-      id: '9',
-      username: 'Rui Costa',
-    },
-    {
-      id: '4',
-      username: 'Rivaldo Esteves Esteves',
-    },
-    {
-      id: '5',
-      username: 'Paulo Jorge Jorge',
-    },
-    {
-      id: '6',
-      username: 'Joaquim Silva Silva',
-    },
-    {
-      id: '7',
-      username: 'Ricardo Esteves Esteves',
-    },
-    {
-      id: '8',
-      username: 'Paulo Jorge Jorge',
-    },
-    {
-      id: '10',
-      username: 'Joaquim Silva Silva',
-    },
-    {
-      id: '11',
-      username: 'Ricardo Esteves Esteves',
-    },
-    {
-      id: '12',
-      username: 'Paulo Jorge Jorge',
-    },
-    {
-      id: '13',
-      username: 'Joaquim Silva Silva',
-    },
-    {
-      id: '14',
-      username: 'Ricardo Esteves Esteves',
-    },
-    {
-      id: '15',
-      username: 'Paulo Jorge Jorge',
-    },
-    {
-      id: '16',
-      username: 'Joaquim Silva Silva',
-    },
-    {
-      id: '17',
-      username: 'Ricardo Esteves Esteves',
-    },
-    {
-      id: '18',
-      username: 'Paulo Jorge Jorge',
-    },
-  ];
+});
 
 export default HandleRequestScreen;
