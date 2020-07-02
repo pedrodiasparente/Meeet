@@ -6,78 +6,98 @@ import Title from '../components/Title'
 import AuthContext from '../contexts/AuthContext'
 import TouchableSearchList from '../components/TouchableSearchList'
 
-function InviteScreen() {
+function InviteScreen( { route, navigation } ) {
   const [selectedList, setList] = useState([]);
   const [groupName, updateGroupName] = useState('');
   const [group, setGroup] = React.useState(null);
   const [res, setRes] = React.useState(null);
+  const [friendsIdList, setFriendsIdList] = useState([]);
+  const [friendsList, setFriendsList] = useState([]);
+  const [convite, setConvite] = useState(null);
+
+  const { idEvento } = route.params;
 
   function nothing(item){
     item.isSelected = !item.isSelected;
     if(item.isSelected){
-      setList(oldArray => [...oldArray, item.username]);
+      setList(oldArray => [...oldArray, item.id]);
       item.selectedClass = styles.selected;
     }
     else{
-      let auxArray= selectedList.filter(value => { return value != item.username })
+      let auxArray= selectedList.filter(value => { return value != item.id })
       setList(auxArray);
       item.selectedClass = styles.itemPress;
     }
-    console.log(selectedList);
-    console.log(groupName);
   }
 
   React.useEffect(() => {
-    setGroup({
-      "nome": groupName,
-      "utilizadorGrupo": null,
-  });
-  },[groupName]);
+    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getAmizadesUser/' + global.userID)
+    .then((response) => response.json())
+    .then((json) => {
+      setFriendsIdList(json);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  },[]);
 
-    async function createGroup() {
-        fetch('https://meeet-projeto.azurewebsites.net/api/meeet/PostGrupo', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(group)
-      })
-      .then((response) => response.json())
-      .then((json) => {
-        setRes(json);
-        console.log(JSON.stringify(res));
-        createWarning();
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-    };
-
-
-
-    async function addToGroup(id) {
-      fetch('https://meeet-projeto.azurewebsites.net/api/meeet/AddToGroup' + id, {
+  React.useEffect(() => {
+    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getUsersPerIDs', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(res)
+      body: JSON.stringify(friendsIdList)
+    })
+    .then((response) => response.json())
+    .then((json) => {
+      setFriendsList(json);
     })
     .catch((error) => {
       console.error(error);
     });
-  };
+  },[friendsIdList]);
 
+  React.useEffect(() => {
+      if(convite != null) selectedList.forEach(inviteToEvent);
+  },[convite]);
 
-    const createWarning = () =>
-    Alert.alert(
-      "Group created sucessufly!",
-      "",
-      [{ text: "OK" }],
-      { cancelable: false }
-    );
+  async function inviteToEvent(user, i){
+    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/InviteToEvent/' + user, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(convite)
+    }).then(response => console.log('-> InviteToEvent | ' + JSON.stringify(response)))
+    .catch((error) => {
+      console.error(error);
+    });
+  }
+
+  async function inviteAll(){
+    const conv = {
+      idConvidador: global.userID  ,
+      idEvento: idEvento,
+      utilizadorConvites: null,
+    }
+
+    console.log('-> Convite | ' + JSON.stringify(conv));
+
+    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/MakeConvite', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(conv)
+    }).then(response => {console.log('-> MakeConvite | ' + JSON.stringify(response)); setConvite(conv)})
+    .catch((error) => {
+      console.error(error);
+    });
+  }
 
   return (
     <View style = {styles.background}>
@@ -87,7 +107,7 @@ function InviteScreen() {
       <View style = {styles.list}>
 
         <TouchableSearchList
-          data={data}
+          data={friendsList}
           touchFunction={nothing}
         />
 
@@ -95,7 +115,7 @@ function InviteScreen() {
 
       <View style = {styles.buttons}>
 
-        <TouchableOpacity style={styles.button} onPress={() => createGroup()}>
+        <TouchableOpacity style={styles.button} onPress={() => inviteAll()}>
           <Text style= {{color: '#fbfbfb'}}>
             Create
             </Text>
@@ -117,83 +137,26 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flex: 1,
       },
+    selected: {
+        backgroundColor: "hsl(85, 100%, 50%)"
+      },
+    list: {
+      height: '80%',
+      width: '100%',
+    },
+    buttons: {
+      alignItems: 'center',
+      marginTop: 10,
+      width: '50%',
+    },
+    button: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '100%',
+      height: 50,
+      borderRadius: 10,
+      backgroundColor: '#2c365d',
+    },
   });
-
-  const data = [
-    {
-      id: '1',
-      username: 'Joaquim Silva Silva',
-      image:"https://bootdey.com/img/Content/avatar/avatar7.png",
-    },
-    {
-      id: '2',
-      username: 'Ricardo Esteves Esteves',
-      image:"https://bootdey.com/img/Content/avatar/avatar7.png",
-    },
-    {
-      id: '3',
-      username: 'Ricardinho',
-    },
-    {
-      id: '9',
-      username: 'Rui Costa',
-    },
-    {
-      id: '4',
-      username: 'Rivaldo Esteves Esteves',
-    },
-    {
-      id: '5',
-      username: 'Paulo Jorge Jorge',
-    },
-    {
-      id: '6',
-      username: 'Joaquim Silva Silva',
-    },
-    {
-      id: '7',
-      username: 'Ricardo Esteves Esteves',
-    },
-    {
-      id: '8',
-      username: 'Paulo Jorge Jorge',
-    },
-    {
-      id: '10',
-      username: 'Joaquim Silva Silva',
-    },
-    {
-      id: '11',
-      username: 'Ricardo Esteves Esteves',
-    },
-    {
-      id: '12',
-      username: 'Paulo Jorge Jorge',
-    },
-    {
-      id: '13',
-      username: 'Joaquim Silva Silva',
-    },
-    {
-      id: '14',
-      username: 'Ricardo Esteves Esteves',
-    },
-    {
-      id: '15',
-      username: 'Paulo Jorge Jorge',
-    },
-    {
-      id: '16',
-      username: 'Joaquim Silva Silva',
-    },
-    {
-      id: '17',
-      username: 'Ricardo Esteves Esteves',
-    },
-    {
-      id: '18',
-      username: 'Paulo Jorge Jorge',
-    },
-  ];
 
 export default InviteScreen;

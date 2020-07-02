@@ -13,26 +13,37 @@ function CreateEvent({ data , navigation }) {
   const [eventLongitude, updateEventLongitude] = useState('0');
   const [eventLatitude, updateEventLatitude] = useState('0');
   const [eventDateTime, updateEventDateTime] = useState('');
-  const [eventType, updateEventType] = useState('');
+  const [eventType, updateEventType] = useState(0);
   const [eventAge, updateEventAge] = useState(null);
   const [eventDescription, updateEventDescription] = useState('');
   const [isDateTimePickerVisible, setDateTimePickerVisibility] = useState(false);
 
+  const [idEvento, setIdEvento] = useState(-1);
 
-  const [event, setEvent] = React.useState(null);
+  const [evento, setEvento] = React.useState(null);
 
     React.useEffect(() => {
-     setEvent({
-      "nome": eventName,
-      "dataHora": eventDateTime,
-      "longitude": eventLongitude,
-      "latitude": eventLatitude,
-      "tipoEvento": eventType,
-      "descricao": eventDescription,
-      "idadeMinima": eventAge,
+     setEvento({
+      nome: eventName,
+      dataHora: eventDateTime,
+      longitude: parseFloat(eventLongitude),
+      latitude: parseFloat(eventLatitude),
+      tipoEvento: 0,
+      idAdmin: global.userID,
+      descricao: eventDescription,
+      idadeMinima: Number(eventAge),
+      idAdminNavigation: null,
+      eventoHasRequests: null,
+      utilizadorEvento: null,
+      votacao: null
     });
 
   },[eventName, eventDateTime, eventLongitude, eventLatitude, eventDescription, eventAge]);
+
+  React.useEffect(() => {
+    if(idEvento > 0)
+      createWarning();
+  }, [idEvento])
 
 
     const showDatePicker = () => {
@@ -60,7 +71,7 @@ function CreateEvent({ data , navigation }) {
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel",
         },
-        { text: "OK", onPress: () => createWarning() }
+        { text: "OK", onPress: () => {postEvent(); console.log(evento)} }
       ],
       { cancelable: false }
     );
@@ -70,12 +81,29 @@ function CreateEvent({ data , navigation }) {
       "Event created sucessufly!",
        "",
       [
-        { text: "OK", onPress: () => (navigation.navigate('Invite')) }
+        { text: "OK", onPress: () => (navigation.navigate('Invite', {idEvento: idEvento})) }
       ],
       { cancelable: false }
     );
 
-
+    async function postEvent(){
+      fetch('https://meeet-projeto.azurewebsites.net/api/meeet/PostEvento', {
+        method: 'POST',
+        headers: {
+          "Accept": "application/json",
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(evento)
+      })
+      .then(response => { return response.json(); } )
+      .then(json => {
+        console.log(json);
+        setIdEvento(json.id);
+      })
+      .catch((error) => {
+        console.error('ERROR:' + error);
+      });
+    }
 
 
     return (
