@@ -102,10 +102,29 @@ export class FetchData extends Component {
             body: JSON.stringify(userConvites)
         });
 
-        const dataEvento = await fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getusereventosPerUser/' + idInt, { mode: 'cors' });
-        const userEvento = await dataEvento.json();
+        const dataUserEvento = await fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getusereventosPerUser/' + idInt, { mode: 'cors' });
+        const userUserEvento = await dataUserEvento.json();
 
         fetch('https://meeet-projeto.azurewebsites.net/api/meeet/DeleteUserEventos', {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userUserEvento)
+        });
+
+        const dataEvento = await fetch('https://meeet-projeto.azurewebsites.net/api/meeet/geteventosPerAdmin/', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userUserEvento)
+        });
+        const userEvento = await dataEvento.json();
+
+        fetch('https://meeet-projeto.azurewebsites.net/api/meeet/DeleteEventosAdmin', {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json, text/plain, */*',

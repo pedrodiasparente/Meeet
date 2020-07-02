@@ -11,9 +11,30 @@ export class NavMenu extends Component {
 
     this.toggleNavbar = this.toggleNavbar.bind(this);
     this.state = {
-      collapsed: true
+        collapsed: true,
+        users: "",
+        events: "",
     };
   }
+
+    componentDidMount() {
+        this.populateUsers();
+        this.populateEvents();
+    }
+
+    async populateUsers() {
+        const response = await fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getusers', { mode: 'cors' });
+        const data = await response.json();
+        console.log(data);
+        this.setState({ users: data.length, loading: false });
+    }
+
+    async populateEvents() {
+        const response = await fetch('https://meeet-projeto.azurewebsites.net/api/meeet/geteventos', { mode: 'cors' });
+        const data = await response.json();
+        console.log(data);
+        this.setState({ events: data.length, loading: false });
+    }
 
   toggleNavbar () {
     this.setState({
@@ -25,8 +46,8 @@ export class NavMenu extends Component {
     return (
       <header>
         <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" light>
-          <Container>
-            <NavbarBrand tag={Link} to="/">MeeetWebsite</NavbarBrand>
+                <Container>
+                    <NavbarBrand tag={Link} to="/">MeeetWebsite / Users: {this.state.users} / Events: {this.state.events}</NavbarBrand>
             <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
             <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>
               <ul className="navbar-nav flex-grow">
@@ -34,13 +55,16 @@ export class NavMenu extends Component {
                   <NavLink tag={Link} className="text-dark" to="/">Home</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/fetch-data">Fetch Users</NavLink>
+                  <NavLink tag={Link} className="text-dark" to="/fetch-data">Users</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/fetch-events">Fetch Events</NavLink>
+                  <NavLink tag={Link} className="text-dark" to="/fetch-events">Events</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/fetch-groups">Fetch Groups</NavLink>
+                  <NavLink tag={Link} className="text-dark" to="/fetch-groups">Groups</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={Link} className="text-dark" to="/fetch-friends">Friends</NavLink>
                 </NavItem>
               </ul>
             </Collapse>

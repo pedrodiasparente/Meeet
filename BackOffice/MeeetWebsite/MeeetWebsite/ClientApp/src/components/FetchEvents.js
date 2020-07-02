@@ -74,6 +74,54 @@ export class FetchEvents extends Component {
             body: JSON.stringify(userEvents)
         });
 
+        const dataUserOpcao = await fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getUserOpcaoperevent/' + idInt, { mode: 'cors' });
+        const userUserOpcao = await dataUserOpcao.json();
+
+        fetch('https://meeet-projeto.azurewebsites.net/api/meeet/DeleteUserOpcao', {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userUserOpcao)
+        });
+
+        const dataOpcao = await fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getOpcaoperevent/' + idInt, { mode: 'cors' });
+        const userOpcao = await dataOpcao.json();
+
+        fetch('https://meeet-projeto.azurewebsites.net/api/meeet/DeleteOpcao', {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userOpcao)
+        });
+
+        const dataVotacao = await fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getVotacaoperevent/' + idInt, { mode: 'cors' });
+        const userVotacao = await dataVotacao.json();
+
+        fetch('https://meeet-projeto.azurewebsites.net/api/meeet/DeleteVotacao', {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userVotacao)
+        });
+
+        const dataRequests = await fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getEventoHasRequests/' + idInt, { mode: 'cors' });
+        const userRequests = await dataRequests.json();
+
+        fetch('https://meeet-projeto.azurewebsites.net/api/meeet/DeleteEventoRequests', {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userRequests)
+        });
+
         const dataEvent = await fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getevento/' + idInt, { mode: 'cors' });
         const event = await dataEvent.json();
 

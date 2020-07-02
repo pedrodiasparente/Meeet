@@ -5,6 +5,7 @@ import { Home } from './components/Home';
 import { FetchData } from './components/FetchData';
 import { FetchEvents } from './components/FetchEvents';
 import { FetchGroups } from './components/FetchGroups';
+import { FetchFriends } from './components/FetchFriends';
 
 import './custom.css'
 
@@ -19,6 +20,7 @@ export default class App extends Component {
         <Route path='/fetch-data' component={FetchData} />
         <Route path='/fetch-events' component={FetchEvents} />
         <Route path='/fetch-groups' component={FetchGroups} />
+        <Route path='/fetch-friends' component={FetchFriends} />
       </Layout>
     );
   }

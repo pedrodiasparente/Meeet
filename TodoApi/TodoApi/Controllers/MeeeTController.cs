@@ -166,8 +166,23 @@ namespace TodoApi.Controllers
             return users;
         }
 
+        // Utilizadores por lista de id
+        // POST:
+        [Route("getEventsPerIDs")]
+        [HttpPost]
+        public List<Evento> GetEventsPerIDs([FromBody] List<int> li)
+        {
+            List<Evento> events = new List<Evento>();
+            foreach (int i in li)
+            {
+                foreach (Evento e in _context.Evento)
+                {
+                    if (i == e.Id) events.Add(e);
+                }
+            }
 
-
+            return events;
+        }
 
         // Longitude de um user
         // GET
@@ -232,7 +247,7 @@ namespace TodoApi.Controllers
         // Users num evento
         // GET
         [Route("getUsersPerEvent")]
-        [HttpGet]
+        [HttpPost]
         public List<Utilizador> GetUsersPerEvent([FromBody] List<UtilizadorEvento> lue)
         {
             List<Utilizador> ret = new List<Utilizador>();
@@ -252,7 +267,7 @@ namespace TodoApi.Controllers
         // UtilizadorEventos de um Evento
         // GET
         [Route("getAmigosNotEvent/{id_user:int}")]
-        [HttpGet]
+        [HttpPost]
         public List<Utilizador> GetAmigosNotEvent([FromBody] List<List<Utilizador>> llu)
         {
             List<Utilizador> amigos = llu[0];
@@ -294,7 +309,7 @@ namespace TodoApi.Controllers
         // Eventos num User
         // GET
         [Route("getEventosPerUser")]
-        [HttpGet]
+        [HttpPost]
         public List<Evento> GetEventosPerUser([FromBody] List<UtilizadorEvento> lue)
         {
             List<Evento> ret = new List<Evento>();
@@ -303,6 +318,27 @@ namespace TodoApi.Controllers
                 foreach (var e in _context.Evento)
                 {
                     if (e.Id == ue.IdEvento)
+                    {
+                        ret.Add(e);
+                        break;
+                    }
+                }
+            }
+            return ret;
+        }
+
+        // Eventos num User
+        // GET
+        [Route("getEventosPerAdmin")]
+        [HttpPost]
+        public List<Evento> GetEventosPerAdmin([FromBody] List<UtilizadorEvento> lue)
+        {
+            List<Evento> ret = new List<Evento>();
+            foreach (UtilizadorEvento ue in lue)
+            {
+                foreach (var e in _context.Evento)
+                {
+                    if (e.Id == ue.IdEvento && e.IdAdmin == ue.IdUtilizador)
                     {
                         ret.Add(e);
                         break;
@@ -330,7 +366,7 @@ namespace TodoApi.Controllers
         // Grupos de um utilizador
         // GET: api/MeeeT/getGrupoPerUser
         [Route("getGrupoPerUser")]
-        [HttpGet]
+        [HttpPost]
         public List<Grupo> GetGrupoPerUser([FromBody] List<UtilizadorGrupo> lug)
         {
             List<Grupo> ret = new List<Grupo>();
@@ -346,6 +382,20 @@ namespace TodoApi.Controllers
                 }
             }
             return ret;
+        }
+
+        // UtilizadorGrupos de um User
+        // GET
+        [Route("getUserGruposPerGroup/{id_group:int}")]
+        [HttpGet]
+        public List<UtilizadorGrupo> GetUserGruposPerGroup(int id_group)
+        {
+            List<UtilizadorGrupo> lug = new List<UtilizadorGrupo>();
+            foreach (var aux in _context.UtilizadorGrupo)
+            {
+                if (aux.IdGrupo == id_group) lug.Add(aux);
+            }
+            return lug;
         }
 
         // POR TESTAR
@@ -410,7 +460,7 @@ namespace TodoApi.Controllers
         // Requests dum evento
         // GET
         [Route("getEventoRequests")]
-        [HttpGet]
+        [HttpPost]
         public List<RequestEvento> GetEventoRequests([FromBody] List<EventoHasRequests> lup)
         {
             List<RequestEvento> ret = new List<RequestEvento>();
@@ -426,6 +476,48 @@ namespace TodoApi.Controllers
                 }
             }
             return ret;
+        }
+
+        // UtilizadorEventos de um Evento
+        // GET
+        [Route("getUserOpcaoPerEvent/{id_event:int}")]
+        [HttpGet]
+        public List<UtilizadorOpcao> GetUserOpcaoPerEvent(int id_event)
+        {
+            List<UtilizadorOpcao> lue = new List<UtilizadorOpcao>();
+            foreach (var aux in _context.UtilizadorOpcao)
+            {
+                if (aux.IdEvento == id_event) lue.Add(aux);
+            }
+            return lue;
+        }
+
+        // UtilizadorEventos de um Evento
+        // GET
+        [Route("getOpcaoPerEvent/{id_event:int}")]
+        [HttpGet]
+        public List<Opcao> GetOpcaoPerEvent(int id_event)
+        {
+            List<Opcao> lue = new List<Opcao>();
+            foreach (var aux in _context.Opcao)
+            {
+                if (aux.IdEvento == id_event) lue.Add(aux);
+            }
+            return lue;
+        }
+
+        // UtilizadorEventos de um Evento
+        // GET
+        [Route("getVotacaoPerEvent/{id_event:int}")]
+        [HttpGet]
+        public List<Votacao> GetVotacaoPerEvent(int id_event)
+        {
+            List<Votacao> lue = new List<Votacao>();
+            foreach (var aux in _context.Votacao)
+            {
+                if (aux.IdEvento == id_event) lue.Add(aux);
+            }
+            return lue;
         }
 
         /********\
@@ -736,6 +828,17 @@ namespace TodoApi.Controllers
             _context.SaveChanges();
         }
 
+        [Route("DeleteEventosAdmin")]
+        [HttpDelete]
+        public void DeleteEventosAdmin([FromBody] List<Evento> le)
+        {
+            foreach (Evento e in le)
+            {
+                _context.Evento.Remove(e);
+            }
+            _context.SaveChanges();
+        }
+
         // DELETE: api/ApiWithActions/5
         [Route("DeleteVotacao")]
         [HttpDelete]
@@ -781,6 +884,15 @@ namespace TodoApi.Controllers
             {
                 _context.UtilizadorConvites.Remove(uc);
             }
+            _context.SaveChanges();
+        }
+
+        // DELETE: api/ApiWithActions/5
+        [Route("DeleteUserSingleConvite")]
+        [HttpDelete]
+        public void DeleteUserSingleConvite([FromBody] UtilizadorConvites uc)
+        {
+            _context.UtilizadorConvites.Remove(uc);
             _context.SaveChanges();
         }
 
