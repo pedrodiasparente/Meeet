@@ -43,11 +43,11 @@ useEffect(() => {
 
 async function sendRequest(id){
   const data = {
-    idUserSend:Number(global.userID),
+    idUserSend: global.userID,
     utilizadorPedidosAmizade:null
   };
   console.log(JSON.stringify(data) + '/ ID:' + id);
-  fetch('https://meeet-projeto.azurewebsites.net/api/meeet/PostPedidoAmizade/8', {
+  fetch('https://meeet-projeto.azurewebsites.net/api/meeet/PostPedidoAmizade/' + id , {
     method: 'POST',
     headers: {
       Accept: 'application/json',
