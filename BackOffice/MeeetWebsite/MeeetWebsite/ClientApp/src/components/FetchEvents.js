@@ -34,7 +34,7 @@ export class FetchEvents extends Component {
             "votacao":null
         }
 
-        const response = await fetch('https://meeet-projeto.azurewebsites.net/api/meeet/PostEvento', {
+        await fetch('https://meeet-projeto.azurewebsites.net/api/meeet/PostEvento', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -62,10 +62,22 @@ export class FetchEvents extends Component {
 
     async removeEvent(idInt) {
 
-        const data = await fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getevento/' + idInt, { mode: 'cors' });
-        const event = await data.json();
+        const dataUserEvents = await fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getusereventosperevent/' + idInt, { mode: 'cors' });
+        const userEvents = await dataUserEvents.json();
 
-        fetch('https://meeet-projeto.azurewebsites.net/api/meeet/DeleteEvent', {
+        fetch('https://meeet-projeto.azurewebsites.net/api/meeet/DeleteuserEventos', {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userEvents)
+        });
+
+        const dataEvent = await fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getevento/' + idInt, { mode: 'cors' });
+        const event = await dataEvent.json();
+
+        fetch('https://meeet-projeto.azurewebsites.net/api/meeet/DeleteEvento', {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json, text/plain, */*',

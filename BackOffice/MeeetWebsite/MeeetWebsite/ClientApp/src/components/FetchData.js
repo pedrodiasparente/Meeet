@@ -54,6 +54,78 @@ export class FetchData extends Component {
 
     async removeUser(idInt) {
 
+        const dataAmigos = await fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getamigosuser/' + idInt, { mode: 'cors' });
+        const userAmigos = await dataAmigos.json();
+
+        fetch('https://meeet-projeto.azurewebsites.net/api/meeet/DeleteAmigos', {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userAmigos)
+        });
+
+        const dataGrupos = await fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getusergruposperuser/' + idInt, { mode: 'cors' });
+        const userGrupos = await dataGrupos.json();
+
+        fetch('https://meeet-projeto.azurewebsites.net/api/meeet/DeleteUserGrupos', {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userGrupos)
+        });
+
+        const dataPedidos = await fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getalluserpedidosamizade/' + idInt, { mode: 'cors' });
+        const userPedidos = await dataPedidos.json();
+
+        fetch('https://meeet-projeto.azurewebsites.net/api/meeet/DeleteAllUserPedidosAmizade', {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userPedidos)
+        });
+
+        const dataConvites = await fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getalluserconvites/' + idInt, { mode: 'cors' });
+        const userConvites = await dataConvites.json();
+
+        fetch('https://meeet-projeto.azurewebsites.net/api/meeet/DeleteUserConvites', {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userConvites)
+        });
+
+        const dataEvento = await fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getusereventosPerUser/' + idInt, { mode: 'cors' });
+        const userEvento = await dataEvento.json();
+
+        fetch('https://meeet-projeto.azurewebsites.net/api/meeet/DeleteUserEventos', {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userEvento)
+        });
+
+        const dataOpcao = await fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getuseropcaoperuser/' + idInt, { mode: 'cors' });
+        const userOpcao = await dataOpcao.json();
+
+        fetch('https://meeet-projeto.azurewebsites.net/api/meeet/DeleteUserOpcao', {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userOpcao)
+        });
+
         const data = await fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getuser/' + idInt, { mode: 'cors' });
         const user = await data.json();
 

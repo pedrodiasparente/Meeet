@@ -117,6 +117,21 @@ namespace TodoApi.Controllers
             return _context.Grupo.Find(id);
         }
 
+        // NEW FUNC
+        // Amigos de um user
+        // GET:
+        [Route("getAmigosUser/{id_user:int}")]
+        [HttpGet]
+        public List<Amigos> GetAmigosUser(int id_user)
+        {
+            List<Amigos> amigos = new List<Amigos>();
+            foreach (var t in _context.Amigos)
+            {
+                if (id_user == t.IdUser1) amigos.Add(t);
+                else if (id_user == t.IdUser2) amigos.Add(t);
+            }
+            return amigos;
+        }
 
         // NEW FUNC
         // Amigos de um user
@@ -181,6 +196,21 @@ namespace TodoApi.Controllers
         public Evento GetEvento(int id_evento)
         {
             return _context.Evento.Find(id_evento);
+        }
+
+        // POR TESTAR
+        // UtilizadorEventos de um Evento
+        // GET
+        [Route("getUserOpcaoPerUser/{id_user:int}")]
+        [HttpGet]
+        public List<UtilizadorOpcao> GetUserOpcaoPerUser(int id_user)
+        {
+            List<UtilizadorOpcao> luo = new List<UtilizadorOpcao>();
+            foreach (var aux in _context.UtilizadorOpcao)
+            {
+                if (aux.IdUtilizador == id_user) luo.Add(aux);
+            }
+            return luo;
         }
 
         // POR TESTAR
@@ -331,6 +361,34 @@ namespace TodoApi.Controllers
                 if (aux.IdReceive == id_user) lup.Add(aux.IdSend);
             }
             return lup;
+        }
+
+        // UtilizadorPedidosAmizade de um User
+        // GET
+        [Route("getAllUserPedidosAmizade/{id_user:int}")]
+        [HttpGet]
+        public List<UtilizadorPedidosAmizade> GetAllUserPedidosAmizade(int id_user)
+        {
+            List<UtilizadorPedidosAmizade> lup = new List<UtilizadorPedidosAmizade>();
+            foreach (var aux in _context.UtilizadorPedidosAmizade)
+            {
+                if (aux.IdReceive == id_user) lup.Add(aux);
+            }
+            return lup;
+        }
+
+        // UtilizadorPedidosAmizade de um User
+        // GET
+        [Route("getAllUserConvites/{id_user:int}")]
+        [HttpGet]
+        public List<UtilizadorConvites> GetAllUserConvites(int id_user)
+        {
+            List<UtilizadorConvites> luc = new List<UtilizadorConvites>();
+            foreach (var aux in _context.UtilizadorConvites)
+            {
+                if (aux.IdUser == id_user) luc.Add(aux);
+            }
+            return luc;
         }
 
         // POR TESTAR
@@ -577,9 +635,24 @@ namespace TodoApi.Controllers
         \*******/
 
         // PUT: api/MeeeT/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [Route("UpdateUser/{id:int}")]
+        [HttpPut]
+        public void UpdateUser([FromBody] Utilizador u, int id)
         {
+            Utilizador user = GetUser(id);
+            if(user != null) {
+                user.Username = u.Username;
+                user.Email = u.Email;
+                user.Password = u.Password;
+                user.Longitude = u.Longitude;
+                user.Latitude = u.Latitude;
+                user.UrlFoto = u.UrlFoto;
+                user.Morada = u.Morada;
+                user.DataNascimento = u.DataNascimento;
+                user.Genero = u.Genero;
+                user.Bio = u.Bio;
+                _context.SaveChanges();
+            } 
         }
 
 
@@ -598,11 +671,116 @@ namespace TodoApi.Controllers
         }
 
         // DELETE: api/ApiWithActions/5
-        [Route("DeleteEvent")]
+        [Route("DeleteAmigos")]
         [HttpDelete]
-        public void DeleteEvent([FromBody] Evento e)
+        public void DeleteAmigos([FromBody] List<Amigos> la)
+        {
+            foreach (Amigos a in la)
+            {
+                _context.Amigos.Remove(a);
+            }
+            _context.SaveChanges();
+        }
+
+        // DELETE: api/ApiWithActions/5
+        [Route("DeleteUserGrupos")]
+        [HttpDelete]
+        public void DeleteUserGrupos([FromBody] List<UtilizadorGrupo> lug)
+        {
+            foreach (UtilizadorGrupo ug in lug)
+            {
+                _context.UtilizadorGrupo.Remove(ug);
+            }
+            _context.SaveChanges();
+        }
+
+        // DELETE: api/ApiWithActions/5
+        [Route("DeleteGrupo")]
+        [HttpDelete]
+        public void DeleteGrupo([FromBody] Grupo g)
+        {
+            _context.Grupo.Remove(g);
+            _context.SaveChanges();
+        }
+
+        // DELETE: api/ApiWithActions/5
+        [Route("DeleteUserEventos")]
+        [HttpDelete]
+        public void DeleteUserEventos([FromBody] List<UtilizadorEvento> lue)
+        {
+            foreach(UtilizadorEvento ue in lue)
+            {
+                _context.UtilizadorEvento.Remove(ue);
+            }
+            _context.SaveChanges();
+        }
+
+        // DELETE: api/ApiWithActions/5
+        [Route("DeleteEventoRequests")]
+        [HttpDelete]
+        public void DeleteEventoRequests([FromBody] List<EventoHasRequests> ler)
+        {
+            foreach (EventoHasRequests er in ler)
+            {
+                _context.EventoHasRequests.Remove(er);
+            }
+            _context.SaveChanges();
+        }
+
+        // DELETE: api/ApiWithActions/5
+        [Route("DeleteEvento")]
+        [HttpDelete]
+        public void DeleteEvento([FromBody] Evento e)
         {
             _context.Evento.Remove(e);
+            _context.SaveChanges();
+        }
+
+        // DELETE: api/ApiWithActions/5
+        [Route("DeleteVotacao")]
+        [HttpDelete]
+        public void DeleteVotacao([FromBody] List<Votacao> lv)
+        {
+            foreach (Votacao v in lv)
+            {
+                _context.Votacao.Remove(v);
+            }
+            _context.SaveChanges();
+        }
+
+        // DELETE: api/ApiWithActions/5
+        [Route("DeleteOpcao")]
+        [HttpDelete]
+        public void DeleteOpcao([FromBody] List<Opcao> lo)
+        {
+            foreach (Opcao o in lo)
+            {
+                _context.Opcao.Remove(o);
+            }
+            _context.SaveChanges();
+        }
+
+        // DELETE: api/ApiWithActions/5
+        [Route("DeleteUserOpcao")]
+        [HttpDelete]
+        public void DeleteUserOpcao([FromBody] List<UtilizadorOpcao> luo)
+        {
+            foreach (UtilizadorOpcao uo in luo)
+            {
+                _context.UtilizadorOpcao.Remove(uo);
+            }
+            _context.SaveChanges();
+        }
+
+        // DELETE: api/ApiWithActions/5
+        [Route("DeleteUserConvites")]
+        [HttpDelete]
+        public void DeleteUserConvites([FromBody] List<UtilizadorConvites> luc)
+        {
+            foreach (UtilizadorConvites uc in luc)
+            {
+                _context.UtilizadorConvites.Remove(uc);
+            }
             _context.SaveChanges();
         }
 
@@ -612,6 +790,18 @@ namespace TodoApi.Controllers
         public void DeleteUserPedidosAmizade([FromBody] UtilizadorPedidosAmizade upa)
         {
             _context.UtilizadorPedidosAmizade.Remove(upa);
+            _context.SaveChanges();
+        }
+
+        // DELETE: api/ApiWithActions/5
+        [Route("DeleteAllUserPedidosAmizade")]
+        [HttpDelete]
+        public void DeleteAllUserPedidosAmizade([FromBody] List<UtilizadorPedidosAmizade> lup)
+        {
+            foreach (UtilizadorPedidosAmizade up in lup)
+            {
+                _context.UtilizadorPedidosAmizade.Remove(up);
+            }
             _context.SaveChanges();
         }
     }
