@@ -164,7 +164,7 @@ namespace TodoApi.Controllers
             }
             
             return users;
-        }
+        }       
 
         // Utilizadores por lista de id
         // POST:
@@ -520,9 +520,42 @@ namespace TodoApi.Controllers
             return lue;
         }
 
+        // GET
+        [Route("getSharing/{id_user:int}/{id_event:int}")]
+        [HttpGet]
+        public int GetSharing(int id_user, int id_event)
+        {
+            foreach (var t in _context.UtilizadorEvento)
+            {
+                if (t.IdEvento == id_event && t.IdUtilizador == id_user)
+                {
+                    return t.SharingPosition;
+                }
+            }
+            return 0;
+        }
+
         /********\
        | * POST * | ---------------------------------------------------------------------------------------------------------------
         \********/
+
+        // POST: api/MeeeT/postamigo
+        [Route("ToggleSharing/{id_user:int}/{id_event:int}")]
+        [HttpPost]
+        public void ToggleSharing(int id_user, int id_event)
+        {
+            foreach (var t in _context.UtilizadorEvento)
+            {
+                if (t.IdEvento == id_event && t.IdUtilizador == id_user)
+                {
+                    if (t.SharingPosition == 0) t.SharingPosition = 1;
+                    else t.SharingPosition = 0;
+                    break;
+                }
+            }
+            
+            _context.SaveChanges();
+        }
 
 
         // POR TESTAR
