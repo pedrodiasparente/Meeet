@@ -42,14 +42,15 @@ function CreateEvent({ data , navigation }) {
 
   React.useEffect(() => {
     if(idEvento > 0){
+      evento.id = idEvento
       fetch('https://meeet-projeto.azurewebsites.net/api/meeet/AddToEvent/' + global.userID, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(modalEvent)
-      }).then((response) => console.log(JSON.stringify(response)))
+        body: JSON.stringify(evento)
+      }).then((response) => console.log('-> Adding ADMIN |' + JSON.stringify(response)))
       .catch((error) => {
         console.error(error);
       });

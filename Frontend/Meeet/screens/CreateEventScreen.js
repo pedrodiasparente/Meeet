@@ -13,7 +13,7 @@ function CreateEventScreen( { navigation } ) {
     <View style = {styles.background}>
     <Title title = {'Create Event'}/>
     <View style = {styles.body}>
-        <CreateEvent data={DATA} navigation={navigation}/>
+        <CreateEvent navigation={navigation}/>
       </View>
 
         </View>
