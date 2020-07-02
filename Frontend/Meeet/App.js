@@ -12,6 +12,7 @@ import ProfileScreen from './screens/ProfileScreen'
 import FriendProfileScreen from './screens/FriendProfileScreen'
 import EventMenuScreen from './screens/EventMenuScreen'
 import HandleRequestScreen from './screens/HandleRequestScreen'
+import HandleInviteScreen from './screens/HandleInviteScreen'
 import EventScreen from './screens/EventScreen'
 import ShareLocationScreen from './screens/ShareLocationScreen'
 import CreateEventScreen from './screens/CreateEventScreen'
@@ -190,6 +191,7 @@ export default function App({ navigation }) {
               <Stack.Screen name="CreateGroup" component={CreateGroupScreen} />
               <Stack.Screen name="FriendsMenu" component={FriendsMenuScreen} />
               <Stack.Screen name="HandleRequest" component={HandleRequestScreen} />
+              <Stack.Screen name="HandleInvite" component={HandleInviteScreen} />
               <Stack.Screen name="Invite" component={InviteScreen} />
             </>
           )}

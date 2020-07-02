@@ -39,11 +39,11 @@ function EventMenuScreen({ navigation }) {
           </View>
         <View style = {styles.buttons}>
 
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('HandleInvite')}>
             <Text style= {{color: '#fbfbfb'}}>
               Event invitations
-              </Text>
-            </TouchableOpacity>
+            </Text>
+          </TouchableOpacity>
 
           </View>
         <View style = {styles.buttons}>
