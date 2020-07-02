@@ -41,8 +41,20 @@ function CreateEvent({ data , navigation }) {
   },[eventName, eventDateTime, eventLongitude, eventLatitude, eventDescription, eventAge]);
 
   React.useEffect(() => {
-    if(idEvento > 0)
+    if(idEvento > 0){
+      fetch('https://meeet-projeto.azurewebsites.net/api/meeet/AddToEvent/' + global.userID, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(modalEvent)
+      }).then((response) => console.log(JSON.stringify(response)))
+      .catch((error) => {
+        console.error(error);
+      });
       createWarning();
+    }
   }, [idEvento])
 
 

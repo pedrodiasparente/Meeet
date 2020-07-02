@@ -15,7 +15,7 @@ function HandleRequestScreen({navigation}) {
   const [modalEvent, setModalEvent] = useState(null);
 
   useEffect(() => {
-    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getAllUserConvites/3', {
+    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getAllUserConvites/' + global.userID, {
         method: 'GET',
         headers: {
         "Accept": "application/json",
@@ -74,7 +74,7 @@ function HandleRequestScreen({navigation}) {
   };
 
   async function eraseRequest() {
-    const data = { idUser:3, idConvidador: modalEvent.idAdmin, idEvento:modalEvent.id, id: null, idUserNavigation:null }
+    const data = { idUser:global.userID, idConvidador: modalEvent.idAdmin, idEvento:modalEvent.id, id: null, idUserNavigation:null }
     fetch('https://meeet-projeto.azurewebsites.net/api/meeet/DeleteUserSingleConvite', {
       method: 'DELETE',
       headers: {
