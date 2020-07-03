@@ -1,5 +1,5 @@
 import React, { Component, useState, useEffect } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Image, PermissionsAndroid} from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Image, PermissionsAndroid, ActivityIndicator} from 'react-native'
 import Icon from 'react-native-vector-icons/dist/FontAwesome5'
 import MapView, { Marker } from 'react-native-maps'
 import Geolocation from 'react-native-geolocation-service';
@@ -8,93 +8,42 @@ import Title from '../components/Title'
 import EventContext from '../contexts/EventContext'
 
 
-function ShareLocationScreen({ navigation }) {
+function CheckLocationScreen({ navigation, route }) {
   const { evento } = React.useContext(EventContext);
+  const { id } = route.params
 
-  const [location, setLocation] = useState({latitude: 40, longitude:8});
-  const [isSharing, setIsSharing] = useState(false);
-  const [hasLocationPermission, setLocationPermission] = useState(false);
-
-  const requestLocationPermission = async () => {
-  try {
-    const granted = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-      {
-        title: "Location Permission",
-        message:
-          "Meeet need to access yout location to share it",
-        buttonNeutral: "Ask Me Later",
-        buttonNegative: "Cancel",
-        buttonPositive: "OK"
-      }
-    );
-    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-      setLocationPermission(true);
-    } else {
-      setLocationPermission(false);
-    }
-  } catch (err) {
-    console.warn(err);
-  }
-  };
+  const [latitude, setLatitude] = useState(null);
+  const [longitude, setLongitude] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    requestLocationPermission();
-    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getSharing/' + global.userID + '/' + evento.id)
-    .then((response) => response.json())
-    .then((json) => {
-      console.log('IS SHARING? '+json);
-      setIsSharing(json);
-    })
-    .catch((error) => {
-      console.error(error);
+    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getLongitudeUser/'+ id)
+      .then((response) => { console.log(JSON.stringify(response)); return response.json(); })
+      .then((json) => {
+        setLongitude(json);
+      })
+      .catch((error) => {
+        console.error(error);
     });
+
+    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getLatitudeUser/'+ id)
+      .then((response) => { console.log(JSON.stringify(response)); return response.json(); })
+      .then((json) => {
+        setLatitude(json);
+      })
+      .catch((error) => {
+        console.error(error);
+    });
+
   },[]);
 
   useEffect(() => {
-    if (hasLocationPermission) {
-      Geolocation.getCurrentPosition(
-        (position) => {
-          setLocation(position.coords)
-        },
-        (error) => {
-          // See error code charts below.
-          console.log(error.code, error.message);
-        },
-        { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
-      );
+    if(latitude != null && longitude != null){
+      setIsLoading(false);
     }
+  },[latitude, longitude]);
 
-  },[hasLocationPermission]);
 
-  function toggleSharing(){
-    console.log("USERID: https://meeet-projeto.azurewebsites.net/api/meeet/SetLatLon/" + global.userID + '/' + location.latitude + '/' + location.longitude);
-
-    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/setlatlon/'
-     + global.userID + '/' + location.latitude + '/' + location.longitude, {
-       method: 'POST',
-       headers: {
-         Accept: 'application/json',
-         'Content-Type': 'application/json'
-       }
-     }).then((response) => console.log('SetLatLon: ' + JSON.stringify(response)))
-      .catch((error) => {
-        console.error(error);
-      });
-
-    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/ToggleSharing/' + global.userID + '/' + evento.id, {
-       method: 'POST',
-       headers: {
-         Accept: 'application/json',
-         'Content-Type': 'application/json'
-       }
-     }).then((response) => console.log('TOGGLE: ' + JSON.stringify(response)))
-      .catch((error) => {
-        console.error(error);
-      });
-
-      setIsSharing(!isSharing);
-  }
 
   return (
     <View style = {styles.background}>
@@ -103,30 +52,31 @@ function ShareLocationScreen({ navigation }) {
 
       <View style = {styles.body}>
 
-      <View style={styles.container}>
+      {isLoading? <ActivityIndicator/> : (
+        <View style={styles.container}>
         <MapView
           style={styles.map}
           region={{
-            latitude: location.latitude,
-            longitude: location.longitude,
+            latitude: latitude,
+            longitude: longitude,
             latitudeDelta: 0.015,
             longitudeDelta: 0.0121,
           }}
           customMapStyle={mapStyle}
           >
           <Marker
-            coordinate={{  latitude: location.latitude, longitude: location.longitude, }}
+            coordinate={{  latitude: latitude, longitude: longitude, }}
             title={"ExampleUser"}
             description={"Uni fechada"}
             />
         </MapView>
-       </View>
+       </View>)}
 
         <View style = {styles.buttons}>
 
-          <TouchableOpacity style={styles.button} onPress={() => toggleSharing()}>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()}>
             <Text style= {{color: '#fbfbfb'}}>
-              {isSharing == 0 ? 'Share' : 'Stop Sharing'}
+              Go Back
               </Text>
           </TouchableOpacity>
 
@@ -394,4 +344,4 @@ const mapStyle =[
   }
 ]
 
-export default ShareLocationScreen;
+export default CheckLocationScreen;

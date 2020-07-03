@@ -1,16 +1,19 @@
-import React, { Component, useState } from 'react';
-import {StyleSheet,Text,View,TouchableOpacity,Image,FlatList,Modal} from 'react-native';
-import AuthContext from '../contexts/AuthContext'
+import React, { Component, useState, useEffect } from 'react';
+import {StyleSheet,Text,View,TouchableOpacity,Image,FlatList,Modal,ActivityIndicator} from 'react-native';
+import EventContext from '../contexts/EventContext'
 import SearchBar from '../components/SearchBar';
 
 
 
-function EventUsers({ data }) {
+function EventUsers({ data, navigation }) {
+    const { evento } = React.useContext(EventContext);
 
     const [state, setState] = React.useState({ text: '' , list: data });
     const [modalVisible, setModalVisible] = React.useState(false);
     const [itemAtual, setItemAtual] = React.useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    const [isSharing, setIsSharing] = useState(false);
+    const [isLocLoading, setIsLocLoading] = useState(true);
 
   let arrayholder = data;
 
@@ -25,8 +28,28 @@ function EventUsers({ data }) {
     setState({text: state.text, list: newData });
   };
 
+  useEffect(() => {
+    if(modalVisible == false){
+      setItemAtual(false);
+    }
+  },[modalVisible]);
 
-    return (
+  useEffect(() => {
+    if(itemAtual){
+      fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getSharing/' + itemAtual.id + '/' + evento.id)
+      .then((response) => { console.log(JSON.stringify(response)); return response.json(); })
+      .then((json) => {
+        console.log('IS SHARING? '+json);
+        setIsSharing(json);
+        setIsLocLoading(false);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    }
+  },[itemAtual]);
+
+  return (
         <View style={styles.container}>
 
         <Modal
@@ -43,11 +66,14 @@ function EventUsers({ data }) {
                onPress={() => {}}>
                 <Text style={styles.textStyle}>View Profile</Text>
               </TouchableOpacity>
-              <TouchableOpacity
-               style={styles.openButton}
-               onPress={() => {}}>
-                <Text style={styles.textStyle}>Send Mensage</Text>
-              </TouchableOpacity>
+
+              {isLocLoading ? <ActivityIndicator style={styles.loading}/> : (
+                (isSharing == 1) ? (<TouchableOpacity
+                  style={styles.openButton}
+                  onPress={() => { navigation.navigate('CheckLocation',{id: itemAtual.id}); setModalVisible(false)}}>
+                    <Text style={styles.textStyle}>Check Location</Text>
+                </TouchableOpacity>) : (<></>))}
+
               <TouchableOpacity
                style={styles.openButtonFinal}
                onPress={() => {setModalVisible(!modalVisible);}}>
@@ -214,6 +240,9 @@ function EventUsers({ data }) {
     modalText: {
       marginBottom: 15,
       textAlign: "center"
+    },
+    loading: {
+      marginTop: 15,
     }
   });
 

@@ -5,7 +5,7 @@ import Title from '../components/Title'
 import EventContext from '../contexts/EventContext'
 import EventUsers from '../components/EventUsers'
 
-function EventUsersScreen() {
+function EventUsersScreen({ navigation }) {
   const { evento } = React.useContext(EventContext);
 
   const [userEvents, setUserEvents] = React.useState([]);
@@ -57,7 +57,7 @@ return (
     <View style = {styles.background}>
         <Title title = {'Event Users'}/>
         <View style = {styles.body}>
-        { isLoading ? <ActivityIndicator/> : <EventUsers data={users}/> }
+        { isLoading ? <ActivityIndicator/> : <EventUsers data={users} navigation={navigation}/> }
         </View>
     </View>
   )

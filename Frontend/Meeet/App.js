@@ -21,6 +21,7 @@ import FriendsMenuScreen from './screens/FriendsMenuScreen'
 import InviteScreen from './screens/InviteScreen'
 import RequestFriendsScreen from './screens/RequestFriendsScreen'
 import CreateGroupScreen from './screens/CreateGroupScreen'
+import CheckLocationScreen from './screens/CheckLocationScreen'
 
 
 
@@ -194,6 +195,7 @@ export default function App({ navigation }) {
               <Stack.Screen name="FriendsMenu" component={FriendsMenuScreen} />
               <Stack.Screen name="HandleRequest" component={HandleRequestScreen} />
               <Stack.Screen name="HandleInvite" component={HandleInviteScreen} />
+              <Stack.Screen name="CheckLocation" component={CheckLocationScreen} />
               <Stack.Screen name="Invite" component={InviteScreen} />
             </>
           )}
