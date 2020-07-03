@@ -478,6 +478,49 @@ namespace TodoApi.Controllers
             return ret;
         }
 
+        // GET
+        [Route("getOpcoesPerUserVotacao/{id_user:int}/{id_votacao:int}")]
+        [HttpGet]
+        public List<int> GetOpcoesPerUserVotacao(int id_user, int id_votacao)
+        {
+            List<int> lue = new List<int>();
+            foreach (var aux in _context.UtilizadorOpcao)
+            {
+                if (aux.IdUtilizador == id_user && aux.IdVotacao == id_votacao) lue.Add(aux.IdOpcao);
+            }
+            return lue;
+        }
+
+        // GET
+        [Route("getOpcoesPerIDs")]
+        [HttpPost]
+        public List<Opcao> GetOpcoesPerIDs([FromBody] List<int> opcoes)
+        {
+            List<Opcao> lue = new List<Opcao>();
+            foreach(int i in opcoes)
+            {
+                foreach (var aux in _context.Opcao)
+                {
+                    if (aux.IdOpcao == i) lue.Add(aux);
+                }
+            }
+            
+            return lue;
+        }
+
+        // GET
+        [Route("getUserIDsPerOpcao/{id_opcao:int}")]
+        [HttpGet]
+        public List<int> GetUserIDsPerOpcao(int id_opcao)
+        {
+            List<int> lue = new List<int>();
+            foreach (var aux in _context.UtilizadorOpcao)
+            {
+                if (aux.IdOpcao == id_opcao) lue.Add(aux.IdUtilizador);
+            }
+            return lue;
+        }
+
         // UtilizadorEventos de um Evento
         // GET
         [Route("getUserOpcaoPerEvent/{id_event:int}")]
@@ -502,6 +545,19 @@ namespace TodoApi.Controllers
             foreach (var aux in _context.Opcao)
             {
                 if (aux.IdEvento == id_event) lue.Add(aux);
+            }
+            return lue;
+        }
+
+        // GET
+        [Route("getOpcaoPerEventVotacao/{id_event:int}/{id_votacao:int}")]
+        [HttpGet]
+        public List<Opcao> GetOpcaoPerEventVotacao(int id_event, int id_votacao)
+        {
+            List<Opcao> lue = new List<Opcao>();
+            foreach (var aux in _context.Opcao)
+            {
+                if (aux.IdEvento == id_event && aux.IdVotacao == id_votacao) lue.Add(aux);
             }
             return lue;
         }
