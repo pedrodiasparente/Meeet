@@ -7,12 +7,15 @@ export class FetchData extends Component {
     super(props);
       this.state = {
           users: [],
+          events: [],
           id: "",
+          idUser: "",
           username: "",
           email: "",
           password: "",
           morada: "",
-          loading: true
+          loading: true,
+          waiting: true
       };
     }
 
@@ -179,6 +182,10 @@ export class FetchData extends Component {
         this.setState({ id: event.target.value })
     }
 
+    handleIdUserChange(event) {
+        this.setState({ idUser: event.target.value })
+    }
+
   static renderUsersTable(users) {
     return (
       <table className='table table-striped' aria-labelledby="tabelLabel">
@@ -210,49 +217,99 @@ export class FetchData extends Component {
     );
     }
 
+    static renderEventsTable(events) {
+        return (
+            <table className='table table-striped' aria-labelledby="tabelEvents">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {events.map(event =>
+                        <tr key={event.id}>
+                            <td>{event.nome}</td>
+                        </tr>
+                    )}
+                </tbody>
+            </table>
+        );
+    }
+
   render() {
-    let contents = this.state.loading
-      ? <p><em>Loading...</em></p>
-      : FetchData.renderUsersTable(this.state.users);
+      let contents = this.state.loading
+          ? <p><em>Loading...</em></p>
+          : FetchData.renderUsersTable(this.state.users);
+
+      let userEventsTable = this.state.waiting
+          ? <p><em>Waiting...</em></p>
+          : FetchData.renderEventsTable(this.state.events);
+
 
       return (
           <div>
-        <h1 id="tabelLabel" >All Users</h1>
-        <p>This component demonstrates fetching data from the server.</p>
-        {contents}
-        <label>
-            Username:
-            <input type="text" value={this.state.username} onChange={this.handleUsernameChange.bind(this)} />
-        </label>
-        <label>
-            Email:
-            <input type="text" value={this.state.email} onChange={this.handleEmailChange.bind(this)} />
-        </label>
-        <label>
-            Password:
-            <input type="text" value={this.state.password} onChange={this.handlePasswordChange.bind(this)} />
-        </label>
-        <label>
-            Morada:
-            <input type="text" value={this.state.morada} onChange={this.handleMoradaChange.bind(this)} />
-        </label>
-        <button onClick={(e) => { this.addUser(this.state.username, this.state.email, this.state.password,this.state.morada); }}>Add User</button>
+              <h1 id="tabelLabel" >All Users</h1>
+              <p>This component demonstrates fetching data from the server.</p>
+              {contents}
+              <label>
+              Username:
+              <input type="text" value={this.state.username} onChange={this.handleUsernameChange.bind(this)} />
+              </label>
+              <label>
+              Email:
+              <input type="text" value={this.state.email} onChange={this.handleEmailChange.bind(this)} />
+              </label>
+              <label>
+              Password:
+              <input type="text" value={this.state.password} onChange={this.handlePasswordChange.bind(this)} />
+              </label>
+              <label>
+              Morada:
+              <input type="text" value={this.state.morada} onChange={this.handleMoradaChange.bind(this)} />
+              </label>
+              <button onClick={(e) => { this.addUser(this.state.username, this.state.email, this.state.password,this.state.morada); }}>Add User</button>
 
-        <label>
-            Id:
-            <input type="number" value={this.state.id} onChange={this.handleIdChange.bind(this)} />
-        </label>
-        <button onClick={(e) => { this.removeUser(this.state.id); }}>Remove User</button>
+              <label>
+              Id:
+              <input type="number" value={this.state.id} onChange={this.handleIdChange.bind(this)} />
+              </label>
+              <button onClick={(e) => { this.removeUser(this.state.id); }}>Remove User</button>
 
+              <h1>______________________</h1>
 
-      </div>
-    );
-  }
+              <h1 id="tabelEvents" >All Events from User</h1>
+              {userEventsTable}
 
-  async populateUsers() {
-    const response = await fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getusers', { mode: 'cors' });
-    const data = await response.json();
-    console.log(data);
-    this.setState({ users: data, loading: false });
-  }
+              <label>
+                  Id de user:
+              <input type="number" value={this.state.idUser} onChange={this.handleIdUserChange.bind(this)} />
+              </label>
+              <button onClick={(e) => { this.populateEvents(this.state.idUser); }}>See Events from this User</button>
+          </div>
+      );
+    }
+
+    async populateEvents(idInt) {
+        const response = await fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getUserEventosPerUser/' + idInt, { mode: 'cors' });
+        const data = await response.json();
+
+        const dataEvents = await fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getEventosPerUser/', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        const eventsList = await dataEvents.json();
+        console.log(eventsList);
+        this.setState({ events: eventsList, waiting: false });
+    }
+
+    async populateUsers() {
+        const response = await fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getusers', { mode: 'cors' });
+        const data = await response.json();
+        console.log(data);
+        this.setState({ users: data, loading: false });
+    }
 }

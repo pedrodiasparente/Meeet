@@ -7,6 +7,8 @@ export class FetchEvents extends Component {
         super(props);
         this.state = {
             events: [],
+            users: [],
+            idUserEvent: "",
             nome: "",
             latitude: "",
             longitude: "",
@@ -14,7 +16,8 @@ export class FetchEvents extends Component {
             id: "",
             idUser: "",
             idEvent: "",
-            loading: true
+            loading: true,
+            waiting: true
         };
     }
 
@@ -168,6 +171,10 @@ export class FetchEvents extends Component {
         this.setState({ idEvent: event.target.value })
     }
 
+    handleIdUserEventChange(event) {
+        this.setState({ idUserEvent: event.target.value })
+    }
+
     static renderEventsTable(events) {
         return (
             <table className='table table-striped' aria-labelledby="tabelLabel">
@@ -197,10 +204,33 @@ export class FetchEvents extends Component {
         );
     }
 
+    static renderUsersTable(users) {
+        return (
+            <table className='table table-striped' aria-labelledby="tabelUsers">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {users.map(user =>
+                        <tr key={user.id}>
+                            <td>{user.username}</td>
+                        </tr>
+                    )}
+                </tbody>
+            </table>
+        );
+    }
+
     render() {
         let contents = this.state.loading
             ? <p><em>Loading...</em></p>
             : FetchEvents.renderEventsTable(this.state.events);
+
+        let userEventsTable = this.state.waiting
+            ? <p><em>Waiting...</em></p>
+            : FetchEvents.renderUsersTable(this.state.users);
 
         return (
             <div>
@@ -240,6 +270,17 @@ export class FetchEvents extends Component {
                 <input type="number" value={this.state.id} onChange={this.handleIdChange.bind(this)} />
                 </label>
                 <button onClick={(e) => { this.removeEvent(this.state.id); }}>Remove Event</button>
+
+                <h1>__________________________________</h1>
+
+                <h1 id="tabelUsers" >All Users participating in Event</h1>
+                {userEventsTable}
+
+                <label>
+                    Id de Event:
+                <input type="number" value={this.state.idUserEvent} onChange={this.handleIdUserEventChange.bind(this)} />
+                </label>
+                <button onClick={(e) => { this.populateUsers(this.state.idUserEvent); }}>See Users in this Event</button>
             </div>
         );
     }
@@ -249,5 +290,22 @@ export class FetchEvents extends Component {
         const data = await response.json();
         console.log(data);
         this.setState({ events: data, loading: false });
+    }
+
+    async populateUsers(idInt) {
+        const response = await fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getUserEventosPerEvent/' + idInt, { mode: 'cors' });
+        const data = await response.json();
+
+        const dataUsers = await fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getUsersPerEvent/', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        const usersList = await dataUsers.json();
+        console.log(usersList);
+        this.setState({ users: usersList, waiting: false });
     }
 }

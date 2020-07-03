@@ -9,9 +9,10 @@ export class Home extends Component {
         <h1>Bem vindo ao backoffice da aplicacao Meeet!</h1>
         <p>Aqui pode facilmente dar manage em dados presentes na base de dados como:</p>
         <ul>
-          <li>Os users, atraves do Fetch Users</li>
-          <li>Os eventos, atraves do Fetch Events</li>
-          <li>Os grupos, atraves do Fetch Groups</li>
+          <li>Os users, atraves do Users</li>
+          <li>Os eventos, atraves do Events</li>
+          <li>Os grupos, atraves do Groups</li>
+          <li>Os amigos, atraves do Friends</li>
         </ul>
         <p>Dentro destes pode facilmente</p>
         <ul>
