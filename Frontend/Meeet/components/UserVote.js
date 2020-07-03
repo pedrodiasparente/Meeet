@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import {
   StyleSheet,
   View,
@@ -9,18 +9,62 @@ import Icon from 'react-native-vector-icons/dist/FontAwesome5'
 
 import SingleOption from '../components/SingleOption'
 
-function UserVote({ user , votes }) {
+function UserVote({ user, votacao, opcoes }) {
+  const [userOpIds, setUserOpIds] = React.useState([]);
+  const [userOps, setUserOps] = React.useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+
+  useEffect(() => {
+    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getOpcoesPerUserVotacao/' + user.id + '/' + votacao.idVotacao, {
+        method: 'GET',
+        headers: {
+        "Accept": "application/json",
+        'Content-Type': 'application/json'
+        }
+    })
+    .then(response => { return response.json(); } )
+    .then(json => {
+      setUserOpIds(json);
+    })
+    .catch((error) => {
+      console.error('ERROR:' + error);
+    });
+  }, []);
+
+  useEffect(() => {
+    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getOpcoesPerIDs', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(userOpIds)
+    })
+    .then((response) => {return response.json()} )
+    .then((json) => {
+      setUserOps(json);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  }, [userOpIds]);
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, [userOps]);
+
     return (
       <View style = {styles.userVote}>
         <Image style = {styles.pic}
           source={{
-            uri: user.image,
+            uri: user.urlFoto,
           }}
         />
 
         <View style = {styles.optionsBox}>
           {
-            votes.map(i => <SingleOption key={i.id} option={i} userId = {user.id} />)
+            opcoes.map(i => <SingleOption key={i.id} opcao={i} userOpcoes={userOps} />)
           }
         </View>
       </View>

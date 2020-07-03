@@ -1,37 +1,98 @@
-import { View, StyleSheet, SafeAreaView, Text,FlatList, useState,TouchableOpacity} from 'react-native'
+import { View, StyleSheet, SafeAreaView, Text,FlatList, ActivityIndicator, TouchableOpacity} from 'react-native'
 import * as React from 'react';
+
+import EventContext from '../contexts/EventContext'
 
 import Title from '../components/Title'
 import UserVote from '../components/UserVote'
 
 
-function VoteScreen() {
-
+function VoteScreen({ route }) {
+  const { evento } = React.useContext(EventContext);
+  const { votacao } = route.params
   const [v1, setV1] = React.useState(false);
   const [v2, setV2] = React.useState(false);
   const [v3, setV3] = React.useState(false);
   const [v4, setV4] = React.useState(false);
+  const [opcoes, setOpcoes] = React.useState([]);
+  const [userEvents, setUserEvents] = React.useState([]);
+  const [users, setUsers] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(true);
 
+  React.useEffect(() => {
+    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getOpcaoPerEventVotacao/' + evento.id + '/' + votacao.idVotacao, {
+        method: 'GET',
+        headers: {
+        "Accept": "application/json",
+        'Content-Type': 'application/json'
+        }
+    })
+    .then(response => { return response.json(); } )
+    .then(json => {
+      setOpcoes(json);
+    })
+    .catch((error) => {
+      console.error('ERROR:' + error);
+    });
+  }, []);
 
+  React.useEffect(() => {
+    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getUserEventosPerEvent/' + evento.id, {
+        method: 'GET',
+        headers: {
+        "Accept": "application/json",
+        'Content-Type': 'application/json'
+        }
+    })
+    .then(response => { return response.json(); } )
+    .then(json => {
+      setUserEvents(json);
+    })
+    .catch((error) => {
+      console.error('ERROR:' + error);
+    });
+  }, []);
+
+  React.useEffect(() => {
+    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getUsersPerEvent', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(userEvents)
+    })
+    .then((response) => { return response.json() } )
+    .then((json) => {
+      console.log(JSON.stringify(json));
+      setUsers(json);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  }, [userEvents]);
+
+  React.useEffect(() => {
+    if(users.length > 0)
+      setIsLoading(false);
+  }, [users]);
 
 return (
     <View style = {styles.background}>
         <Title title = {'Vote'}/>
         <View style = {styles.body}>
-          <Text>
-              Opção 1 -> blalbla{"\n"}
-              Opção 2 -> blalbla{"\n"}
-              Opção 3 -> blalbla{"\n"}
-              Opção 4 -> blalbla
-              </Text>
+        {
+          opcoes.map((op, i) => {return (<Text key={op.opcao1}> { 'Opção ' + (i+1) + ' | ' + op.opcao1 } </Text>)})
+        }
 
 
           <SafeAreaView style={{...styles.container,marginTop:20,height:'62%'}}>
-            <FlatList
-              data={USERDATA}
-              renderItem={({ item }) => <UserVote votes={OPTIONSDATA} user= {item} />}
+            {isLoading ? <ActivityIndicator/> :
+              <FlatList
+              data={users}
+              renderItem={({ item }) => <UserVote user= {item} votacao={votacao} opcoes={opcoes} />}
               keyExtractor={item => item.id}
-            />
+            />}
           </SafeAreaView>
 
 
@@ -41,8 +102,8 @@ return (
           <View style = {{backgroundColor: v1 ? '#4b6937' : '#9c3d3d' , margin: 5, borderRadius:10, overflow:'hidden'}}>
               <View style={{height: 50, width: 70, alignItems: 'center', justifyContent: 'center'}}>
                <Text>Opção 1</Text>
-               
-               
+
+
               </View>
            </View>
            </TouchableOpacity>
@@ -76,7 +137,7 @@ return (
               </View>
            </View>
            </TouchableOpacity>
-           
+
 
            </View>
         </View>
@@ -96,7 +157,7 @@ const styles = StyleSheet.create({
     textSide: {
         marginTop:20,
         flexDirection: 'row',
-        alignItems:"center", 
+        alignItems:"center",
         justifyContent:"center"
     },
   });
