@@ -109,8 +109,13 @@ function HandleRequestScreen({navigation}) {
     .catch((error) => {
       console.error(error);
     });
+    deleteItemById(modalUser.id)
   };
 
+  const deleteItemById = id => () => {
+    const filteredData = requests.filter(item => item.id !== id);
+    setRequests(filteredData);
+  }
 
   return (
     <View style = {styles.background}>

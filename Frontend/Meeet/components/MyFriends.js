@@ -7,14 +7,14 @@ function MyFriends() {
 
   const [modalVisible, setModalVisible] = React.useState(false);
   const [itemAtual, setItemAtual] = React.useState(false);
-  const [state, setState] = React.useState({ text: '' , list: data });
-  const [listaAtual,setListaAtual] = React.useState(data);
-  const [userData, setUserData] = useState(null);
-  const [isLoading, setLoading] = useState(false);
+  const [state, setState] = React.useState({ text: '' , list: [] });
+  const [friendsList,setFriendsList] = React.useState([]);
+  const [isLoading, setLoading] = useState(true);
+  const [friendsIdList, setFriendsIdList] = useState([]);
 
 
 function searchFilterFunction(text){
-    const newData = listaAtual.filter(item => {
+    const newData = friendsList.filter(item => {
     const itemData = `${item.username.toUpperCase()}
     ${item.username.toUpperCase()}`;
 
@@ -29,23 +29,44 @@ const deleteItemById = id => () => {
   setState({text: '', list: filteredData });
   setModalVisible(!modalVisible);
   createWarning();
-  setListaAtual(filteredData);
+  setFriendsList(filteredData);
 }
 
 
 
-useEffect(() => {
-  fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getAmigosUser/' + global.userID)
+  useEffect(() => {
+    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getAmizadesUser/' + global.userID)
     .then((response) => response.json())
     .then((json) => {
-      setUserData(json);
+      setFriendsIdList(json);
     })
     .catch((error) => {
       console.error(error);
-    })
-    .finally(() => { setLoading(false); console.log("oi" + JSON.stringify(userData)); } );
-  }, []);
+    });
+  },[]);
 
+  useEffect(() => {
+    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getUsersPerIDs', {
+      method: 'POST',
+      headers: {
+      Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(friendsIdList)
+    })
+    .then((response) => response.json())
+    .then((json) => {
+      setFriendsList(json);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  },[friendsIdList]);
+
+  useEffect(() => {
+    setState({text: state.text, list: friendsList });
+    setLoading(false);
+  },[friendsList]);
 
 
 
@@ -75,9 +96,6 @@ const createWarning = () => {
 
 
   return (
-    <>
-    {isLoading ? <ActivityIndicator/> : (
-      <>
     <View style={styles.container}>
 
         <Modal
@@ -87,7 +105,7 @@ const createWarning = () => {
         >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Image style={styles.userImageModal} source={{uri:itemAtual.image}}/>
+            <Image style={styles.userImageModal} source={{uri:itemAtual.urlFoto}}/>
             <Text style={styles.modalText}>{itemAtual.username}</Text>
              <TouchableOpacity
                style={styles.openButton}
@@ -113,6 +131,7 @@ const createWarning = () => {
          </View>
         </Modal>
 
+      {isLoading ? <ActivityIndicator/> : (
       <View style={styles.list}>
       <SearchBar
         placeholder="Type Here..."
@@ -122,27 +141,24 @@ const createWarning = () => {
       <FlatList
         data={state.list}
         renderItem={({ item }) => (
-          <TouchableOpacity 
-  
+          <TouchableOpacity
+
             style={[styles.itemPress, item.selectedClass]}
             onPress={() => {setModalVisible(true);setItemAtual(item);}}>
               <View style={{flexDirection: "row"}}>
-              <Image style={styles.userImage} source={{uri:item.image}}/>
+              <Image style={styles.userImage} source={{uri:item.urlFoto}}/>
               <Text style={styles.text}>
                 {item.username}
               </Text>
               </View>
             </TouchableOpacity>
-         
+
           )}
           keyExtractor={item => item.id}
           extraData={state}
         />
+        </View>)}
         </View>
-        </View>
-        </>
-  )}
-    </>
   );
 }
 
@@ -249,85 +265,5 @@ const styles = StyleSheet.create({
     textAlign: "center"
   }
   });
-
-  const data = [
-    {
-      id: '1',
-      username: 'Joaquim Silva Silva',
-      image:"https://bootdey.com/img/Content/avatar/avatar7.png",
-    },
-    {
-      id: '2',
-      username: 'Ricardo Esteves Esteves',
-      image:"https://bootdey.com/img/Content/avatar/avatar5.png",
-    },
-    {
-      id: '3',
-      username: 'Ricardinho',
-      image:"https://bootdey.com/img/Content/avatar/avatar3.png",
-    },
-    {
-      id: '9',
-      username: 'Rui Costa',
-      image:"https://bootdey.com/img/Content/avatar/avatar2.png",
-    },
-    {
-      id: '4',
-      username: 'Rivaldo Esteves Esteves',
-      image:"https://bootdey.com/img/Content/avatar/avatar1.png",
-    },
-    {
-      id: '5',
-      username: 'Paulo Jorge Jorge',
-    },
-    {
-      id: '6',
-      username: 'Joaquim Silva Silva',
-    },
-    {
-      id: '7',
-      username: 'Ricardo Esteves Esteves',
-    },
-    {
-      id: '8',
-      username: 'Paulo Jorge Jorge',
-    },
-    {
-      id: '10',
-      username: 'Joaquim Silva Silva',
-    },
-    {
-      id: '11',
-      username: 'Ricardo Esteves Esteves',
-    },
-    {
-      id: '12',
-      username: 'Paulo Jorge Jorge',
-    },
-    {
-      id: '13',
-      username: 'Joaquim Silva Silva',
-    },
-    {
-      id: '14',
-      username: 'Ricardo Esteves Esteves',
-    },
-    {
-      id: '15',
-      username: 'Paulo Jorge Jorge',
-    },
-    {
-      id: '16',
-      username: 'Joaquim Silva Silva',
-    },
-    {
-      id: '17',
-      username: 'Ricardo Esteves Esteves',
-    },
-    {
-      id: '18',
-      username: 'Paulo Jorge Jorge',
-    },
-  ];
 
 export default MyFriends;
