@@ -11,7 +11,7 @@ namespace TodoApi.DB
         }
 
         public int IdVotacao { get; set; }
-        public int Tipo { get; set; }
+        public string Topico { get; set; }
         public int IdEvento { get; set; }
 
         public virtual Evento IdEventoNavigation { get; set; }

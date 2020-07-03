@@ -448,7 +448,10 @@ namespace TodoApi.DB
 
                 entity.Property(e => e.IdEvento).HasColumnName("id_evento");
 
-                entity.Property(e => e.Tipo).HasColumnName("tipo");
+                entity.Property(e => e.Topico)
+                    .IsRequired()
+                    .HasColumnName("topico")
+                    .HasMaxLength(50);
 
                 entity.HasOne(d => d.IdEventoNavigation)
                     .WithMany(p => p.Votacao)
