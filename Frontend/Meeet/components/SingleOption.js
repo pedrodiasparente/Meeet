@@ -8,12 +8,18 @@ import {
 import Icon from 'react-native-vector-icons/dist/FontAwesome5'
 
 
-function SingleOption({ userId , option }) {
-    let selected = option.users.includes(userId);
+function SingleOption({ opcao , userOpcoes }) {
+  var selected = false;
+  for(var i = 0; i < userOpcoes.length; i++) {
+    if (userOpcoes[i].idOpcao == opcao.idOpcao) {
+        selected = true;
+        break;
+      }
+    }
     return (
       <View style = {{backgroundColor: selected ? '#4b6937' : '#9c3d3d', margin: 5, borderRadius:10, overflow:'hidden'}}>
         <View style={{height: 50, width: 50, alignItems: 'center', justifyContent: 'center'}}>
-          <Text>{option.name}</Text>
+          <Text>{opcao.opcao1}</Text>
         </View>
       </View>
     )

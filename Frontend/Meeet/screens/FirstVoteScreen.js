@@ -1,11 +1,14 @@
-import { View, StyleSheet,TouchableOpacity, Text, Modal, TextInput} from 'react-native'
+import { View, StyleSheet,TouchableOpacity, Text, Modal, TextInput, FlatList, ActivityIndicator} from 'react-native'
 import * as React from 'react';
+
+import EventContext from '../contexts/EventContext'
 
 import Title from '../components/Title'
 
 
 
 function FirstVoteScreen({ navigation }) {
+  const { evento } = React.useContext(EventContext);
 
   const [modalVisible, setModalVisible] = React.useState(false);
   const [topico, setTopico] = React.useState(null);
@@ -13,35 +16,53 @@ function FirstVoteScreen({ navigation }) {
   const [opcao2, setOpcao2] = React.useState(null);
   const [opcao3, setOpcao3] = React.useState(null);
   const [opcao4, setOpcao4] = React.useState(null);
+  const [votacoes, setVotacoes] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getVotacaoPerEvent/' + evento.id, {
+        method: 'GET',
+        headers: {
+        "Accept": "application/json",
+        'Content-Type': 'application/json'
+        }
+    })
+    .then(response => { return response.json(); } )
+    .then(json => {
+      setVotacoes(json);
+    })
+    .catch((error) => {
+      console.error('ERROR:' + error);
+    });
+  }, []);
+
+  React.useEffect(() => {
+    console.log('VOTATION: ' + JSON.stringify( votacoes));
+    setIsLoading(false);
+  }, [votacoes]);
 
 
 return (
     <View style = {styles.background}>
         <Title title = {'Vote Options'}/>
-    
+
     <View style = {styles.body}>
         <View style = {styles.buttons}>
 
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Vote')}>
-            <Text style= {{color: '#fbfbfb'}}>
-             Vote 1
-              </Text>
-            </TouchableOpacity>
-
-
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Vote')}>
-            <Text style= {{color: '#fbfbfb'}}>
-              Vote 2
-              </Text>
-            </TouchableOpacity>
-
-
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Vote')}>
-            <Text style= {{color: '#fbfbfb'}}>
-              Vote 3
-              </Text>
-            </TouchableOpacity>
-
+          {isLoading ? <ActivityIndicator/> : <FlatList
+              data={votacoes}
+              renderItem={({ item }) => (
+                <View style ={{alignItems: 'center', width:'100%'}}>
+                  <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Vote', {votacao: item})}>
+                    <Text style= {{color: '#fbfbfb'}}>
+                    {item.topico}
+                   </Text>
+                  </TouchableOpacity>
+                </View>
+                )}
+                keyExtractor={item => item.idVotacao.toString()}
+                style={{width: '100%' , height: '60%'}}
+              />}
 
         <Modal
           animationType="slide"
@@ -50,9 +71,9 @@ return (
         >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-              
+
           <Text style={styles.modalText}>Make New Votation</Text>
-          
+
           <View style={styles.textInput}>
             <TextInput
               style={styles.textInput}
@@ -61,7 +82,7 @@ return (
               placeholder={'Topico'}
               onChangeText={setTopico}
               value={topico}
-          />         
+          />
 
           </View>
 
@@ -74,7 +95,7 @@ return (
               placeholder={'Opção 1'}
               onChangeText={setOpcao1}
               value={opcao1}
-          />        
+          />
 
           <TextInput
               style={{...styles.textInputOptions,marginTop:25}}
@@ -83,7 +104,7 @@ return (
               placeholder={'Opção 2'}
               onChangeText={setOpcao2}
               value={opcao2}
-          />      
+          />
 
           </View>
 
@@ -95,7 +116,7 @@ return (
               placeholder={'Opção 3'}
               onChangeText={setOpcao3}
               value={opcao3}
-          />        
+          />
 
           <TextInput
               style={{...styles.textInputOptions,marginTop:10}}
@@ -104,11 +125,11 @@ return (
               placeholder={'Opção 4'}
               onChangeText={setOpcao4}
               value={opcao4}
-          />      
+          />
 
           </View>
 
-             
+
             <TouchableOpacity
                style={{...styles.openButtonFinal,marginTop:40,width:170}}
                onPress={() => {setModalVisible(!modalVisible);}}>
@@ -124,7 +145,7 @@ return (
          </View>
         </Modal>
 
-            <TouchableOpacity style={{...styles.button,marginTop:100}} 
+            <TouchableOpacity style={{...styles.button,marginTop:100}}
             onPress={() => {setModalVisible(true) }} >
             <Text style= {{color: '#fbfbfb'}}>
               Add Votation
@@ -149,7 +170,7 @@ const styles = StyleSheet.create({
       },
     textSide: {
         flexDirection: 'row',
-        alignItems:"center", 
+        alignItems:"center",
         justifyContent:"center"
       },
     buttons: {
