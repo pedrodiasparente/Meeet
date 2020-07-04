@@ -63,7 +63,7 @@ function EventUsers({ data, navigation }) {
             <Text style={styles.modalText}>{itemAtual.username}</Text>
              <TouchableOpacity
                style={styles.openButton}
-               onPress={() => {}}>
+               onPress={() => {navigation.navigate('FriendProfile', {id: itemAtual.id}); setModalVisible(!modalVisible); }}>
                 <Text style={styles.textStyle}>View Profile</Text>
               </TouchableOpacity>
 

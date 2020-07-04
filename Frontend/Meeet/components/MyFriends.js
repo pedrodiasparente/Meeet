@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, FlatList, ActivityIndicator, TouchableOpacity, 
 
 import SearchBar from '../components/SearchBar';
 
-function MyFriends() {
+function MyFriends({ navigation }) {
 
   const [modalVisible, setModalVisible] = React.useState(false);
   const [itemAtual, setItemAtual] = React.useState(false);
@@ -109,7 +109,7 @@ const createWarning = () => {
             <Text style={styles.modalText}>{itemAtual.username}</Text>
              <TouchableOpacity
                style={styles.openButton}
-               onPress={() => {}}>
+               onPress={() => {navigation.navigate('FriendProfile', {id: itemAtual.id}); setModalVisible(!modalVisible); }}>
                 <Text style={styles.textStyle}>View Profile</Text>
               </TouchableOpacity>
               <TouchableOpacity
