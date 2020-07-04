@@ -5,19 +5,17 @@ import EventContext from '../contexts/EventContext'
 
 import Title from '../components/Title'
 import UserVote from '../components/UserVote'
+import DeployVote from '../components/DeployVote'
 
 
 function VoteScreen({ route }) {
   const { evento } = React.useContext(EventContext);
   const { votacao } = route.params
-  const [v1, setV1] = React.useState(false);
-  const [v2, setV2] = React.useState(false);
-  const [v3, setV3] = React.useState(false);
-  const [v4, setV4] = React.useState(false);
   const [opcoes, setOpcoes] = React.useState([]);
   const [userEvents, setUserEvents] = React.useState([]);
   const [users, setUsers] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
+  const [opcoesLoading, setOpcoesLoading] = React.useState(true);
 
   React.useEffect(() => {
     fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getOpcaoPerEventVotacao/' + evento.id + '/' + votacao.idVotacao, {
@@ -64,7 +62,6 @@ function VoteScreen({ route }) {
     })
     .then((response) => { return response.json() } )
     .then((json) => {
-      console.log(JSON.stringify(json));
       setUsers(json);
     })
     .catch((error) => {
@@ -77,70 +74,33 @@ function VoteScreen({ route }) {
       setIsLoading(false);
   }, [users]);
 
+  React.useEffect(() => {
+    if(opcoes.length > 0)
+      setOpcoesLoading(false);
+  }, [opcoes]);
+
 return (
     <View style = {styles.background}>
         <Title title = {'Vote'}/>
-        <View style = {styles.body}>
+        {(isLoading || opcoesLoading) ? <ActivityIndicator/> :
+        (<View style = {styles.body}>
         {
           opcoes.map((op, i) => {return (<Text key={op.opcao1}> { 'Opção ' + (i+1) + ' | ' + op.opcao1 } </Text>)})
         }
 
 
-          <SafeAreaView style={{...styles.container,marginTop:20,height:'62%'}}>
-            {isLoading ? <ActivityIndicator/> :
+          <SafeAreaView style={{...styles.container,marginTop:20,height:'65%'}}>
+
               <FlatList
               data={users}
-              renderItem={({ item }) => <UserVote user= {item} votacao={votacao} opcoes={opcoes} />}
-              keyExtractor={item => item.id}
-            />}
+              renderItem={({ item }) => <UserVote key={item.id} user= {item} votacao={votacao} opcoes={opcoes} />}
+              keyExtractor={item => item.id.toString()}
+            />
           </SafeAreaView>
 
+          <DeployVote opcoes={opcoes} votacao={votacao}/>
 
-
-          <View style={styles.textSide}>
-          <TouchableOpacity onPress={() => v1 ? setV1(false) : setV1(true)}>
-          <View style = {{backgroundColor: v1 ? '#4b6937' : '#9c3d3d' , margin: 5, borderRadius:10, overflow:'hidden'}}>
-              <View style={{height: 50, width: 70, alignItems: 'center', justifyContent: 'center'}}>
-               <Text>Opção 1</Text>
-
-
-              </View>
-           </View>
-           </TouchableOpacity>
-
-
-
-           <TouchableOpacity onPress={() => v2 ? setV2(false) : setV2(true)}>
-          <View style = {{backgroundColor: v2 ? '#4b6937' : '#9c3d3d' , margin: 5, borderRadius:10, overflow:'hidden'}}>
-              <View style={{height: 50, width: 70, alignItems: 'center', justifyContent: 'center'}}>
-               <Text>Opção 2</Text>
-              </View>
-           </View>
-           </TouchableOpacity>
-
-
-
-           <TouchableOpacity onPress={() => v3 ? setV3(false) : setV3(true)}>
-          <View style = {{backgroundColor: v3 ? '#4b6937' : '#9c3d3d' , margin: 5, borderRadius:10, overflow:'hidden'}}>
-              <View style={{height: 50, width: 70, alignItems: 'center', justifyContent: 'center'}}>
-               <Text>Opção 3</Text>
-              </View>
-           </View>
-           </TouchableOpacity>
-
-
-
-           <TouchableOpacity onPress={() => v4 ? setV4(false) : setV4(true)}>
-          <View style = {{backgroundColor: v4 ? '#4b6937' : '#9c3d3d' , margin:5, borderRadius:10, overflow:'hidden'}}>
-              <View style={{height: 50, width: 70, alignItems: 'center', justifyContent: 'center'}}>
-               <Text>Opção 4</Text>
-              </View>
-           </View>
-           </TouchableOpacity>
-
-
-           </View>
-        </View>
+        </View>)}
     </View>
   )
 }
@@ -163,27 +123,6 @@ const styles = StyleSheet.create({
   });
 
 
-const DATA = {"id":1,"nome":"evento1","dataHora":"2014-01-01T00:00:00","longitude":0,"latitude":0,"tipoEvento":0,"idAdmin":1,"descricao":"é um evento muito giro","idadeMinima":null,"idAdminNavigation":null,"eventoHasRequests":[],"utilizadorEvento":[],"votacao":[]}
 
-const OPTIONSDATA = [
-    {id:0, users: [1,2,5,7,9], name: "15:00" },
-    {id:1, users: [0,1,2,3,4,5,6,7,8,9,10], name: "16:00"},
-    {id:2, users: [0,2,3,5,8,9,10], name: "17:00"} ,
-    {id:3, users: [1,2,5,7,9], name: "18:00"} ,
-];
-
-
-const USERDATA = [
-    {id:0, name: "Mark Doe", image:"https://bootdey.com/img/Content/avatar/avatar7.png"},
-    {id:1, name: "John Doe", image:"https://bootdey.com/img/Content/avatar/avatar1.png"},
-    {id:2, name: "Clark Man", image:"https://bootdey.com/img/Content/avatar/avatar6.png"} ,
-    {id:3, name: "Jaden Boor", image:"https://bootdey.com/img/Content/avatar/avatar5.png"} ,
-    {id:4, name: "Srick Tree", image:"https://bootdey.com/img/Content/avatar/avatar4.png"} ,
-    {id:5, name: "John Doe", image:"https://bootdey.com/img/Content/avatar/avatar3.png"} ,
-    {id:6, name: "John Doe", image:"https://bootdey.com/img/Content/avatar/avatar2.png"} ,
-    {id:8, name: "John Doe", image:"https://bootdey.com/img/Content/avatar/avatar1.png"} ,
-    {id:9, name: "John Doe", image:"https://bootdey.com/img/Content/avatar/avatar4.png"} ,
-    {id:10, name: "John Doe", image:"https://bootdey.com/img/Content/avatar/avatar7.png"} ,
-  ];
 
 export default VoteScreen;

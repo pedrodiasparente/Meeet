@@ -64,7 +64,7 @@ function UserVote({ user, votacao, opcoes }) {
 
         <View style = {styles.optionsBox}>
           {
-            opcoes.map(i => <SingleOption key={i.id} opcao={i} userOpcoes={userOps} />)
+            opcoes.map((i, index) => <SingleOption key={i.idOpcao} opcao={i} userOpcoes={userOps} index={index}/>)
           }
         </View>
       </View>

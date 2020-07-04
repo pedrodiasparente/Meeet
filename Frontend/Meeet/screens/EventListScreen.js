@@ -53,7 +53,7 @@ function EventListScreen({navigation}) {
 
   return (
     <View style = {styles.background}>
-    <Title title = {'Requests'}/>
+    <Title title = {'Events'}/>
     <View style = {styles.body}>
 
       {isLoading ? <ActivityIndicator/> : (
@@ -80,7 +80,7 @@ function EventListScreen({navigation}) {
                 </TouchableOpacity>
 
               )}
-              keyExtractor={item => item.id}
+              keyExtractor={item => item.id.toString()}
             />
             </View>
 

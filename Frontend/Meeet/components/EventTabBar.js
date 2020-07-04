@@ -79,6 +79,7 @@ function EventTabBar({ state, descriptors, navigation }) {
             onPress={onPress}
             onLongPress={onLongPress}
             style={styles.singleTab}
+            key={iconName}
           >
             <Icon
               name={iconName}

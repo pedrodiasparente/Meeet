@@ -154,7 +154,7 @@ const createWarning = () => {
             </TouchableOpacity>
 
           )}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item.id.toString()}
           extraData={state}
         />
         </View>)}
