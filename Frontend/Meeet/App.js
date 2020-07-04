@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { AsyncStorage, Button, Text, TextInput, View } from 'react-native';
+import { AsyncStorage, Button,Alert, Text, TextInput, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 //import { AsyncStorage } from '@react-native-comunity/async-storage';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -129,6 +129,17 @@ export default function App({ navigation }) {
     }
 }
 
+const createWarning = () => {
+  Alert.alert(
+    "Wrong credentials!",
+    "",
+    [{ text: "OK" }],
+    { cancelable: false }
+  );
+  }
+
+
+
   const authContext = React.useMemo(
     () => ({
       signIn: async data => {
@@ -139,7 +150,8 @@ export default function App({ navigation }) {
         fetch('https://meeet-projeto.azurewebsites.net/api/meeet/Login/' + data.username + '/' + data.password)
           .then((response) => response.json())
           .then((json) => {
-            setTempToken(json);
+            if (json==-1) createWarning();
+            else setTempToken(json);
           })
           .catch((error) => {
             console.error(error);
