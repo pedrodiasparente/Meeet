@@ -53,7 +53,7 @@ function EventListScreen({navigation}) {
 
   return (
     <View style = {styles.background}>
-    <Title title = {'Requests'}/>
+    <Title title = {'Events'}/>
     <View style = {styles.body}>
 
       {isLoading ? <ActivityIndicator/> : (

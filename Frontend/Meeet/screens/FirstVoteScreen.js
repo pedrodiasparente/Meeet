@@ -11,11 +11,12 @@ function FirstVoteScreen({ navigation }) {
   const { evento } = React.useContext(EventContext);
 
   const [modalVisible, setModalVisible] = React.useState(false);
-  const [topico, setTopico] = React.useState(null);
-  const [opcao1, setOpcao1] = React.useState(null);
-  const [opcao2, setOpcao2] = React.useState(null);
-  const [opcao3, setOpcao3] = React.useState(null);
-  const [opcao4, setOpcao4] = React.useState(null);
+  const [topico, setTopico] = React.useState('');
+  const [opcao1, setOpcao1] = React.useState('');
+  const [opcao2, setOpcao2] = React.useState('');
+  const [opcao3, setOpcao3] = React.useState('');
+  const [opcao4, setOpcao4] = React.useState('');
+  const [newVotacao, setNewVotacao] = React.useState(null);
   const [votacoes, setVotacoes] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
@@ -41,6 +42,63 @@ function FirstVoteScreen({ navigation }) {
     setIsLoading(false);
   }, [votacoes]);
 
+  React.useEffect(() => {
+    if(newVotacao != null){
+      const newArray = votacoes;
+      newArray.push(newVotacao);
+      addOption(opcao1);
+      addOption(opcao2);
+      addOption(opcao3);
+      addOption(opcao4);
+    }
+  }, [newVotacao]);
+
+  async function addVotacao(){
+    const votacao = {
+      topico: topico,
+      idEvento: evento.id,
+      idEventoNavigation: null,
+      opcao: null
+    }
+    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/PostVotacao', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(votacao)
+    })
+    .then((response) => { console.log('ADD: ' + JSON.stringify(response)); return response.json(); } )
+    .then((json) => { setNewVotacao(json); })
+    .catch((error) => {
+      console.error(error);
+    });
+  }
+
+  async function addOption(op){
+    if(op != ''){
+    const opcao = {
+      opcao1: op,
+      idVotacao: newVotacao.idVotacao,
+      idEvento: evento.id,
+      id: null,
+      UtilizadorOpcao: null
+    }
+    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/PostOpcao', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(opcao)
+    })
+    .then((response) => { console.log('ADDOP: ' + JSON.stringify(response)); } )
+    .catch((error) => {
+      console.error(error);
+    });
+    }
+  }
+
 
 return (
     <View style = {styles.background}>
@@ -52,7 +110,7 @@ return (
           {isLoading ? <ActivityIndicator/> : <FlatList
               data={votacoes}
               renderItem={({ item }) => (
-                <View style ={{alignItems: 'center', width:'100%'}}>
+                <View style ={{alignItems: 'center', width:'100%'}} key={item.idVotacao}>
                   <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Vote', {votacao: item})}>
                     <Text style= {{color: '#fbfbfb'}}>
                     {item.topico}
@@ -132,7 +190,7 @@ return (
 
             <TouchableOpacity
                style={{...styles.openButtonFinal,marginTop:40,width:170}}
-               onPress={() => {setModalVisible(!modalVisible);}}>
+               onPress={() => {setModalVisible(!modalVisible); addVotacao()}}>
                 <Text style={styles.textStyle}>Concluir</Text>
               </TouchableOpacity>
 
