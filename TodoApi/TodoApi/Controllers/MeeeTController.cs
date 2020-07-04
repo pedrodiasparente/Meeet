@@ -479,18 +479,6 @@ namespace TodoApi.Controllers
         }
 
         // GET
-        [Route("getUserOpcao/{id_user:int}/{id_opcao:int}")]
-        [HttpGet]
-        public UtilizadorOpcao GetUserOpcao(int id_user, int id_opcao)
-        {
-            foreach (var aux in _context.UtilizadorOpcao)
-            {
-                if (aux.IdUtilizador == id_user && aux.IdOpcao == id_opcao) return aux;
-            }
-            return null;
-        }
-
-        // GET
         [Route("getOpcoesPerUserVotacao/{id_user:int}/{id_votacao:int}")]
         [HttpGet]
         public List<int> GetOpcoesPerUserVotacao(int id_user, int id_votacao)
@@ -977,11 +965,14 @@ namespace TodoApi.Controllers
         }
 
         // DELETE: api/ApiWithActions/5
-        [Route("DeleteSingleUserOpcao")]
+        [Route("DeleteSingleUserOpcao/{id_user:int}/{id_opcao:int}")]
         [HttpDelete]
-        public void DeleteSingleUserOpcao([FromBody] UtilizadorOpcao uo)
+        public void DeleteSingleUserOpcao(int id_user, int id_opcao)
         {
-            _context.UtilizadorOpcao.Remove(uo);
+            foreach (var aux in _context.UtilizadorOpcao)
+            {
+                if (aux.IdUtilizador == id_user && aux.IdOpcao == id_opcao) _context.UtilizadorOpcao.Remove(aux);
+            }     
             _context.SaveChanges();
         }
 
