@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity, Image} from 'react-native'
+import React, { Component, useState, useEffect } from 'react'
+import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity, Image, ActivityIndicator} from 'react-native'
 import Icon from 'react-native-vector-icons/dist/FontAwesome5'
 
 import Title from '../components/Title'
@@ -7,13 +7,51 @@ import CreateGroup from '../components/CreateGroup'
 import AuthContext from '../contexts/AuthContext'
 
 function CreateGroupScreen() {
-  const { signOut } = React.useContext(AuthContext);
+
+  const [friendsList,setFriendsList] = React.useState(null);
+  const [isLoading, setLoading] = useState(true);
+  const [friendsIdList, setFriendsIdList] = useState(null);
+
+  useEffect(() => {
+    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getAmizadesUser/' + global.userID)
+    .then((response) => response.json())
+    .then((json) => {
+      setFriendsIdList(json);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  },[]);
+
+  useEffect(() => {
+    if(friendsIdList != null)
+    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getUsersPerIDs', {
+      method: 'POST',
+      headers: {
+      Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(friendsIdList)
+    })
+    .then((response) => response.json())
+    .then((json) => {
+      setFriendsList(json);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  },[friendsIdList]);
+
+  useEffect(() => {
+    if(friendsList != null)
+    setLoading(false);
+  },[friendsList]);
 
   return (
     <View style = {styles.background}>
     <Title title = {'Create Group'}/>
     <View style = {styles.body}>
-        <CreateGroup data={DATA}/>
+        { isLoading ? <ActivityIndicator/> :  <CreateGroup data={friendsList}/> }
       </View>
 
         </View>
@@ -31,81 +69,5 @@ const styles = StyleSheet.create({
       },
   });
 
-  const DATA = [
-    {
-      id: '1',
-      username: 'Joaquim Silva Silva',
-      image:"https://bootdey.com/img/Content/avatar/avatar7.png",
-    },
-    {
-      id: '2',
-      username: 'Ricardo Esteves Esteves',
-      image:"https://bootdey.com/img/Content/avatar/avatar7.png",
-    },
-    {
-      id: '3',
-      username: 'Ricardinho',
-    },
-    {
-      id: '9',
-      username: 'Rui Costa',
-    },
-    {
-      id: '4',
-      username: 'Rivaldo Esteves Esteves',
-    },
-    {
-      id: '5',
-      username: 'Paulo Jorge Jorge',
-    },
-    {
-      id: '6',
-      username: 'Joaquim Silva Silva',
-    },
-    {
-      id: '7',
-      username: 'Ricardo Esteves Esteves',
-    },
-    {
-      id: '8',
-      username: 'Paulo Jorge Jorge',
-    },
-    {
-      id: '10',
-      username: 'Joaquim Silva Silva',
-    },
-    {
-      id: '11',
-      username: 'Ricardo Esteves Esteves',
-    },
-    {
-      id: '12',
-      username: 'Paulo Jorge Jorge',
-    },
-    {
-      id: '13',
-      username: 'Joaquim Silva Silva',
-    },
-    {
-      id: '14',
-      username: 'Ricardo Esteves Esteves',
-    },
-    {
-      id: '15',
-      username: 'Paulo Jorge Jorge',
-    },
-    {
-      id: '16',
-      username: 'Joaquim Silva Silva',
-    },
-    {
-      id: '17',
-      username: 'Ricardo Esteves Esteves',
-    },
-    {
-      id: '18',
-      username: 'Paulo Jorge Jorge',
-    },
-  ];
 
 export default CreateGroupScreen;
