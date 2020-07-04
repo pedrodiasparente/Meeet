@@ -11,13 +11,13 @@ import Icon from 'react-native-vector-icons/dist/FontAwesome5'
 import SignUp from '../components/SignUp'
 import AuthContext from '../contexts/AuthContext'
 
-function SignUpScreen() {
+function SignUpScreen({navigation}) {
 
     const { signIn } = React.useContext(AuthContext);
     return (
 
       <View style = {styles.signupBox}>
-      
+
         <Image style = {styles.logo} source={require('../assets/meeetLogo2.png')} />
         <View
           style={{
@@ -27,7 +27,7 @@ function SignUpScreen() {
             marginBottom: 50,
             }}
           />
-        <SignUp />
+        <SignUp navigation={navigation}/>
 
       </View>
 
