@@ -398,6 +398,26 @@ namespace TodoApi.Controllers
             return lug;
         }
 
+        // GET: api/MeeeT/getGrupoPerUser
+        [Route("getUsersPerGroup")]
+        [HttpPost]
+        public List<Utilizador> GetUsersPerGroup([FromBody] List<UtilizadorGrupo> lug)
+        {
+            List<Utilizador> ret = new List<Utilizador>();
+            foreach (var x in lug)
+            {
+                foreach (var g in _context.Utilizador)
+                {
+                    if (x.IdUtilizador == g.Id)
+                    {
+                        ret.Add(g);
+                        break;
+                    }
+                }
+            }
+            return ret;
+        }
+
         // POR TESTAR
         // UtilizadorPedidosAmizade de um User
         // GET
@@ -836,6 +856,25 @@ namespace TodoApi.Controllers
             } 
         }
 
+        // PUT: api/MeeeT/5
+        [Route("UpdateEvent/{id:int}")]
+        [HttpPut]
+        public void UpdateEvent([FromBody] Evento e, int id)
+        {
+            Evento evento = GetEvento(id);
+            if (evento != null)
+            {
+                evento.Nome = e.Nome;
+                evento.DataHora = e.DataHora;
+                evento.Longitude = e.Longitude;
+                evento.Latitude = e.Latitude;
+                evento.TipoEvento = e.TipoEvento;
+                evento.IdAdmin = e.IdAdmin;
+                evento.Descricao = e.Descricao;
+                evento.IdadeMinima = e.IdadeMinima;
+                _context.SaveChanges();
+            }
+        }
 
 
         /**********\
