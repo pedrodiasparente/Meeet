@@ -47,13 +47,17 @@ function CreateGroup({ data }) {
       .then((response) => response.json())
       .then((json) => {
         setRes(json);
-        console.log("aqui" + JSON.stringify(res));
-        addAllToGroup();
       })
       .catch((error) => {
         console.error(error);
       });
     };
+
+    React.useEffect(() => {
+      if(res != null){
+        addAllToGroup();
+      }
+  },[res]);
 
     function addAllToGroup() {
       console.log("id-> " + global.userID);

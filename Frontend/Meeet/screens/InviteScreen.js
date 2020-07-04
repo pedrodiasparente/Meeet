@@ -27,7 +27,7 @@ function InviteScreen({ route, navigation }) {
           </View>
         <View style = {styles.buttons}>
 
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Invite Group')}>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('InviteGroup', {idEvento:idEvento})}>
             <Text style= {{color: '#fbfbfb'}}>
               Invite Group
             </Text>

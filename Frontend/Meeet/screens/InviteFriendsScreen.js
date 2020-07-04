@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
         flex: 1,
       },
     selected: {
-        backgroundColor: "hsl(85, 100%, 50%)"
+        backgroundColor: '#C78B50'
       },
     list: {
       height: '80%',

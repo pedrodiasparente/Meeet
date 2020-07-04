@@ -12,6 +12,7 @@ import ProfileScreen from './screens/ProfileScreen'
 import FriendProfileScreen from './screens/FriendProfileScreen'
 import EventMenuScreen from './screens/EventMenuScreen'
 import EventListScreen from './screens/EventListScreen'
+import GroupListScreen from './screens/GroupListScreen'
 import HandleRequestScreen from './screens/HandleRequestScreen'
 import HandleInviteScreen from './screens/HandleInviteScreen'
 import EventScreen from './screens/EventScreen'
@@ -19,9 +20,11 @@ import ShareLocationScreen from './screens/ShareLocationScreen'
 import CreateEventScreen from './screens/CreateEventScreen'
 import FriendsMenuScreen from './screens/FriendsMenuScreen'
 import InviteFriendsScreen from './screens/InviteFriendsScreen'
+import InviteGroupScreen from './screens/InviteGroupScreen'
 import InviteScreen from './screens/InviteScreen'
 import RequestFriendsScreen from './screens/RequestFriendsScreen'
 import CreateGroupScreen from './screens/CreateGroupScreen'
+import SendGroupInvite from './screens/SendGroupInvite'
 import CheckLocationScreen from './screens/CheckLocationScreen'
 
 
@@ -190,6 +193,7 @@ export default function App({ navigation }) {
               <Stack.Screen name="FriendProfile" component={FriendProfileScreen} />
               <Stack.Screen name="EventMenu" component={EventMenuScreen} />
               <Stack.Screen name="EventList" component={EventListScreen} />
+              <Stack.Screen name="GroupList" component={GroupListScreen} />
               <Stack.Screen name="Event" component={EventScreen} />
               <Stack.Screen name="CreateEvent" component={CreateEventScreen} />
               <Stack.Screen name="CreateGroup" component={CreateGroupScreen} />
@@ -198,7 +202,9 @@ export default function App({ navigation }) {
               <Stack.Screen name="HandleInvite" component={HandleInviteScreen} />
               <Stack.Screen name="CheckLocation" component={CheckLocationScreen} />
               <Stack.Screen name="InviteFriends" component={InviteFriendsScreen} />
+              <Stack.Screen name="InviteGroup" component={InviteGroupScreen} />
               <Stack.Screen name="Invite" component={InviteScreen} />
+              <Stack.Screen name="SendGroupInvite" component={SendGroupInvite} />
             </>
           )}
         </Stack.Navigator>

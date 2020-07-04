@@ -28,6 +28,16 @@ function FriendsMenuScreen({ navigation }) {
           </View>
         <View style = {styles.buttons}>
 
+
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('GroupList')}>
+            <Text style= {{color: '#fbfbfb'}}>
+              Group List
+              </Text>
+            </TouchableOpacity>
+
+          </View>
+        <View style = {styles.buttons}>
+
           <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('RequestFriends')}>
             <Text style= {{color: '#fbfbfb'}}>
               Send Request
