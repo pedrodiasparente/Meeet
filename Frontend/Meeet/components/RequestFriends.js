@@ -13,6 +13,7 @@ function RequestFriends({ navigation }) {
   const [username, setUsername] = React.useState('');
   const [user, setUser] = useState(null);
   const [isBadUser, setBadUser] = useState(true);
+  const [isFriend, setIsFriend] = useState(null);
   const [isLoading, setLoading] = useState(false);
 
 
@@ -33,13 +34,32 @@ async function findUser() {
   });
 };
 
+async function isFriends() {
+  setLoading(true);
+  fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getSaoAmigos/' + global.userID + '/' + user.id)
+  .then((response) =>  {if(response.status == 200) return (response.json()); else return null;})
+  .then((json) => {
+      setIsFriend(json);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+};
+
 useEffect(() => {
   if(user != null){
-    setLoading(false);
-    setBadUser(false);
+    isFriends();
     console.log("JSON: " + JSON.stringify(user));
   }
 },[user]);
+
+useEffect(() => {
+  if(isFriend != null){
+    setLoading(false);
+    setBadUser(false);
+    console.log(isFriend)
+  }
+},[isFriend]);
 
 async function sendRequest(id){
   const data = {
@@ -85,14 +105,14 @@ const createWarning = () => {
                onPress={() => {setModalVisible(!modalVisible);navigation.navigate('FriendProfile',{id: user.id})}}>
                 <Text style={styles.textStyle}>View Profile</Text>
               </TouchableOpacity>
-              <TouchableOpacity
+              {isFriend ? (<></>) : (<TouchableOpacity
                style={styles.openButton}
                onPress={() => {setModalVisible(!modalVisible);sendRequest(user.id)}}>
                 <Text style={styles.textStyle}>Send Request</Text>
-              </TouchableOpacity>
+              </TouchableOpacity>)}
               <TouchableOpacity
                style={styles.openButtonFinal}
-               onPress={() => {setModalVisible(!modalVisible);}}>
+               onPress={() => {setModalVisible(!modalVisible); setIsFriend(null)}}>
                 <Text style={styles.textStyle}>Go Back</Text>
               </TouchableOpacity>
            </View>
