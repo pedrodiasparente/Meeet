@@ -164,7 +164,6 @@ export default function App({ navigation }) {
           body: JSON.stringify(data)
         });
         console.log(data);
-        dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
       },
     }),
     []
