@@ -5,8 +5,8 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 
 import AuthContext from '../contexts/AuthContext'
-import TouchableSearchList from '../components/TouchableSearchList'
 import DateInput from '../components/DateInput'
+import Geocoder from 'react-native-geocoding'
 
 function CreateEvent({ data , navigation }) {
   const [eventName, updateEventName] = useState('');
@@ -17,6 +17,7 @@ function CreateEvent({ data , navigation }) {
   const [eventAge, updateEventAge] = useState(null);
   const [eventDescription, updateEventDescription] = useState('');
   const [isDateTimePickerVisible, setDateTimePickerVisibility] = useState(false);
+  const [local, updateLocal] = useState('');
 
   const [idEvento, setIdEvento] = useState(-1);
 
@@ -99,6 +100,16 @@ function CreateEvent({ data , navigation }) {
       { cancelable: false }
     );
 
+    const createWarningFail = () =>
+    Alert.alert(
+      "Location not found!",
+       "",
+      [
+        { text: "OK" }],
+      { cancelable: false }
+    );
+
+ 
     async function postEvent(){
       fetch('https://meeet-projeto.azurewebsites.net/api/meeet/PostEvento', {
         method: 'POST',
@@ -119,6 +130,21 @@ function CreateEvent({ data , navigation }) {
     }
 
 
+  Geocoder.init("AIzaSyA2BjSqzfdbdvFdzhLkcf0WXNSBiBB3XDI",{language : "pt"});
+
+  function up() {
+    if (local!='') {
+      Geocoder.from(local)
+        .then(json => {
+            var location = json.results[0].geometry.location;
+            updateEventLatitude(location.lat);
+            updateEventLongitude(location.lng);
+        })
+        .catch(error => createWarningFail());   
+     }
+    };
+
+
     return (
     <>
 
@@ -133,6 +159,7 @@ function CreateEvent({ data , navigation }) {
           />
 
         </View>
+
 
         <View style = {styles.profileInput}>
 
@@ -149,7 +176,19 @@ function CreateEvent({ data , navigation }) {
           />
 
         </View>
+        
 
+        <View style = {styles.profileInput}>
+
+        <TextInput
+          style={styles.textInput}
+          textAlign={'center'}
+          placeholder={"Location"}
+          onChangeText={updateLocal}
+          value={local}
+          />
+
+        </View>
 
 
         <View style = {styles.description}>
@@ -166,16 +205,7 @@ function CreateEvent({ data , navigation }) {
 
         <View style = {styles.icons}>
 
-          <TouchableOpacity >
-            <Icon
-            style={styles.input}
-            name="globe-europe"
-            size={70}
-            color='#2c365d'
-            />
-            </TouchableOpacity>
-
-          <TouchableOpacity onPress={showDatePicker}>
+         <TouchableOpacity onPress={showDatePicker}>
             <Icon
             name="calendar-alt"
             size={70}
@@ -195,7 +225,7 @@ function CreateEvent({ data , navigation }) {
 
     <View style = {styles.buttons}>
 
-    <TouchableOpacity style={styles.buttonCreate} onPress={createAlert}>
+    <TouchableOpacity style={styles.buttonCreate} onPress={ () => {up(),createAlert()}}>
       <Text style= {{color: '#fbfbfb'}}>
         Create
        </Text>
