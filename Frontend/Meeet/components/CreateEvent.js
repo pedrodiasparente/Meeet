@@ -136,14 +136,6 @@ function CreateEvent({ data , navigation }) {
 
         <View style = {styles.profileInput}>
 
-        <TextInput
-          style={styles.textInput}
-          textAlign={'center'}
-          placeholder={"Type of event"}
-          onChangeText={updateEventType}
-          value={eventType}
-          />
-
         </View>
 
         <View style = {styles.profileInput}>

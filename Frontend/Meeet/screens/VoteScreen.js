@@ -89,12 +89,12 @@ return (
         }
 
 
-          <SafeAreaView style={{...styles.container,marginTop:20,height:'75%'}}>
+          <SafeAreaView style={{...styles.container,marginTop:20,height:'65%'}}>
 
               <FlatList
               data={users}
               renderItem={({ item }) => <UserVote key={item.id} user= {item} votacao={votacao} opcoes={opcoes} />}
-              keyExtractor={item => item.id}
+              keyExtractor={item => item.id.toString()}
             />
           </SafeAreaView>
 

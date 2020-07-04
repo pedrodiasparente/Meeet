@@ -67,7 +67,7 @@ function DeployVote({ opcoes, votacao }) {
     <View style={styles.textSide}>
       { isLoading ? <ActivityIndicator/> :
       (opcoes.map((op,i) => { return (
-        <SingleVote opcao={op} index={i} userOpcoes={userOps}/>
+        <SingleVote opcao={op} index={i} userOpcoes={userOps} key={op.idOpcao.toString()}/>
       ); }))
       }
     </View>
