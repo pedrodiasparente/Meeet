@@ -1,10 +1,8 @@
 import React, { Component, useState, useEffect} from 'react'
 import { View, Image, Text, StyleSheet, Linking, TextInput, Button, TouchableOpacity} from 'react-native'
+
 import Icon from 'react-native-vector-icons/dist/FontAwesome5'
 import moment from "moment";
-
-
-import AuthContext from '../contexts/AuthContext'
 
 
 function EventDetails({ data, navigation }) {
@@ -19,7 +17,6 @@ function EventDetails({ data, navigation }) {
   }
 
   function openMaps() {
-    console.log('google.navigation:q='+data.latitude+'+'+data.longitude);
     Linking.openURL('google.navigation:q='+data.latitude+'+'+data.longitude);
   }
 
@@ -61,7 +58,7 @@ function EventDetails({ data, navigation }) {
               color='#FB2A2A'
             />
            <Text style = {{...styles.textNegrito,marginTop:2}}>
-              {data.idadeMinima ? 'Idade minima: ' + data.idadeMinima : 'Sem Idade Minima!'}
+              {data.idadeMinima ? 'Minimum age: ' + data.idadeMinima : 'No minimum age!'}
            </Text>
 
            </View>

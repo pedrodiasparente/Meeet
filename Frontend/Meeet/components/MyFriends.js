@@ -77,7 +77,6 @@ const createAlert = id => () =>
       [
         {
           text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
           style: "cancel",
         },
         { text: "OK", onPress: deleteItemById(id) }
