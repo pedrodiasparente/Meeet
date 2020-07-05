@@ -19,6 +19,7 @@ function EventDetails({ data, navigation }) {
   }
 
   function openMaps() {
+    console.log('google.navigation:q='+data.latitude+'+'+data.longitude);
     Linking.openURL('google.navigation:q='+data.latitude+'+'+data.longitude);
   }
 

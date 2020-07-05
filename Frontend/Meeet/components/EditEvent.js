@@ -22,28 +22,11 @@ function EditEvent({ ev , navigation }) {
   const [evento, setEvento] = React.useState(null);
 
     React.useEffect(() => {
-     if (local=='') {
-       setEvento({
-        nome: eventName,
-        dataHora: eventDateTime,
-        longitude: ev.longitude,
-        latitude: ev.latitude,
-        tipoEvento: 0,
-        idAdmin: global.userID,
-        descricao: eventDescription,
-        idadeMinima: Number(eventAge),
-        idAdminNavigation: null,
-        eventoHasRequests: null,
-        utilizadorEvento: null,
-        votacao: null
-      });
-     }
-     else {
       setEvento({
         nome: eventName,
         dataHora: eventDateTime,
-        longitude: parseFloat(eventLongitude),
-        latitude: parseFloat(eventLatitude),
+        longitude: eventLongitude,
+        latitude: eventLatitude,
         tipoEvento: 0,
         idAdmin: global.userID,
         descricao: eventDescription,
@@ -53,7 +36,7 @@ function EditEvent({ ev , navigation }) {
         utilizadorEvento: null,
         votacao: null
       });
-    }
+      console.log('BOIZANA' +eventLatitude + '/' + eventLongitude);
 
   },[eventName, eventDateTime, eventLongitude, eventLatitude, eventDescription, eventAge]);
 
@@ -99,6 +82,7 @@ function EditEvent({ ev , navigation }) {
 
 
     async function editEvent(){
+      console.log('EDITING EVENTO: ' + JSON.stringify(evento));
       fetch('https://meeet-projeto.azurewebsites.net/api/meeet/UpdateEvent/' + ev.id, {
         method: 'PUT',
         headers: {
@@ -121,6 +105,7 @@ function EditEvent({ ev , navigation }) {
       Geocoder.from(local)
         .then(json => {
             var location = json.results[0].geometry.location;
+            console.log('LOC: ' + JSON.stringify(location));
             updateEventLatitude(location.lat);
             updateEventLongitude(location.lng);
         })
@@ -209,7 +194,7 @@ function EditEvent({ ev , navigation }) {
 
     <View style = {styles.buttons}>
 
-    <TouchableOpacity style={styles.buttonCreate} onPress={ () => {createAlert()}}>
+    <TouchableOpacity style={styles.buttonCreate} onPress={ () => {up(); createAlert()}}>
       <Text style= {{color: '#fbfbfb'}}>
         Save
        </Text>

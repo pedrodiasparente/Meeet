@@ -137,6 +137,7 @@ function CreateEvent({ data , navigation }) {
       Geocoder.from(local)
         .then(json => {
             var location = json.results[0].geometry.location;
+            console.log(JSON.stringify(location));
             updateEventLatitude(location.lat);
             updateEventLongitude(location.lng);
         })
