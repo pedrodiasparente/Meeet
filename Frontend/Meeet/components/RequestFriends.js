@@ -15,6 +15,7 @@ function RequestFriends({ navigation }) {
   const [isBadUser, setBadUser] = useState(true);
   const [isFriend, setIsFriend] = useState(null);
   const [isLoading, setLoading] = useState(false);
+  const [newUser, setNewUser] = useState(false);
 
 
 
@@ -26,6 +27,7 @@ async function findUser() {
     if( json == null ){ setBadUser(true); setLoading(false);}
     else{
       setUser(json);
+      setNewUser(true)
     }
   })
   .catch((error) => {
@@ -56,7 +58,8 @@ useEffect(() => {
     setLoading(false);
     setBadUser(false);
   }
-},[isFriend]);
+  if(newUser == true) setNewUser(false);
+},[isFriend , newUser]);
 
 async function sendRequest(id){
   const data = {

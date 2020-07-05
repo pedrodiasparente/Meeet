@@ -124,11 +124,6 @@ function SignUp({navigation}) {
           />
 
         </View>
-        <TouchableOpacity onPress={showDatePicker} style={styles.button}>
-          <Text style= {{color: '#fbfbfb'}}>
-            Date
-          </Text>
-        </TouchableOpacity>
 
         <DateTimePickerModal
             isVisible={isDatePickerVisible}
