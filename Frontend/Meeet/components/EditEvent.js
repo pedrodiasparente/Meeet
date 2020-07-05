@@ -225,9 +225,9 @@ function EditEvent({ ev , navigation }) {
 
     <View style = {styles.buttons}>
 
-    <TouchableOpacity style={styles.buttonCreate} onPress={ () => {up(),createAlert()}}>
+    <TouchableOpacity style={styles.buttonCreate} onPress={ () => {}}>
       <Text style= {{color: '#fbfbfb'}}>
-        Create
+        Save
        </Text>
        </TouchableOpacity>
 
