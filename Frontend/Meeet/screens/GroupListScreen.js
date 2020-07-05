@@ -1,19 +1,18 @@
-import React, { Component, useState, useEffect } from 'react'
-import { View, Text, StyleSheet, FlatList, Button, TouchableOpacity, Image, Modal, ActivityIndicator} from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator} from 'react-native'
 import Icon from 'react-native-vector-icons/dist/FontAwesome5'
 
 import Title from '../components/Title'
 
+function GroupListScreen({navigation}) {
 
-function EventListScreen({navigation}) {
-
-  const [userEvents, setUserEvents] = React.useState(null);
-  const [events, setEvents] = React.useState(null);
+  const [userGroups, setUserGroups] = React.useState([]);
+  const [groups, setGroups] = React.useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
 
   useEffect(() => {
-    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getUserEventosPerUser/' + global.userID, {
+    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getUserGruposPerUser/' + global.userID, {
         method: 'GET',
         headers: {
         "Accept": "application/json",
@@ -22,7 +21,7 @@ function EventListScreen({navigation}) {
     })
     .then(response => { return response.json(); } )
     .then(json => {
-      setUserEvents(json);
+      setUserGroups(json);
     })
     .catch((error) => {
       console.error('ERROR:' + error);
@@ -30,31 +29,29 @@ function EventListScreen({navigation}) {
   }, []);
 
   useEffect(() => {
-    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getEventosPerUser', {
+    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getGrupoPerUser', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(userEvents)
+      body: JSON.stringify(userGroups)
     })
-    .then((response) => {return response.json()} )
+    .then((response) => { return response.json()} )
     .then((json) => {
-      setEvents(json);
+      setGroups(json);
+      setIsLoading(false);
     })
     .catch((error) => {
       console.error(error);
     });
-  }, [userEvents]);
+  }, [userGroups]);
 
-  useEffect(() => {
-    if(events!=null);
-    setIsLoading(false);
-  }, [events]);
+
 
   return (
     <View style = {styles.background}>
-    <Title title = {'Events'}/>
+    <Title title = {'Groups'}/>
     <View style = {styles.body}>
 
       {isLoading ? <ActivityIndicator/> : (
@@ -63,14 +60,14 @@ function EventListScreen({navigation}) {
 
         <View style={styles.touchlist}>
           <FlatList
-            data={events}
+            data={groups}
             renderItem={({ item }) => (
               <TouchableOpacity
                 style={styles.itemPress}
-                onPress={() => { navigation.navigate('Event',  {evento: item}) }}>
+                onPress={() => navigation.navigate('GroupUsers',{id: item.id})}>
                   <View style={{flexDirection: "row"}}>
                     <Icon
-                      name="calendar-alt"
+                      name="users"
                       size={35}
                       color='#2c365d'
                     />
@@ -195,4 +192,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default EventListScreen;
+export default GroupListScreen;

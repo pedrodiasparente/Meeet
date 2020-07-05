@@ -1,15 +1,12 @@
-import React, { Component, useState } from 'react'
-import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity, Image} from 'react-native'
-import Icon from 'react-native-vector-icons/dist/FontAwesome5'
+import React, { useState } from 'react'
+import { View, Text, StyleSheet, TouchableOpacity} from 'react-native'
+
 
 import Title from '../components/Title'
 import AuthContext from '../contexts/AuthContext'
 
 
 function FriendsMenuScreen({ navigation }) {
-  const { signOut } = React.useContext(AuthContext);
-  const [data, setData] = useState([]);
-
 
   return (
     <View style = {styles.background}>
@@ -22,6 +19,16 @@ function FriendsMenuScreen({ navigation }) {
           <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('CreateGroup')}>
             <Text style= {{color: '#fbfbfb'}}>
               Create group
+              </Text>
+            </TouchableOpacity>
+
+          </View>
+        <View style = {styles.buttons}>
+
+
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('GroupList')}>
+            <Text style= {{color: '#fbfbfb'}}>
+              Group List
               </Text>
             </TouchableOpacity>
 

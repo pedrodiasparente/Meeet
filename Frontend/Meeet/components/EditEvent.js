@@ -5,56 +5,36 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 import Geocoder from 'react-native-geocoding'
 
-function CreateEvent({ data , navigation }) {
-  const [eventName, updateEventName] = useState('');
-  const [eventLongitude, updateEventLongitude] = useState('0');
-  const [eventLatitude, updateEventLatitude] = useState('0');
-  const [eventDateTime, updateEventDateTime] = useState('');
-  const [eventType, updateEventType] = useState(0);
-  const [eventAge, updateEventAge] = useState(null);
-  const [eventDescription, updateEventDescription] = useState('');
+function EditEvent({ ev , navigation }) {
+  const [eventName, updateEventName] = useState(ev.nome);
+  const [eventLongitude, updateEventLongitude] = useState(null);
+  const [eventLatitude, updateEventLatitude] = useState(null);
+  const [eventDateTime, updateEventDateTime] = useState(ev.dataHora);
+  const [eventType, updateEventType] = useState(ev.tipoEvento);
+  const [eventAge, updateEventAge] = useState(ev.idadeMinima.toString());
+  const [eventDescription, updateEventDescription] = useState(ev.descricao);
   const [isDateTimePickerVisible, setDateTimePickerVisibility] = useState(false);
   const [local, updateLocal] = useState('');
-
-  const [idEvento, setIdEvento] = useState(-1);
+  const [bool, setBool] = useState(false);
 
   const [evento, setEvento] = React.useState(null);
 
     React.useEffect(() => {
-     setEvento({
-      nome: eventName,
-      dataHora: eventDateTime,
-      longitude: parseFloat(eventLongitude),
-      latitude: parseFloat(eventLatitude),
-      tipoEvento: 0,
-      idAdmin: global.userID,
-      descricao: eventDescription,
-      idadeMinima: Number(eventAge),
-      idAdminNavigation: null,
-      eventoHasRequests: null,
-      utilizadorEvento: null,
-      votacao: null
-    });
-
-  },[eventName, eventDateTime, eventLongitude, eventLatitude, eventDescription, eventAge]);
-
-  React.useEffect(() => {
-    if(idEvento > 0){
-      evento.id = idEvento
-      fetch('https://meeet-projeto.azurewebsites.net/api/meeet/AddToEvent/' + global.userID, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(evento)
-      })
-      .catch((error) => {
-        console.error(error);
+      setEvento({
+        nome: eventName,
+        dataHora: eventDateTime,
+        longitude: eventLongitude,
+        latitude: eventLatitude,
+        tipoEvento: 0,
+        idAdmin: global.userID,
+        descricao: eventDescription,
+        idadeMinima: Number(eventAge),
+        idAdminNavigation: null,
+        eventoHasRequests: null,
+        utilizadorEvento: null,
+        votacao: null
       });
-      createWarning();
-    }
-  }, [idEvento])
+  },[eventName, eventDateTime, eventLongitude, eventLatitude, eventDescription, eventAge]);
 
 
     const showDatePicker = () => {
@@ -66,64 +46,41 @@ function CreateEvent({ data , navigation }) {
     };
 
     const handleConfirm = (date) => {
-      hideDatePicker();
+       hideDatePicker();
       updateEventDateTime(date);
     };
 
 
     const createAlert = () =>
     Alert.alert(
-      "Create Event",
+      "Edit Event",
       "Are you sure?",
       [
         {
           text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
           style: "cancel",
         },
-        { text: "OK", onPress: () => {postEvent()} }
+        { text: "OK", onPress: () => {setBool(true);} }
       ],
       { cancelable: false }
     );
 
-    const createWarning = (nav) =>
-    Alert.alert(
-      "Event created sucessufly!",
-       "",
-      [
-        { text: "OK", onPress: () => (navigation.navigate('Invite', {idEvento: idEvento})) }
-      ],
-      { cancelable: false }
-    );
-
-    const createWarningFail = () =>
-    Alert.alert(
-      "Location not found!",
-       "",
-      [
-        { text: "OK" }],
-      { cancelable: false }
-    );
-
-
-    async function postEvent(){
-      fetch('https://meeet-projeto.azurewebsites.net/api/meeet/PostEvento', {
-        method: 'POST',
+    React.useEffect(() => {
+      if (bool==true) {
+      fetch('https://meeet-projeto.azurewebsites.net/api/meeet/UpdateEvent/' + ev.id, {
+        method: 'PUT',
         headers: {
           "Accept": "application/json",
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(evento)
       })
-      .then(response => { return response.json(); } )
-      .then(json => {
-        console.log(json);
-        setIdEvento(json.id);
-      })
+      .then(response => { navigation.navigate('EventMenu') } )
       .catch((error) => {
         console.error('ERROR:' + error);
-      });
-    }
+      });}}, [bool]);
+
+
 
 
   Geocoder.init("AIzaSyA2BjSqzfdbdvFdzhLkcf0WXNSBiBB3XDI",{language : "pt"});
@@ -133,11 +90,14 @@ function CreateEvent({ data , navigation }) {
       Geocoder.from(local)
         .then(json => {
             var location = json.results[0].geometry.location;
-            console.log(JSON.stringify(location));
             updateEventLatitude(location.lat);
             updateEventLongitude(location.lng);
         })
-        .catch(error => createWarningFail());
+        .catch(error => console.log(error));
+     }
+     else{
+       updateEventLatitude(ev.latitude);
+       updateEventLongitude(ev.longitude);
      }
     };
 
@@ -180,7 +140,7 @@ function CreateEvent({ data , navigation }) {
         <TextInput
           style={styles.textInput}
           textAlign={'center'}
-          placeholder={"Location"}
+          placeholder={"Unchanged"}
           onChangeText={updateLocal}
           value={local}
           />
@@ -222,9 +182,9 @@ function CreateEvent({ data , navigation }) {
 
     <View style = {styles.buttons}>
 
-    <TouchableOpacity style={styles.buttonCreate} onPress={ () => {up(),createAlert()}}>
+    <TouchableOpacity style={styles.buttonCreate} onPress={ () => {up(); createAlert()}}>
       <Text style= {{color: '#fbfbfb'}}>
-        Create
+        Save
        </Text>
        </TouchableOpacity>
 
@@ -307,4 +267,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default CreateEvent;
+export default EditEvent;

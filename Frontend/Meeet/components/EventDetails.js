@@ -1,13 +1,11 @@
-import React, { Component, useState} from 'react'
+import React, { Component, useState, useEffect} from 'react'
 import { View, Image, Text, StyleSheet, Linking, TextInput, Button, TouchableOpacity} from 'react-native'
+
 import Icon from 'react-native-vector-icons/dist/FontAwesome5'
 import moment from "moment";
 
-import AuthContext from '../contexts/AuthContext'
 
-
-function EventDetails({ data }) {
-
+function EventDetails({ data, navigation }) {
 
     function formatDate(string){
       return new Date(string).toString().substring(0,15);
@@ -16,17 +14,31 @@ function EventDetails({ data }) {
   function openCalendar() {
     const dat = moment(new Date(data.dataHora));
     Linking.openURL('content://com.android.calendar/time/' + dat);
-  } 
+  }
+
+  function openMaps() {
+    Linking.openURL('google.navigation:q='+data.latitude+'+'+data.longitude);
+  }
+
 
     return (
        <>
 
        <View style = {styles.profileInput}>
 
-       
+
         <Text style = {styles.nomeEvento}>
           "{data.nome}"
         </Text>
+        {(data.idAdmin == global.userID) ?
+          (<TouchableOpacity  style= {{paddingLeft: 10}} onPress={() => navigation.navigate('EditEvent', {evento: data})}>
+            <Icon
+              name="edit"
+              size={20}
+              color='#2c365d'
+            />
+          </TouchableOpacity>) : (<></>)
+        }
         </View>
 
        <View style = {styles.textBox}>
@@ -36,7 +48,7 @@ function EventDetails({ data }) {
 
         </View>
 
-      
+
         <View style = {styles.body}>
 
           <View style = {{flexDirection: 'row'}}>
@@ -45,15 +57,27 @@ function EventDetails({ data }) {
               size={30}
               color='#FB2A2A'
             />
-           <Text style = {{...styles.textNegrito,marginTop:4}}>
-              {data.idadeMinima ? 'Idade minima: ' + data.idadeMinima : 'Sem Idade Minima!'}
+           <Text style = {{...styles.textNegrito,marginTop:2}}>
+              {data.idadeMinima ? 'Minimum age: ' + data.idadeMinima : 'No minimum age!'}
            </Text>
 
            </View>
 
-         
+           <View style = {{flexDirection: 'row',marginTop:30,alignItems: 'center'}}>
+             <TouchableOpacity onPress={() => openMaps()}>
+             <Icon
+              name="globe-europe"
+              size={35}
+              color='#2c365d'
+            />
+            </TouchableOpacity>
+           <Text style = {styles.textNegrito}>
+              Location
+           </Text>
+           </View>
 
-           <View style = {{flexDirection: 'row',marginTop:60,alignItems: 'center'}}>
+
+           <View style = {{flexDirection: 'row',marginTop:30,alignItems: 'center'}}>
              <TouchableOpacity onPress={() => openCalendar()}>
              <Icon
               name="calendar-alt"
@@ -66,15 +90,15 @@ function EventDetails({ data }) {
            </Text>
            </View>
 
-         
-          
+
+
            <Text style = {{...styles.textNegrito,marginLeft:30,marginTop:20}}>
               {data.dataHora.substring(11,16)}
            </Text>
            </View>
-         
 
-           
+
+
 
     </>
     )
@@ -113,7 +137,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   body: {
-    marginTop: 40,
+    marginTop: 20,
     alignItems: 'center',
   },
 });

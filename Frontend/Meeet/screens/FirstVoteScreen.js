@@ -2,14 +2,12 @@ import { View, StyleSheet,TouchableOpacity, Text, Modal, TextInput, FlatList, Ac
 import * as React from 'react';
 
 import EventContext from '../contexts/EventContext'
-
 import Title from '../components/Title'
 
 
-
 function FirstVoteScreen({ navigation }) {
-  const { evento } = React.useContext(EventContext);
 
+  const { evento } = React.useContext(EventContext);
   const [modalVisible, setModalVisible] = React.useState(false);
   const [topico, setTopico] = React.useState('');
   const [opcao1, setOpcao1] = React.useState('');
@@ -38,7 +36,6 @@ function FirstVoteScreen({ navigation }) {
   }, []);
 
   React.useEffect(() => {
-    console.log('VOTATION: ' + JSON.stringify( votacoes));
     setIsLoading(false);
   }, [votacoes]);
 
@@ -68,7 +65,7 @@ function FirstVoteScreen({ navigation }) {
       },
       body: JSON.stringify(votacao)
     })
-    .then((response) => { console.log('ADD: ' + JSON.stringify(response)); return response.json(); } )
+    .then((response) => { return response.json(); } )
     .then((json) => { setNewVotacao(json); })
     .catch((error) => {
       console.error(error);
@@ -92,7 +89,6 @@ function FirstVoteScreen({ navigation }) {
       },
       body: JSON.stringify(opcao)
     })
-    .then((response) => { console.log('ADDOP: ' + JSON.stringify(response)); } )
     .catch((error) => {
       console.error(error);
     });
@@ -130,14 +126,14 @@ return (
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
 
-          <Text style={styles.modalText}>Make New Votation</Text>
+          <Text style={styles.modalText}>Make New Vote</Text>
 
           <View style={styles.textInput}>
             <TextInput
               style={styles.textInput}
               multiline
               textAlign={'center'}
-              placeholder={'Topico'}
+              placeholder={'Topic'}
               onChangeText={setTopico}
               value={topico}
           />
@@ -150,7 +146,7 @@ return (
               style={{...styles.textInputOptions,marginTop:25}}
               multiline
               textAlign={'center'}
-              placeholder={'Opção 1'}
+              placeholder={'Option'}
               onChangeText={setOpcao1}
               value={opcao1}
           />
@@ -159,7 +155,7 @@ return (
               style={{...styles.textInputOptions,marginTop:25}}
               multiline
               textAlign={'center'}
-              placeholder={'Opção 2'}
+              placeholder={'Option'}
               onChangeText={setOpcao2}
               value={opcao2}
           />
@@ -171,7 +167,7 @@ return (
               style={{...styles.textInputOptions,marginTop:10}}
               multiline
               textAlign={'center'}
-              placeholder={'Opção 3'}
+              placeholder={'Option'}
               onChangeText={setOpcao3}
               value={opcao3}
           />
@@ -180,7 +176,7 @@ return (
               style={{...styles.textInputOptions,marginTop:10}}
               multiline
               textAlign={'center'}
-              placeholder={'Opção 4'}
+              placeholder={'Option'}
               onChangeText={setOpcao4}
               value={opcao4}
           />
@@ -191,7 +187,7 @@ return (
             <TouchableOpacity
                style={{...styles.openButtonFinal,marginTop:40,width:170}}
                onPress={() => {setModalVisible(!modalVisible); addVotacao()}}>
-                <Text style={styles.textStyle}>Concluir</Text>
+                <Text style={styles.textStyle}>Add Vote</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
@@ -206,7 +202,7 @@ return (
             <TouchableOpacity style={{...styles.button,marginTop:100}}
             onPress={() => {setModalVisible(true) }} >
             <Text style= {{color: '#fbfbfb'}}>
-              Add Votation
+              Add Vote
               </Text>
             </TouchableOpacity>
 

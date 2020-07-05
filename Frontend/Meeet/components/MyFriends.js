@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, FlatList, ActivityIndicator, TouchableOpacity, 
 
 import SearchBar from '../components/SearchBar';
 
-function MyFriends() {
+function MyFriends({ navigation }) {
 
   const [modalVisible, setModalVisible] = React.useState(false);
   const [itemAtual, setItemAtual] = React.useState(false);
@@ -24,10 +24,24 @@ function searchFilterFunction(text){
   setState({text: state.text, list: newData });
 };
 
+function removeFriend(){
+  fetch('https://meeet-projeto.azurewebsites.net/api/meeet/DeleteAmizade/' + global.userID + '/' + itemAtual.id , {
+    method: 'DELETE',
+    headers: {
+    Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+}
+
 const deleteItemById = id => () => {
   const filteredData = state.list.filter(item => item.id !== id);
   setState({text: '', list: filteredData });
   setModalVisible(!modalVisible);
+  removeFriend();
   createWarning();
   setFriendsList(filteredData);
 }
@@ -77,7 +91,6 @@ const createAlert = id => () =>
       [
         {
           text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
           style: "cancel",
         },
         { text: "OK", onPress: deleteItemById(id) }
@@ -109,13 +122,8 @@ const createWarning = () => {
             <Text style={styles.modalText}>{itemAtual.username}</Text>
              <TouchableOpacity
                style={styles.openButton}
-               onPress={() => {}}>
+               onPress={() => {navigation.navigate('FriendProfile', {id: itemAtual.id}); setModalVisible(!modalVisible); }}>
                 <Text style={styles.textStyle}>View Profile</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-               style={styles.openButton}
-               onPress={() => {}}>
-                <Text style={styles.textStyle}>Send Mensage</Text>
               </TouchableOpacity>
               <TouchableOpacity
                style={styles.openButton}

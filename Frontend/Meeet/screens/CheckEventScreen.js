@@ -5,8 +5,8 @@ import Title from '../components/Title'
 import EventDetails from '../components/EventDetails'
 import EventContext from '../contexts/EventContext'
 
-function EventDetailsScreen({navigation}) {
-  const { evento } = React.useContext(EventContext);
+function CheckEventScreen({navigation, route}) {
+  const { evento } = route.params;
 
 return (
     <View style = {styles.background}>
@@ -29,4 +29,4 @@ const styles = StyleSheet.create({
       },
   });
 
-export default EventDetailsScreen;
+export default CheckEventScreen;

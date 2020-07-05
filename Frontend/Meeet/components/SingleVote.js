@@ -19,15 +19,12 @@ function SingleVote({ opcao, index, userOpcoes }) {
     let s = false
     for(var i = 0; i < userOpcoes.length; i++){
       if(opcao.idOpcao == userOpcoes[i].idOpcao){
-        console.log('FOUNDONE');
         s = true;
       }
     }
     setSelected(s);
     setIsLoading(false)
   }, [])
-
-  console.log(JSON.stringify(opcao));
 
   async function addOption(){
     fetch('https://meeet-projeto.azurewebsites.net/api/meeet/UserChooseOption/' + global.userID, {
@@ -38,7 +35,6 @@ function SingleVote({ opcao, index, userOpcoes }) {
       },
       body: JSON.stringify(opcao)
     })
-    .then((response) => { console.log('ADD: ' + JSON.stringify(response)); } )
     .catch((error) => {
       console.error(error);
     });
@@ -52,7 +48,6 @@ function SingleVote({ opcao, index, userOpcoes }) {
         'Content-Type': 'application/json'
       }
     })
-    .then((response) => { console.log('DELETE: ' + JSON.stringify(response)); } )
     .catch((error) => {
       console.error(error);
     });

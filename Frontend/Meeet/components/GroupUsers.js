@@ -1,19 +1,13 @@
 import React, { Component, useState, useEffect } from 'react';
 import {StyleSheet,Text,View,TouchableOpacity,Image,FlatList,Modal,ActivityIndicator} from 'react-native';
-import EventContext from '../contexts/EventContext'
+
 import SearchBar from '../components/SearchBar';
 
-
-
-function EventUsers({ data, navigation }) {
-    const { evento } = React.useContext(EventContext);
+function GroupUsers({ data, navigation }) {
 
     const [state, setState] = React.useState({ text: '' , list: data });
     const [modalVisible, setModalVisible] = React.useState(false);
     const [itemAtual, setItemAtual] = React.useState(false);
-    const [isLoading, setIsLoading] = useState(true);
-    const [isSharing, setIsSharing] = useState(false);
-    const [isLocLoading, setIsLocLoading] = useState(true);
 
   let arrayholder = data;
 
@@ -34,20 +28,7 @@ function EventUsers({ data, navigation }) {
     }
   },[modalVisible]);
 
-  useEffect(() => {
-    if(itemAtual){
-      fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getSharing/' + itemAtual.id + '/' + evento.id)
-      .then((response) => { return response.json(); })
-      .then((json) => {
-         setIsSharing(json);
-        setIsLocLoading(false);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-    }
-  },[itemAtual]);
-
+  
   return (
         <View style={styles.container}>
 
@@ -65,13 +46,6 @@ function EventUsers({ data, navigation }) {
                onPress={() => {navigation.navigate('FriendProfile', {id: itemAtual.id}); setModalVisible(!modalVisible); }}>
                 <Text style={styles.textStyle}>View Profile</Text>
               </TouchableOpacity>
-
-              {isLocLoading ? <ActivityIndicator style={styles.loading}/> : (
-                (isSharing == 1) ? (<TouchableOpacity
-                  style={styles.openButton}
-                  onPress={() => { navigation.navigate('CheckLocation',{id: itemAtual.id}); setModalVisible(false)}}>
-                    <Text style={styles.textStyle}>Check Location</Text>
-                </TouchableOpacity>) : (<></>))}
 
               <TouchableOpacity
                style={styles.openButtonFinal}
@@ -245,4 +219,4 @@ function EventUsers({ data, navigation }) {
     }
   });
 
-  export default EventUsers;
+  export default GroupUsers;

@@ -18,7 +18,7 @@ function CheckLocationScreen({ navigation, route }) {
 
   useEffect(() => {
     fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getLongitudeUser/'+ id)
-      .then((response) => { console.log(JSON.stringify(response)); return response.json(); })
+      .then((response) => { return response.json(); })
       .then((json) => {
         setLongitude(json);
       })
@@ -27,7 +27,7 @@ function CheckLocationScreen({ navigation, route }) {
     });
 
     fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getLatitudeUser/'+ id)
-      .then((response) => { console.log(JSON.stringify(response)); return response.json(); })
+      .then((response) => { return response.json(); })
       .then((json) => {
         setLatitude(json);
       })

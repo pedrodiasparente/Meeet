@@ -1,162 +1,71 @@
-import React, { Component, useState, useEffect } from 'react'
+import React, { Component, useState } from 'react'
 import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity, Image} from 'react-native'
 import Icon from 'react-native-vector-icons/dist/FontAwesome5'
 
 import Title from '../components/Title'
 import AuthContext from '../contexts/AuthContext'
-import TouchableSearchList from '../components/TouchableSearchList'
 
-function InviteScreen( { route, navigation } ) {
-  const [selectedList, setList] = useState([]);
-  const [groupName, updateGroupName] = useState('');
-  const [group, setGroup] = React.useState(null);
-  const [res, setRes] = React.useState(null);
-  const [friendsIdList, setFriendsIdList] = useState([]);
-  const [friendsList, setFriendsList] = useState([]);
-  const [convite, setConvite] = useState(null);
 
+function InviteScreen({ route, navigation }) {
   const { idEvento } = route.params;
 
-  function nothing(item){
-    item.isSelected = !item.isSelected;
-    if(item.isSelected){
-      setList(oldArray => [...oldArray, item.id]);
-      item.selectedClass = styles.selected;
-    }
-    else{
-      let auxArray= selectedList.filter(value => { return value != item.id })
-      setList(auxArray);
-      item.selectedClass = styles.itemPress;
-    }
-  }
-
-  React.useEffect(() => {
-    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getAmizadesUser/' + global.userID)
-    .then((response) => response.json())
-    .then((json) => {
-      setFriendsIdList(json);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-  },[]);
-
-  React.useEffect(() => {
-    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getUsersPerIDs', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(friendsIdList)
-    })
-    .then((response) => response.json())
-    .then((json) => {
-      setFriendsList(json);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-  },[friendsIdList]);
-
-  React.useEffect(() => {
-      if(convite != null) selectedList.forEach(inviteToEvent);
-  },[convite]);
-
-  async function inviteToEvent(user, i){
-    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/InviteToEvent/' + user, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(convite)
-    }).then(response => console.log('-> InviteToEvent | ' + JSON.stringify(response)))
-    .catch((error) => {
-      console.error(error);
-    });
-  }
-
-  async function inviteAll(){
-    const conv = {
-      idConvidador: global.userID  ,
-      idEvento: idEvento,
-      utilizadorConvites: null,
-    }
-
-    console.log('-> Convite | ' + JSON.stringify(conv));
-
-    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/MakeConvite', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(conv)
-    }).then(response => {console.log('-> MakeConvite | ' + JSON.stringify(response)); setConvite(conv)})
-    .catch((error) => {
-      console.error(error);
-    });
-  }
 
   return (
     <View style = {styles.background}>
-    <Title title = {'Invite Friends'}/>
+    <Title title = {'Event invites'}/>
     <View style = {styles.body}>
 
-      <View style = {styles.list}>
+        <View style = {styles.buttons}>
 
-        <TouchableSearchList
-          data={friendsList}
-          touchFunction={nothing}
-        />
 
-      </View>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('InviteFriends', {idEvento:idEvento})}>
+            <Text style= {{color: '#fbfbfb'}}>
+              Invite Friends
+              </Text>
+            </TouchableOpacity>
 
-      <View style = {styles.buttons}>
+          </View>
+        <View style = {styles.buttons}>
 
-        <TouchableOpacity style={styles.button} onPress={() => inviteAll()}>
-          <Text style= {{color: '#fbfbfb'}}>
-            Create
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('InviteGroup', {idEvento:idEvento})}>
+            <Text style= {{color: '#fbfbfb'}}>
+              Invite Group
             </Text>
           </TouchableOpacity>
 
-        </View>
-      </View>
+          </View>
+          </View>
 
-    </View>
+        </View>
   )
 }
 
 const styles = StyleSheet.create({
-    background: {
-        flex : 1,
-        backgroundColor:'#ebebeb',
-      },
+  buttons: {
+    flexDirection: 'row',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  button: {
+    margin: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '50%',
+    height: 50,
+    borderRadius: 10,
+    backgroundColor: '#2c365d',
+  },
+  background: {
+      flex : 1,
+      backgroundColor:'#ebebeb',
+    },
     body: {
-        alignItems: 'center',
-        flex: 1,
-      },
-    selected: {
-        backgroundColor: "hsl(85, 100%, 50%)"
-      },
-    list: {
-      height: '80%',
-      width: '100%',
-    },
-    buttons: {
+      marginTop: 60,
       alignItems: 'center',
-      marginTop: 10,
-      width: '50%',
+      flex: 1,
     },
-    button: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      width: '100%',
-      height: 50,
-      borderRadius: 10,
-      backgroundColor: '#2c365d',
-    },
-  });
+});
+
 
 export default InviteScreen;

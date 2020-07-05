@@ -34,7 +34,6 @@ function HandleRequestScreen({navigation}) {
   }, []);
 
   useEffect(() => {
-    console.log("IDREQUESTS: " + idRequests);
     fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getEventsPerIDs', {
       method: 'POST',
       headers: {
@@ -62,7 +61,7 @@ function HandleRequestScreen({navigation}) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(modalEvent)
-    }).then((response) => console.log(JSON.stringify(response)))
+    })
     .catch((error) => {
       console.error(error);
     });
@@ -78,14 +77,14 @@ function HandleRequestScreen({navigation}) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
-    }).then((response) => console.log(JSON.stringify(response)))
+    })
     .catch((error) => {
       console.error(error);
     });
-    deleteItemById(modalEvent.id)
+    deleteItemById(modalEvent.id);
   };
 
-  const deleteItemById = id => () => {
+  function deleteItemById(id) {
     const filteredData = requests.filter(item => item.id !== id);
     setRequests(filteredData);
   }
@@ -106,7 +105,7 @@ function HandleRequestScreen({navigation}) {
           <Text style={styles.modalText}>{modalEvent.nome}</Text>
            <TouchableOpacity
             style={styles.openButton}
-             onPress={() => {setModalVisible(!modalVisible);/*navigation.navigate('EventDetails',{id:modalEvent.id})*/}}>
+             onPress={() => {setModalVisible(!modalVisible);navigation.navigate('CheckEvent',{evento:modalEvent})}}>
               <Text style={styles.textStyle}>View Event</Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -154,7 +153,7 @@ function HandleRequestScreen({navigation}) {
                 </TouchableOpacity>
 
               )}
-              keyExtractor={item => item.id}
+              keyExtractor={item => item.id.toString()}
             />
             </View>
 

@@ -2,17 +2,17 @@ import { View, StyleSheet} from 'react-native'
 import * as React from 'react';
 
 import Title from '../components/Title'
-import EventDetails from '../components/EventDetails'
-import EventContext from '../contexts/EventContext'
+import EditEvent from '../components/EditEvent'
 
-function EventDetailsScreen({navigation}) {
-  const { evento } = React.useContext(EventContext);
+
+function EditEventScreen({route, navigation}) {
+  const { evento } = route.params
 
 return (
     <View style = {styles.background}>
-      <Title title = {'Event Details'}/>
+      <Title title = {'Edit Event'}/>
         <View style = {styles.body}>
-          <EventDetails data={evento} navigation={navigation}/>
+          <EditEvent ev={evento} navigation={navigation}/>
         </View>
     </View>
   )
@@ -29,4 +29,4 @@ const styles = StyleSheet.create({
       },
   });
 
-export default EventDetailsScreen;
+export default EditEventScreen;

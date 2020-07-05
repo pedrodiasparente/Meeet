@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { AsyncStorage, Button, Text, TextInput, View } from 'react-native';
+import { AsyncStorage, Button,Alert, Text, TextInput, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 //import { AsyncStorage } from '@react-native-comunity/async-storage';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -12,20 +12,28 @@ import ProfileScreen from './screens/ProfileScreen'
 import FriendProfileScreen from './screens/FriendProfileScreen'
 import EventMenuScreen from './screens/EventMenuScreen'
 import EventListScreen from './screens/EventListScreen'
+import GroupListScreen from './screens/GroupListScreen'
 import HandleRequestScreen from './screens/HandleRequestScreen'
 import HandleInviteScreen from './screens/HandleInviteScreen'
 import EventScreen from './screens/EventScreen'
 import ShareLocationScreen from './screens/ShareLocationScreen'
 import CreateEventScreen from './screens/CreateEventScreen'
 import FriendsMenuScreen from './screens/FriendsMenuScreen'
+import InviteFriendsScreen from './screens/InviteFriendsScreen'
+import InviteGroupScreen from './screens/InviteGroupScreen'
 import InviteScreen from './screens/InviteScreen'
 import RequestFriendsScreen from './screens/RequestFriendsScreen'
 import CreateGroupScreen from './screens/CreateGroupScreen'
+import SendGroupInvite from './screens/SendGroupInvite'
 import CheckLocationScreen from './screens/CheckLocationScreen'
+import EditEventScreen from './screens/EditEventScreen'
+import GroupUsersScreen from './screens/GroupUsersScreen';
+import CheckEventScreen from './screens/CheckEventScreen';
 
 
 
 import AuthContext from './contexts/AuthContext'
+
 
 function SplashScreen() {
   return (
@@ -80,7 +88,6 @@ export default function App({ navigation }) {
         console.log('Restoring from AsyncStorage error: \n' + e)
         // Restoring token failed
       } finally{
-        console.log(userToken);
         global.userID = Number(userToken);
       }
 
@@ -125,6 +132,17 @@ export default function App({ navigation }) {
     }
 }
 
+const createWarning = () => {
+  Alert.alert(
+    "Wrong credentials!",
+    "",
+    [{ text: "OK" }],
+    { cancelable: false }
+  );
+  }
+
+
+
   const authContext = React.useMemo(
     () => ({
       signIn: async data => {
@@ -135,7 +153,8 @@ export default function App({ navigation }) {
         fetch('https://meeet-projeto.azurewebsites.net/api/meeet/Login/' + data.username + '/' + data.password)
           .then((response) => response.json())
           .then((json) => {
-            setTempToken(json);
+            if (json==-1) createWarning();
+            else setTempToken(json);
           })
           .catch((error) => {
             console.error(error);
@@ -159,8 +178,6 @@ export default function App({ navigation }) {
           },
           body: JSON.stringify(data)
         });
-        console.log(data);
-        dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
       },
     }),
     []
@@ -189,14 +206,21 @@ export default function App({ navigation }) {
               <Stack.Screen name="FriendProfile" component={FriendProfileScreen} />
               <Stack.Screen name="EventMenu" component={EventMenuScreen} />
               <Stack.Screen name="EventList" component={EventListScreen} />
+              <Stack.Screen name="GroupList" component={GroupListScreen} />
               <Stack.Screen name="Event" component={EventScreen} />
+              <Stack.Screen name="EditEvent" component={EditEventScreen} />
               <Stack.Screen name="CreateEvent" component={CreateEventScreen} />
               <Stack.Screen name="CreateGroup" component={CreateGroupScreen} />
               <Stack.Screen name="FriendsMenu" component={FriendsMenuScreen} />
               <Stack.Screen name="HandleRequest" component={HandleRequestScreen} />
               <Stack.Screen name="HandleInvite" component={HandleInviteScreen} />
               <Stack.Screen name="CheckLocation" component={CheckLocationScreen} />
+              <Stack.Screen name="InviteFriends" component={InviteFriendsScreen} />
+              <Stack.Screen name="InviteGroup" component={InviteGroupScreen} />
               <Stack.Screen name="Invite" component={InviteScreen} />
+              <Stack.Screen name="SendGroupInvite" component={SendGroupInvite} />
+              <Stack.Screen name="GroupUsers" component={GroupUsersScreen} />
+              <Stack.Screen name="CheckEvent" component={CheckEventScreen} />
             </>
           )}
         </Stack.Navigator>

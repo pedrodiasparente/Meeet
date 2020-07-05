@@ -1,5 +1,5 @@
-import React, { Component , useState, useEffect, document } from 'react'
-import { View, Image, TouchableOpacity, Alert, Text, StyleSheet, ActivityIndicator, TextInput, Button, ActionSheetIOS} from 'react-native'
+import React, { Component , useState, useEffect} from 'react'
+import { View, Image, TouchableOpacity, Alert, Text, StyleSheet, ActivityIndicator,Modal, TextInput, Button, ActionSheetIOS} from 'react-native'
 import Icon from 'react-native-vector-icons/dist/FontAwesome5'
 
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -21,8 +21,13 @@ function Profile() {
    const [bool3,setBool3] = useState(false);
    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
    const [data,setData] = useState(null);
- 
-   
+   const [url,setUrl] = useState(null);
+   const [modalVisible, setModalVisible] = React.useState(false);
+   const [bool4, setBool4] = useState(false);
+   const [bool5, setBool5] = useState(false);
+
+
+
 
    useEffect(() => {
      fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getUser/' + global.userID)
@@ -36,8 +41,8 @@ function Profile() {
        .finally(() => { setLoading(false) } );
      }, [bool3]);
 
-    
-   
+
+
 
      React.useEffect(() => {
        bool2 ? setBool2(false) :
@@ -48,7 +53,7 @@ function Profile() {
         "password": userData.password,
         "longitude": userData.longitude,
         "latitude": userData.latitude,
-        "urlFoto": userData.urlFoto,
+        "urlFoto": url ? url : userData.urlFoto,
         "morada": city ? city : userData.morada,
         "dataNascimento": date ? date : userData.dataNascimento,
         "genero": userData.genero,
@@ -62,7 +67,7 @@ function Profile() {
         "utilizadorOpcao": userData.utilizadorOpcao,
         "utilizadorPedidosAmizade": userData.utilizadorPedidosAmizade,
     });
-    },[date,city]);
+    },[date,city,url]);
 
 
    async function updateProfile() {
@@ -73,12 +78,13 @@ function Profile() {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(user)
+      
     })
     .catch((error) => {
       console.error(error);
     });
-    createWarning();  
-    restart();  
+    createWarning();
+    restart();
   };
 
 
@@ -99,17 +105,23 @@ function Profile() {
   const selectFile = () => {
     var options = {
       title: 'Select Image',
+      customButtons: [
+        { name: 'customOptionKey', title: 'Choose URL...' },
+      ],
       storageOptions: {
         skipBackup: true,
         path: 'images',
       },
     };
 
+
     ImagePicker.showImagePicker(options, res => {
       if (res.didCancel) {
         console.log('User cancelled image picker');
       } else if (res.error) {
         console.log('ImagePicker Error: ', res.error);
+      }  else if (res.customButton) {
+        setModalVisible(true);
       } else {
         let source = res;
         setState({resourcePath: source});
@@ -134,23 +146,61 @@ function Profile() {
 
 
 
- 
+
     return (
       <>
       {isLoading ? <ActivityIndicator/> : (
         <>
-        
+
         <View style = {styles.profilePic}>
         <TouchableOpacity onPress={() => selectFile()}>
-          <Image style = {{width: '100%', height:'100%' , borderRadius:20000}}        
+          <Image style = {{width: '100%', height:'100%' , borderRadius:20000}}
             source={{
-                uri: bool ? state.resourcePath.uri : userData.urlFoto ,
-            }}         
-            />          
+                uri: bool4 ? url : bool ? state.resourcePath.uri : userData.urlFoto ,
+            }}
+            />
             </TouchableOpacity>
-          
+
         </View>
-        
+
+
+        <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        >
+        <View style={styles.centeredView}>
+       <View style={styles.modalView}>
+        <Text style={styles.modalText}>Insert URL</Text>
+
+        <View style={styles.profileRow}>
+        <TextInput
+          style={styles.textInput}
+          textAlign={'center'}
+          onChangeText={setUrl}
+          value={url}
+        />
+        </View>
+
+
+        <TouchableOpacity
+           style={styles.openButtonFinal}
+           onPress={() => {setModalVisible(!modalVisible);setBool4(true);}}>
+            <Text style={styles.textStyle}>Save</Text>
+           </TouchableOpacity>
+
+
+          <TouchableOpacity
+           style={styles.openButtonFinal}
+           onPress={() => {setModalVisible(!modalVisible);}}>
+            <Text style={styles.textStyle}>Go Back</Text>
+           </TouchableOpacity>
+            </View>
+           </View>
+         </Modal>
+
+
+
 
 
       <View style = {styles.profileRow}>
@@ -208,7 +258,7 @@ function Profile() {
           size={20}
           color='#2c365d'
           />
-          
+
           <View style={styles.textInput}>
           <TouchableOpacity onPress={showDatePicker}>
             <Text style={{color: date ? '#0B0B0B' : '#8E9290'}}>
@@ -222,7 +272,7 @@ function Profile() {
               onConfirm={handleConfirm}
               onCancel={hideDatePicker}
            />
-         
+
         </View>
 
         </View>
@@ -239,7 +289,7 @@ function Profile() {
         </TouchableOpacity>
 
       </View>
-             
+
          </>
       )}
     </>
@@ -255,7 +305,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 4,
-    marginBottom:12    
+    marginBottom:12
   },
   buttonText: {
     textAlign: 'center',
@@ -281,6 +331,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
   buttons: {
     alignItems: 'center',
     marginTop: 50,
@@ -293,7 +348,44 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 10,
     backgroundColor: '#2c365d',
-  }
+  },
+  openButtonFinal: {
+    alignItems: 'center',
+    borderRadius: 20,
+    height: 40,
+    width: 90,
+    padding: 10,
+    elevation: 2,
+    backgroundColor: "#2196F3" ,
+    marginTop: 30,
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5
+  },
 });
 
 export default Profile;

@@ -1,7 +1,5 @@
 import * as React from 'react';
-import { AsyncStorage, Button, Text, TextInput, View, StyleSheet } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-//import { AsyncStorage } from '@react-native-comunity/async-storage';
+import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import EventTabBar from '../components/EventTabBar'
@@ -41,17 +39,5 @@ const styles = StyleSheet.create({
     backgroundColor:'#ebebeb',
   },
   });
-
-  const DATA =
-    {
-      id: '1',
-      url: 'https://reactnative.dev/img/tiny_logo.png',
-      username: 'Joaquim Silva Silva',
-      email: 'Joaquim@gmail.com',
-      city: 'Califórnia',
-    }
-  ;
-
-let event = {"id":1,"nome":"evento1","dataHora":"2014-01-01T00:00:00","longitude":0,"latitude":0,"tipoEvento":0,"idAdmin":1,"descricao":"é um evento muito giro","idadeMinima":null,"idAdminNavigation":null,"eventoHasRequests":[],"utilizadorEvento":[],"votacao":[]}
 
 export default EventScreen;

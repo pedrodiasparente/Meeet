@@ -5,7 +5,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 import AuthContext from '../contexts/AuthContext'
 
-function SignUp() {
+function SignUp({navigation}) {
 
   const [usernameText, setUsername] = React.useState('');
   const [emailText, setEmail] = React.useState('');
@@ -51,7 +51,6 @@ function SignUp() {
   };
 
   const handleConfirm = (date) => {
-    console.log("A date has been picked: ", date);
     hideDatePicker();
   };
 
@@ -125,11 +124,6 @@ function SignUp() {
           />
 
         </View>
-        <TouchableOpacity onPress={showDatePicker} style={styles.button}>
-          <Text style= {{color: '#fbfbfb'}}>
-            Date
-          </Text>
-        </TouchableOpacity>
 
         <DateTimePickerModal
             isVisible={isDatePickerVisible}
@@ -140,7 +134,7 @@ function SignUp() {
 
     <View style = {styles.buttons}>
 
-      <TouchableOpacity style={styles.button} onPress={() => signUp(user)}>
+      <TouchableOpacity style={styles.button} onPress={() => {signUp(user); navigation.navigate('Login');}}>
         <Text style= {{color: '#fbfbfb'}}>
           SignUp
           </Text>

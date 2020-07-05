@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/dist/FontAwesome5'
+
 
 import SingleVote from './SingleVote'
 

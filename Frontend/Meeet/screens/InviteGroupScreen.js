@@ -1,19 +1,24 @@
 import React, { Component, useState, useEffect } from 'react'
-import { View, Text, StyleSheet, FlatList, Button, TouchableOpacity, Image, Modal, ActivityIndicator} from 'react-native'
+import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity, Image, ActivityIndicator, FlatList} from 'react-native'
 import Icon from 'react-native-vector-icons/dist/FontAwesome5'
 
 import Title from '../components/Title'
+import AuthContext from '../contexts/AuthContext'
+import TouchableSearchList from '../components/TouchableSearchList'
 
+function InviteGroupScreen( { route, navigation } ) {
+  const [group, setGroup] = React.useState({id: -1});
+  const [convite, setConvite] = useState(null);
 
-function EventListScreen({navigation}) {
+  const { idEvento } = route.params;
 
-  const [userEvents, setUserEvents] = React.useState(null);
-  const [events, setEvents] = React.useState(null);
+  const [userGroups, setUserGroups] = React.useState([]);
+  const [groups, setGroups] = React.useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
 
   useEffect(() => {
-    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getUserEventosPerUser/' + global.userID, {
+    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getUserGruposPerUser/' + global.userID, {
         method: 'GET',
         headers: {
         "Accept": "application/json",
@@ -22,7 +27,7 @@ function EventListScreen({navigation}) {
     })
     .then(response => { return response.json(); } )
     .then(json => {
-      setUserEvents(json);
+      setUserGroups(json);
     })
     .catch((error) => {
       console.error('ERROR:' + error);
@@ -30,31 +35,45 @@ function EventListScreen({navigation}) {
   }, []);
 
   useEffect(() => {
-    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getEventosPerUser', {
+    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getGrupoPerUser', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(userEvents)
+      body: JSON.stringify(userGroups)
     })
     .then((response) => {return response.json()} )
     .then((json) => {
-      setEvents(json);
+      setGroups(json);
+      setIsLoading(false);
     })
     .catch((error) => {
       console.error(error);
     });
-  }, [userEvents]);
+  }, [userGroups]);
 
-  useEffect(() => {
-    if(events!=null);
-    setIsLoading(false);
-  }, [events]);
+  React.useEffect(() => {
+      if(convite != null) selectedList.forEach(inviteToEvent);
+  },[convite]);
+
+  async function inviteToEvent(user, i){
+    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/InviteToEvent/' + user, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(convite)
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  }
 
   return (
     <View style = {styles.background}>
-    <Title title = {'Events'}/>
+    <Title title = {'Invite Groups'}/>
     <View style = {styles.body}>
 
       {isLoading ? <ActivityIndicator/> : (
@@ -63,14 +82,14 @@ function EventListScreen({navigation}) {
 
         <View style={styles.touchlist}>
           <FlatList
-            data={events}
+            data={groups}
             renderItem={({ item }) => (
               <TouchableOpacity
-                style={styles.itemPress}
-                onPress={() => { navigation.navigate('Event',  {evento: item}) }}>
+                style={(group.id == item.id) ? styles.itemPress : styles.itemNotPress}
+                onPress={() => { setGroup(item) }}>
                   <View style={{flexDirection: "row"}}>
                     <Icon
-                      name="calendar-alt"
+                      name="users"
                       size={35}
                       color='#2c365d'
                     />
@@ -83,6 +102,17 @@ function EventListScreen({navigation}) {
               )}
               keyExtractor={item => item.id.toString()}
             />
+            </View>
+            <View style={styles.buttoncont}>
+            <View style = {styles.buttons}>
+
+              <TouchableOpacity style={styles.button} onPress={() => { navigation.navigate('SendGroupInvite', {grupo: group, idEvento: idEvento}); }}>
+                <Text style= {{color: '#fbfbfb'}}>
+                  Create
+                  </Text>
+                </TouchableOpacity>
+
+              </View>
             </View>
 
       </View>
@@ -99,6 +129,37 @@ const styles = StyleSheet.create({
         flex : 1,
         backgroundColor:'#ebebeb',
       },
+    body: {
+        alignItems: 'center',
+        flex: 1,
+      },
+    selected: {
+        backgroundColor: "hsl(85, 100%, 50%)"
+      },
+    list: {
+      height: '80%',
+      width: '100%',
+    },
+    buttons: {
+      alignItems: 'center',
+      marginTop: 10,
+      width: '50%',
+    },
+    button: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '100%',
+      height: 50,
+      borderRadius: 10,
+      backgroundColor: '#2c365d',
+    },
+    background: {
+        flex : 1,
+        backgroundColor:'#ebebeb',
+      },
+    buttoncont:{
+      alignItems: 'center',
+    },
     container:{
       flex:1,
       paddingTop: 50,
@@ -179,7 +240,14 @@ const styles = StyleSheet.create({
       fontWeight:'bold'
     },
     itemPress: {
-      backgroundColor: '#fefefe',
+      backgroundColor: '#C78B50',
+      padding: 10,
+      marginBottom: 16,
+      marginHorizontal: 16,
+      borderRadius: 10,
+    },
+    itemNotPress: {
+      backgroundColor: '#efefef',
       padding: 10,
       marginBottom: 16,
       marginHorizontal: 16,
@@ -193,6 +261,6 @@ const styles = StyleSheet.create({
       borderColor:"#DCDCDC",
       borderWidth:1.5,
     },
-});
+  });
 
-export default EventListScreen;
+export default InviteGroupScreen;

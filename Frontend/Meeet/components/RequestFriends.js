@@ -13,7 +13,9 @@ function RequestFriends({ navigation }) {
   const [username, setUsername] = React.useState('');
   const [user, setUser] = useState(null);
   const [isBadUser, setBadUser] = useState(true);
+  const [isFriend, setIsFriend] = useState(null);
   const [isLoading, setLoading] = useState(false);
+  const [newUser, setNewUser] = useState(false);
 
 
 
@@ -24,9 +26,21 @@ async function findUser() {
   .then((json) => {
     if( json == null ){ setBadUser(true); setLoading(false);}
     else{
-      console.log("JSON: " + JSON.stringify(json))
       setUser(json);
+      setNewUser(true)
     }
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+};
+
+async function isFriends() {
+  setLoading(true);
+  fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getSaoAmigos/' + global.userID + '/' + user.id)
+  .then((response) =>  {if(response.status == 200) return (response.json()); else return null;})
+  .then((json) => {
+      setIsFriend(json);
   })
   .catch((error) => {
     console.error(error);
@@ -35,18 +49,23 @@ async function findUser() {
 
 useEffect(() => {
   if(user != null){
-    setLoading(false);
-    setBadUser(false);
-    console.log("JSON: " + JSON.stringify(user));
+    isFriends();
   }
 },[user]);
+
+useEffect(() => {
+  if(isFriend != null){
+    setLoading(false);
+    setBadUser(false);
+  }
+  if(newUser == true) setNewUser(false);
+},[isFriend , newUser]);
 
 async function sendRequest(id){
   const data = {
     idUserSend: global.userID,
     utilizadorPedidosAmizade:null
   };
-  console.log(JSON.stringify(data) + '/ ID:' + id);
   fetch('https://meeet-projeto.azurewebsites.net/api/meeet/PostPedidoAmizade/' + id , {
     method: 'POST',
     headers: {
@@ -54,7 +73,7 @@ async function sendRequest(id){
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(data)
-  }).then((response) =>  console.log(JSON.stringify(response)));
+  })
 }
 
 const createWarning = () => {
@@ -85,14 +104,14 @@ const createWarning = () => {
                onPress={() => {setModalVisible(!modalVisible);navigation.navigate('FriendProfile',{id: user.id})}}>
                 <Text style={styles.textStyle}>View Profile</Text>
               </TouchableOpacity>
-              <TouchableOpacity
+              {isFriend ? (<></>) : (<TouchableOpacity
                style={styles.openButton}
                onPress={() => {setModalVisible(!modalVisible);sendRequest(user.id)}}>
                 <Text style={styles.textStyle}>Send Request</Text>
-              </TouchableOpacity>
+              </TouchableOpacity>)}
               <TouchableOpacity
                style={styles.openButtonFinal}
-               onPress={() => {setModalVisible(!modalVisible);}}>
+               onPress={() => {setModalVisible(!modalVisible); setIsFriend(null)}}>
                 <Text style={styles.textStyle}>Go Back</Text>
               </TouchableOpacity>
            </View>
