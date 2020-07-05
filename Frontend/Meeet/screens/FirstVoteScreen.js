@@ -187,7 +187,7 @@ return (
             <TouchableOpacity
                style={{...styles.openButtonFinal,marginTop:40,width:170}}
                onPress={() => {setModalVisible(!modalVisible); addVotacao()}}>
-                <Text style={styles.textStyle}>Concluir</Text>
+                <Text style={styles.textStyle}>Add Vote</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
