@@ -85,7 +85,6 @@ export default function App({ navigation }) {
         console.log('Restoring from AsyncStorage error: \n' + e)
         // Restoring token failed
       } finally{
-        console.log(userToken);
         global.userID = Number(userToken);
       }
 
@@ -176,7 +175,6 @@ const createWarning = () => {
           },
           body: JSON.stringify(data)
         });
-        console.log(data);
       },
     }),
     []

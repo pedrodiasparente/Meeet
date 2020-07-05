@@ -51,7 +51,6 @@ function SignUp({navigation}) {
   };
 
   const handleConfirm = (date) => {
-    console.log("A date has been picked: ", date);
     hideDatePicker();
   };
 
