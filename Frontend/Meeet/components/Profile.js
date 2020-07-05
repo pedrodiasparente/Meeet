@@ -24,6 +24,7 @@ function Profile() {
    const [url,setUrl] = useState(null);
    const [modalVisible, setModalVisible] = React.useState(false);
    const [bool4, setBool4] = useState(false);
+   const [bool5, setBool5] = useState(false);
 
 
 
@@ -66,7 +67,7 @@ function Profile() {
         "utilizadorOpcao": userData.utilizadorOpcao,
         "utilizadorPedidosAmizade": userData.utilizadorPedidosAmizade,
     });
-    },[date,city]);
+    },[date,city,url]);
 
 
    async function updateProfile() {
@@ -77,6 +78,7 @@ function Profile() {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(user)
+      
     })
     .catch((error) => {
       console.error(error);

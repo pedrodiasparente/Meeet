@@ -20,7 +20,6 @@ function EditEvent({ ev , navigation }) {
   const [evento, setEvento] = React.useState(null);
 
     React.useEffect(() => {
-      console.log('Boioi' +eventLatitude + '/' + eventLongitude);
       setEvento({
         nome: eventName,
         dataHora: eventDateTime,
