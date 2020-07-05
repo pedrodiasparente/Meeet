@@ -68,7 +68,6 @@ function EditEvent({ ev , navigation }) {
 
     React.useEffect(() => {
       if (bool==true) {
-      console.log('EDITING EVENTO: ' + JSON.stringify(evento));
       fetch('https://meeet-projeto.azurewebsites.net/api/meeet/UpdateEvent/' + ev.id, {
         method: 'PUT',
         headers: {
