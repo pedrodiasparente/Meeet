@@ -113,11 +113,6 @@ const createWarning = () => {
               </TouchableOpacity>
               <TouchableOpacity
                style={styles.openButton}
-               onPress={() => {}}>
-                <Text style={styles.textStyle}>Send Mensage</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-               style={styles.openButton}
                onPress={createAlert(itemAtual.id)}>
                 <Text style={styles.textStyle}>Remove Friend</Text>
               </TouchableOpacity>

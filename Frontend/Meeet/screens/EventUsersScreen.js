@@ -40,7 +40,6 @@ function EventUsersScreen({ navigation }) {
     })
     .then((response) => { return response.json()} )
     .then((json) => {
-      console.log(JSON.stringify(json));
       setUsers(json);
     })
     .catch((error) => {
