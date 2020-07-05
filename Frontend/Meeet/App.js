@@ -26,6 +26,7 @@ import RequestFriendsScreen from './screens/RequestFriendsScreen'
 import CreateGroupScreen from './screens/CreateGroupScreen'
 import SendGroupInvite from './screens/SendGroupInvite'
 import CheckLocationScreen from './screens/CheckLocationScreen'
+import EditEventScreen from './screens/EditEventScreen'
 
 
 
@@ -206,6 +207,7 @@ const createWarning = () => {
               <Stack.Screen name="EventList" component={EventListScreen} />
               <Stack.Screen name="GroupList" component={GroupListScreen} />
               <Stack.Screen name="Event" component={EventScreen} />
+              <Stack.Screen name="EditEvent" component={EditEventScreen} />
               <Stack.Screen name="CreateEvent" component={CreateEventScreen} />
               <Stack.Screen name="CreateGroup" component={CreateGroupScreen} />
               <Stack.Screen name="FriendsMenu" component={FriendsMenuScreen} />

@@ -8,14 +8,14 @@ import AuthContext from '../contexts/AuthContext'
 import DateInput from '../components/DateInput'
 import Geocoder from 'react-native-geocoding'
 
-function CreateEvent({ data , navigation }) {
-  const [eventName, updateEventName] = useState('');
-  const [eventLongitude, updateEventLongitude] = useState('0');
-  const [eventLatitude, updateEventLatitude] = useState('0');
-  const [eventDateTime, updateEventDateTime] = useState('');
-  const [eventType, updateEventType] = useState(0);
-  const [eventAge, updateEventAge] = useState(null);
-  const [eventDescription, updateEventDescription] = useState('');
+function EditEvent({ ev , navigation }) {
+  const [eventName, updateEventName] = useState(ev.nome);
+  const [eventLongitude, updateEventLongitude] = useState(ev.longitude);
+  const [eventLatitude, updateEventLatitude] = useState(ev.latitude);
+  const [eventDateTime, updateEventDateTime] = useState(ev.dataHora);
+  const [eventType, updateEventType] = useState(ev.tipoEvento);
+  const [eventAge, updateEventAge] = useState(ev.idadeMinima.toString());
+  const [eventDescription, updateEventDescription] = useState(ev.descricao);
   const [isDateTimePickerVisible, setDateTimePickerVisibility] = useState(false);
   const [local, updateLocal] = useState('');
 
@@ -183,7 +183,7 @@ function CreateEvent({ data , navigation }) {
         <TextInput
           style={styles.textInput}
           textAlign={'center'}
-          placeholder={"Location"}
+          placeholder={"Unchanged"}
           onChangeText={updateLocal}
           value={local}
           />
@@ -310,4 +310,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default CreateEvent;
+export default EditEvent;
