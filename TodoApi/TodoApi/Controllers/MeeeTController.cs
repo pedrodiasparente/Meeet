@@ -149,6 +149,19 @@ namespace TodoApi.Controllers
             return amigos;
         }
 
+        // GET:
+        [Route("getSaoAmigos/{id_user_global:int}/{id_user_friend:int}")]
+        [HttpGet]
+        public bool GetSaoAmigos(int id_user_global,int id_user_friend)
+        {
+            foreach (var t in _context.Amigos)
+            {
+                if (id_user_global == t.IdUser1 && id_user_friend == t.IdUser2) return true;
+                else if (id_user_global == t.IdUser2 && id_user_friend == t.IdUser1) return true;
+            }
+            return false;
+        }
+
         // Utilizadores por lista de id
         // POST:
         [Route("getUsersPerIDs")]
@@ -899,6 +912,26 @@ namespace TodoApi.Controllers
             {
                 _context.Amigos.Remove(a);
             }
+            _context.SaveChanges();
+        }
+
+        // DELETE: api/ApiWithActions/5
+        [Route("DeleteAmizade/{id_1:int}/{id_2:int}")]
+        [HttpDelete]
+        public void DeleteAmizade(int id_1, int id_2)
+        {
+            foreach(Amigos a in _context.Amigos)
+            {
+                if (a.IdUser1 == id_1 && a.IdUser2 == id_2) { 
+                    _context.Amigos.Remove(a);
+                    break;
+                }
+                else if (a.IdUser1 == id_2 && a.IdUser2 == id_1) { 
+                    _context.Amigos.Remove(a);
+                    break;
+                }
+            }
+            
             _context.SaveChanges();
         }
 
