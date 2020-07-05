@@ -64,7 +64,7 @@ function GroupListScreen({navigation}) {
             renderItem={({ item }) => (
               <TouchableOpacity
                 style={styles.itemPress}
-                onPress={() => {}}>
+                onPress={() => navigation.navigate('GroupUsers',{id: item.id})}>
                   <View style={{flexDirection: "row"}}>
                     <Icon
                       name="users"
