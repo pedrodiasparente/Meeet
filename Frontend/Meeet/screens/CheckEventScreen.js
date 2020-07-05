@@ -5,7 +5,7 @@ import Title from '../components/Title'
 import EventDetails from '../components/EventDetails'
 import EventContext from '../contexts/EventContext'
 
-function CheckEventScreen({navigation}) {
+function CheckEventScreen({navigation, route}) {
   const { evento } = route.params;
 
 return (
