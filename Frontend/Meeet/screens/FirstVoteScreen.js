@@ -126,14 +126,14 @@ return (
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
 
-          <Text style={styles.modalText}>Make New Votation</Text>
+          <Text style={styles.modalText}>Make New Vote</Text>
 
           <View style={styles.textInput}>
             <TextInput
               style={styles.textInput}
               multiline
               textAlign={'center'}
-              placeholder={'Topico'}
+              placeholder={'Topic'}
               onChangeText={setTopico}
               value={topico}
           />
@@ -146,7 +146,7 @@ return (
               style={{...styles.textInputOptions,marginTop:25}}
               multiline
               textAlign={'center'}
-              placeholder={'Opção 1'}
+              placeholder={'Option'}
               onChangeText={setOpcao1}
               value={opcao1}
           />
@@ -155,7 +155,7 @@ return (
               style={{...styles.textInputOptions,marginTop:25}}
               multiline
               textAlign={'center'}
-              placeholder={'Opção 2'}
+              placeholder={'Option'}
               onChangeText={setOpcao2}
               value={opcao2}
           />
@@ -167,7 +167,7 @@ return (
               style={{...styles.textInputOptions,marginTop:10}}
               multiline
               textAlign={'center'}
-              placeholder={'Opção 3'}
+              placeholder={'Option'}
               onChangeText={setOpcao3}
               value={opcao3}
           />
@@ -176,7 +176,7 @@ return (
               style={{...styles.textInputOptions,marginTop:10}}
               multiline
               textAlign={'center'}
-              placeholder={'Opção 4'}
+              placeholder={'Option'}
               onChangeText={setOpcao4}
               value={opcao4}
           />
@@ -202,7 +202,7 @@ return (
             <TouchableOpacity style={{...styles.button,marginTop:100}}
             onPress={() => {setModalVisible(true) }} >
             <Text style= {{color: '#fbfbfb'}}>
-              Add Votation
+              Add Vote
               </Text>
             </TouchableOpacity>
 
