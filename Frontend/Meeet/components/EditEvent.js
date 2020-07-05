@@ -10,18 +10,20 @@ import Geocoder from 'react-native-geocoding'
 
 function EditEvent({ ev , navigation }) {
   const [eventName, updateEventName] = useState(ev.nome);
-  const [eventLongitude, updateEventLongitude] = useState(ev.longitude);
-  const [eventLatitude, updateEventLatitude] = useState(ev.latitude);
+  const [eventLongitude, updateEventLongitude] = useState(null);
+  const [eventLatitude, updateEventLatitude] = useState(null);
   const [eventDateTime, updateEventDateTime] = useState(ev.dataHora);
   const [eventType, updateEventType] = useState(ev.tipoEvento);
   const [eventAge, updateEventAge] = useState(ev.idadeMinima.toString());
   const [eventDescription, updateEventDescription] = useState(ev.descricao);
   const [isDateTimePickerVisible, setDateTimePickerVisibility] = useState(false);
   const [local, updateLocal] = useState('');
+  const [bool, setBool] = useState(false);
 
   const [evento, setEvento] = React.useState(null);
 
     React.useEffect(() => {
+      console.log('Boioi' +eventLatitude + '/' + eventLongitude);
       setEvento({
         nome: eventName,
         dataHora: eventDateTime,
@@ -36,15 +38,7 @@ function EditEvent({ ev , navigation }) {
         utilizadorEvento: null,
         votacao: null
       });
-      console.log('BOIZANA' +eventLatitude + '/' + eventLongitude);
-
   },[eventName, eventDateTime, eventLongitude, eventLatitude, eventDescription, eventAge]);
-
-  React.useEffect(() => {
-    if (evento!= null)
-    console.log('Evento Mudou' +evento.latitude + '/' + evento.longitude);
-
-},[evento]);
 
 
     const showDatePicker = () => {
@@ -72,7 +66,7 @@ function EditEvent({ ev , navigation }) {
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel",
         },
-        { text: "OK", onPress: () => {editEvent(); navigation.navigate('EventMenu')} }
+        { text: "OK", onPress: () => {setBool(true);} }
       ],
       { cancelable: false }
     );
@@ -87,7 +81,8 @@ function EditEvent({ ev , navigation }) {
     );
 
 
-    async function editEvent(){
+    React.useEffect(() => {
+      if (bool==true) {
       console.log('EDITING EVENTO: ' + JSON.stringify(evento));
       fetch('https://meeet-projeto.azurewebsites.net/api/meeet/UpdateEvent/' + ev.id, {
         method: 'PUT',
@@ -100,8 +95,9 @@ function EditEvent({ ev , navigation }) {
       .then(response => { console.log(JSON.stringify(response)) } )
       .catch((error) => {
         console.error('ERROR:' + error);
-      });
-    }
+      });}});
+     
+    
 
 
   Geocoder.init("AIzaSyA2BjSqzfdbdvFdzhLkcf0WXNSBiBB3XDI",{language : "pt"});
