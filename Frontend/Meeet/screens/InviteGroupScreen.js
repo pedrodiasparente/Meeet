@@ -25,7 +25,7 @@ function InviteGroupScreen( { route, navigation } ) {
         'Content-Type': 'application/json'
         }
     })
-    .then(response => { console.log(JSON.stringify(response)); return response.json(); } )
+    .then(response => { return response.json(); } )
     .then(json => {
       setUserGroups(json);
     })
@@ -43,7 +43,7 @@ function InviteGroupScreen( { route, navigation } ) {
       },
       body: JSON.stringify(userGroups)
     })
-    .then((response) => {console.log(JSON.stringify(response)); return response.json()} )
+    .then((response) => {return response.json()} )
     .then((json) => {
       setGroups(json);
       setIsLoading(false);
@@ -65,7 +65,7 @@ function InviteGroupScreen( { route, navigation } ) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(convite)
-    }).then(response => console.log('-> InviteToEvent | ' + JSON.stringify(response)))
+    })
     .catch((error) => {
       console.error(error);
     });
@@ -73,7 +73,7 @@ function InviteGroupScreen( { route, navigation } ) {
 
   return (
     <View style = {styles.background}>
-    <Title title = {'Groups'}/>
+    <Title title = {'Invite Groups'}/>
     <View style = {styles.body}>
 
       {isLoading ? <ActivityIndicator/> : (

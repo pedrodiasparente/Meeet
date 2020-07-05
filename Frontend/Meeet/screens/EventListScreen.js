@@ -7,8 +7,8 @@ import Title from '../components/Title'
 
 function EventListScreen({navigation}) {
 
-  const [userEvents, setUserEvents] = React.useState([]);
-  const [events, setEvents] = React.useState([]);
+  const [userEvents, setUserEvents] = React.useState(null);
+  const [events, setEvents] = React.useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
 
@@ -41,14 +41,16 @@ function EventListScreen({navigation}) {
     .then((response) => {return response.json()} )
     .then((json) => {
       setEvents(json);
-      setIsLoading(false);
     })
     .catch((error) => {
       console.error(error);
     });
   }, [userEvents]);
 
-
+  useEffect(() => {
+    if(events!=null);
+    setIsLoading(false);
+  }, [events]);
 
   return (
     <View style = {styles.background}>
