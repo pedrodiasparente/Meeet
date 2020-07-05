@@ -40,6 +40,12 @@ function EditEvent({ ev , navigation }) {
 
   },[eventName, eventDateTime, eventLongitude, eventLatitude, eventDescription, eventAge]);
 
+  React.useEffect(() => {
+    if (evento!= null)
+    console.log('Evento Mudou' +evento.latitude + '/' + evento.longitude);
+
+},[evento]);
+
 
     const showDatePicker = () => {
       setDateTimePickerVisibility(true);
@@ -66,7 +72,7 @@ function EditEvent({ ev , navigation }) {
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel",
         },
-        { text: "OK", onPress: () => {editEvent(); console.log(evento);} }
+        { text: "OK", onPress: () => {editEvent(); navigation.navigate('EventMenu')} }
       ],
       { cancelable: false }
     );
@@ -109,7 +115,11 @@ function EditEvent({ ev , navigation }) {
             updateEventLatitude(location.lat);
             updateEventLongitude(location.lng);
         })
-        .catch(error => createWarningFail());
+        .catch(error => console.log(error));
+     }
+     else{
+       updateEventLatitude(ev.latitude);
+       updateEventLongitude(ev.longitude);
      }
     };
 

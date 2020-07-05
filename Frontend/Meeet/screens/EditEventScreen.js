@@ -5,14 +5,14 @@ import Title from '../components/Title'
 import EditEvent from '../components/EditEvent'
 import EventContext from '../contexts/EventContext'
 
-function EditEventScreen({route}) {
+function EditEventScreen({route, navigation}) {
   const { evento } = route.params
 
 return (
     <View style = {styles.background}>
         <Title title = {'Edit Event'}/>
         <View style = {styles.body}>
-         <EditEvent ev={evento}/>
+         <EditEvent ev={evento} navigation={navigation}/>
         </View>
     </View>
   )
