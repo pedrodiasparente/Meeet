@@ -3,9 +3,6 @@ import { View, Image, Text, StyleSheet, TextInput, Alert, Button, TouchableOpaci
 import Icon from 'react-native-vector-icons/dist/FontAwesome5'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
-
-import AuthContext from '../contexts/AuthContext'
-import DateInput from '../components/DateInput'
 import Geocoder from 'react-native-geocoding'
 
 function EditEvent({ ev , navigation }) {
@@ -50,8 +47,7 @@ function EditEvent({ ev , navigation }) {
     };
 
     const handleConfirm = (date) => {
-      console.log("A date has been picked: ", date);
-      hideDatePicker();
+       hideDatePicker();
       updateEventDateTime(date);
     };
 
@@ -63,23 +59,12 @@ function EditEvent({ ev , navigation }) {
       [
         {
           text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
           style: "cancel",
         },
         { text: "OK", onPress: () => {setBool(true);} }
       ],
       { cancelable: false }
     );
-
-    const createWarningFail = () =>
-    Alert.alert(
-      "Location not found!",
-       "",
-      [
-        { text: "OK" }],
-      { cancelable: false }
-    );
-
 
     React.useEffect(() => {
       if (bool==true) {
@@ -92,7 +77,7 @@ function EditEvent({ ev , navigation }) {
         },
         body: JSON.stringify(evento)
       })
-      .then(response => { console.log(JSON.stringify(response)), navigation.navigate('EventMenu') } )
+      .then(response => { navigation.navigate('EventMenu') } )
       .catch((error) => {
         console.error('ERROR:' + error);
       });}}, [bool]);
@@ -107,7 +92,6 @@ function EditEvent({ ev , navigation }) {
       Geocoder.from(local)
         .then(json => {
             var location = json.results[0].geometry.location;
-            console.log('LOC: ' + JSON.stringify(location));
             updateEventLatitude(location.lat);
             updateEventLongitude(location.lng);
         })

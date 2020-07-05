@@ -37,10 +37,9 @@ function EventUsers({ data, navigation }) {
   useEffect(() => {
     if(itemAtual){
       fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getSharing/' + itemAtual.id + '/' + evento.id)
-      .then((response) => { console.log(JSON.stringify(response)); return response.json(); })
+      .then((response) => { return response.json(); })
       .then((json) => {
-        console.log('IS SHARING? '+json);
-        setIsSharing(json);
+         setIsSharing(json);
         setIsLocLoading(false);
       })
       .catch((error) => {

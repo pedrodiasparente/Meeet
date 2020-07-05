@@ -3,9 +3,6 @@ import { View, Image, Text, StyleSheet, TextInput, Alert, Button, TouchableOpaci
 import Icon from 'react-native-vector-icons/dist/FontAwesome5'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
-
-import AuthContext from '../contexts/AuthContext'
-import DateInput from '../components/DateInput'
 import Geocoder from 'react-native-geocoding'
 
 function CreateEvent({ data , navigation }) {
@@ -51,7 +48,7 @@ function CreateEvent({ data , navigation }) {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(evento)
-      }).then((response) => console.log('-> Adding ADMIN |' + JSON.stringify(response)))
+      })
       .catch((error) => {
         console.error(error);
       });
@@ -69,7 +66,6 @@ function CreateEvent({ data , navigation }) {
     };
 
     const handleConfirm = (date) => {
-      console.log("A date has been picked: ", date);
       hideDatePicker();
       updateEventDateTime(date);
     };
@@ -85,7 +81,7 @@ function CreateEvent({ data , navigation }) {
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel",
         },
-        { text: "OK", onPress: () => {postEvent(); console.log(evento)} }
+        { text: "OK", onPress: () => {postEvent()} }
       ],
       { cancelable: false }
     );

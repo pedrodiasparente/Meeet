@@ -1,13 +1,12 @@
 import React, { Component, useState } from 'react'
 import { View, Image, Text, StyleSheet, TextInput, Button, TouchableOpacity,Alert} from 'react-native'
-import Icon from 'react-native-vector-icons/dist/FontAwesome5'
 
 import AuthContext from '../contexts/AuthContext'
 import TouchableSearchList from '../components/TouchableSearchList'
 
 
 function CreateGroup({ data }) {
-  const { signIn } = React.useContext(AuthContext);
+
   const [selectedList, setList] = useState([]);
   const [groupName, updateGroupName] = useState('');
   const [group, setGroup] = React.useState(null);
@@ -24,7 +23,6 @@ function CreateGroup({ data }) {
       setList(auxArray);
       item.selectedClass = styles.itemPress;
     }
-    console.log(selectedList);
   }
 
   React.useEffect(() => {
@@ -60,10 +58,8 @@ function CreateGroup({ data }) {
   },[res]);
 
     function addAllToGroup() {
-      console.log("id-> " + global.userID);
       addToGroup(global.userID);
       selectedList.forEach(item => {
-        console.log("id-> " + item);
         addToGroup(item);});
       createWarning();
     }
