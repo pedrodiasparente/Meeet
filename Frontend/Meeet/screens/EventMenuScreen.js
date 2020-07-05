@@ -1,26 +1,9 @@
 import React, { Component, useState } from 'react'
-import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity, Image} from 'react-native'
-import Icon from 'react-native-vector-icons/dist/FontAwesome5'
+import { View, Text, StyleSheet, TouchableOpacity} from 'react-native'
 
 import Title from '../components/Title'
-import AuthContext from '../contexts/AuthContext'
-
 
 function EventMenuScreen({ navigation }) {
-  const { signOut } = React.useContext(AuthContext);
-  const [data, setData] = useState([]);
-  function fetchMeetAPI() {
-    let grupo;
-    fetch('https://meeet-project.azurewebsites.net/api/meeet/getgrupo/1')
-      .then((response) => response.json())
-      .then((json) => {
-        setData(json);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-      console.log(data);
-  }
 
   return (
     <View style = {styles.background}>

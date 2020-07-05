@@ -1,6 +1,5 @@
-import React, { Component } from 'react'
-import {StyleSheet,View,Text,Button,Image,} from 'react-native';
-import Icon from 'react-native-vector-icons/dist/FontAwesome5'
+import React from 'react'
+import {StyleSheet,View} from 'react-native';
 
 import Title from '../components/Title'
 import ProfileFriend from '../components/ProfileFriend'

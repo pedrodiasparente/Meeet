@@ -1,10 +1,8 @@
-import React, { Component, useState, useEffect } from 'react'
-import { View, Text, StyleSheet, FlatList, Button, TouchableOpacity, Image, Modal, ActivityIndicator} from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator} from 'react-native'
 import Icon from 'react-native-vector-icons/dist/FontAwesome5'
 
 import Title from '../components/Title'
-import AuthContext from '../contexts/AuthContext'
-import TouchableSearchList from '../components/TouchableSearchList'
 
 function GroupListScreen({navigation}) {
 
@@ -21,7 +19,7 @@ function GroupListScreen({navigation}) {
         'Content-Type': 'application/json'
         }
     })
-    .then(response => { console.log(JSON.stringify(response)); return response.json(); } )
+    .then(response => { return response.json(); } )
     .then(json => {
       setUserGroups(json);
     })
@@ -39,7 +37,7 @@ function GroupListScreen({navigation}) {
       },
       body: JSON.stringify(userGroups)
     })
-    .then((response) => {console.log(JSON.stringify(response)); return response.json()} )
+    .then((response) => { return response.json()} )
     .then((json) => {
       setGroups(json);
       setIsLoading(false);
@@ -66,7 +64,7 @@ function GroupListScreen({navigation}) {
             renderItem={({ item }) => (
               <TouchableOpacity
                 style={styles.itemPress}
-                onPress={() => { /*navigation.navigate('Event',  {evento: item})*/ }}>
+                onPress={() => {}}>
                   <View style={{flexDirection: "row"}}>
                     <Icon
                       name="users"

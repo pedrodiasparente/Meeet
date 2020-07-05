@@ -2,14 +2,12 @@ import { View, StyleSheet,TouchableOpacity, Text, Modal, TextInput, FlatList, Ac
 import * as React from 'react';
 
 import EventContext from '../contexts/EventContext'
-
 import Title from '../components/Title'
 
 
-
 function FirstVoteScreen({ navigation }) {
-  const { evento } = React.useContext(EventContext);
 
+  const { evento } = React.useContext(EventContext);
   const [modalVisible, setModalVisible] = React.useState(false);
   const [topico, setTopico] = React.useState('');
   const [opcao1, setOpcao1] = React.useState('');
@@ -38,7 +36,6 @@ function FirstVoteScreen({ navigation }) {
   }, []);
 
   React.useEffect(() => {
-    console.log('VOTATION: ' + JSON.stringify( votacoes));
     setIsLoading(false);
   }, [votacoes]);
 
@@ -68,7 +65,7 @@ function FirstVoteScreen({ navigation }) {
       },
       body: JSON.stringify(votacao)
     })
-    .then((response) => { console.log('ADD: ' + JSON.stringify(response)); return response.json(); } )
+    .then((response) => { return response.json(); } )
     .then((json) => { setNewVotacao(json); })
     .catch((error) => {
       console.error(error);
@@ -92,7 +89,6 @@ function FirstVoteScreen({ navigation }) {
       },
       body: JSON.stringify(opcao)
     })
-    .then((response) => { console.log('ADDOP: ' + JSON.stringify(response)); } )
     .catch((error) => {
       console.error(error);
     });

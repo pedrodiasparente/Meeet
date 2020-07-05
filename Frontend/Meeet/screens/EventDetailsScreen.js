@@ -10,9 +10,9 @@ function EventDetailsScreen({navigation}) {
 
 return (
     <View style = {styles.background}>
-        <Title title = {'Event Details'}/>
+      <Title title = {'Event Details'}/>
         <View style = {styles.body}>
-         <EventDetails data={evento} navigation={navigation}/>
+          <EventDetails data={evento} navigation={navigation}/>
         </View>
     </View>
   )
@@ -28,9 +28,5 @@ const styles = StyleSheet.create({
         flex: 1,
       },
   });
-
-
-let DATA = {"id":1,"nome":"evento1","dataHora":"2014-01-01T00:00:00","longitude":0,"latitude":0,"tipoEvento":0,"idAdmin":1,"descricao":"é um evento muito giro","idadeMinima":null,"idAdminNavigation":null,"eventoHasRequests":[],"utilizadorEvento":[],"votacao":[]}
-
 
 export default EventDetailsScreen;

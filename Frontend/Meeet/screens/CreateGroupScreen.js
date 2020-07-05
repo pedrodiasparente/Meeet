@@ -1,10 +1,9 @@
 import React, { Component, useState, useEffect } from 'react'
-import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity, Image, ActivityIndicator} from 'react-native'
-import Icon from 'react-native-vector-icons/dist/FontAwesome5'
+import { View, Text, StyleSheet, ActivityIndicator} from 'react-native'
 
 import Title from '../components/Title'
 import CreateGroup from '../components/CreateGroup'
-import AuthContext from '../contexts/AuthContext'
+
 
 function CreateGroupScreen() {
 

@@ -1,13 +1,13 @@
 import { View, StyleSheet, ActivityIndicator} from 'react-native'
-import React, { Component, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import Title from '../components/Title'
 import EventContext from '../contexts/EventContext'
 import EventUsers from '../components/EventUsers'
 
 function EventUsersScreen({ navigation }) {
-  const { evento } = React.useContext(EventContext);
 
+  const { evento } = React.useContext(EventContext);
   const [userEvents, setUserEvents] = React.useState([]);
   const [users, setUsers] = React.useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -20,12 +20,12 @@ function EventUsersScreen({ navigation }) {
         'Content-Type': 'application/json'
         }
     })
-    .then(response => { console.log(JSON.stringify(response)); return response.json(); } )
+    .then(response => {return response.json(); } )
     .then(json => {
       setUserEvents(json);
     })
     .catch((error) => {
-      console.error('ERROR:' + error);
+      console.error(error);
     });
   }, []);
 
@@ -38,7 +38,7 @@ function EventUsersScreen({ navigation }) {
       },
       body: JSON.stringify(userEvents)
     })
-    .then((response) => { console.log(JSON.stringify(response)); return response.json()} )
+    .then((response) => { return response.json()} )
     .then((json) => {
       console.log(JSON.stringify(json));
       setUsers(json);
@@ -74,18 +74,5 @@ const styles = StyleSheet.create({
       },
   });
 
-
-const DATA = [
-    {id:1, name: "Mark Doe", image:"https://bootdey.com/img/Content/avatar/avatar7.png"},
-    {id:1, name: "John Doe", image:"https://bootdey.com/img/Content/avatar/avatar1.png"},
-    {id:2, name: "Clark Man", image:"https://bootdey.com/img/Content/avatar/avatar6.png"} ,
-    {id:3, name: "Jaden Boor", image:"https://bootdey.com/img/Content/avatar/avatar5.png"} ,
-    {id:4, name: "Srick Tree", image:"https://bootdey.com/img/Content/avatar/avatar4.png"} ,
-    {id:5, name: "John Doe", image:"https://bootdey.com/img/Content/avatar/avatar3.png"} ,
-    {id:6, name: "John Doe", image:"https://bootdey.com/img/Content/avatar/avatar2.png"} ,
-    {id:8, name: "John Doe", image:"https://bootdey.com/img/Content/avatar/avatar1.png"} ,
-    {id:9, name: "John Doe", image:"https://bootdey.com/img/Content/avatar/avatar4.png"} ,
-    {id:9, name: "John Doe", image:"https://bootdey.com/img/Content/avatar/avatar7.png"} ,
-  ];
 
 export default EventUsersScreen;

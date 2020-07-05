@@ -3,8 +3,7 @@ import { View, Text, StyleSheet, FlatList, Button, TouchableOpacity, Image, Moda
 import Icon from 'react-native-vector-icons/dist/FontAwesome5'
 
 import Title from '../components/Title'
-import AuthContext from '../contexts/AuthContext'
-import TouchableSearchList from '../components/TouchableSearchList'
+
 
 function EventListScreen({navigation}) {
 
