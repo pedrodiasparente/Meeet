@@ -19,45 +19,43 @@ function EditEvent({ ev , navigation }) {
   const [isDateTimePickerVisible, setDateTimePickerVisibility] = useState(false);
   const [local, updateLocal] = useState('');
 
-  const [idEvento, setIdEvento] = useState(-1);
-
   const [evento, setEvento] = React.useState(null);
 
     React.useEffect(() => {
-     setEvento({
-      nome: eventName,
-      dataHora: eventDateTime,
-      longitude: parseFloat(eventLongitude),
-      latitude: parseFloat(eventLatitude),
-      tipoEvento: 0,
-      idAdmin: global.userID,
-      descricao: eventDescription,
-      idadeMinima: Number(eventAge),
-      idAdminNavigation: null,
-      eventoHasRequests: null,
-      utilizadorEvento: null,
-      votacao: null
-    });
+     if (local=='') {
+       setEvento({
+        nome: eventName,
+        dataHora: eventDateTime,
+        longitude: ev.longitude,
+        latitude: ev.latitude,
+        tipoEvento: 0,
+        idAdmin: global.userID,
+        descricao: eventDescription,
+        idadeMinima: Number(eventAge),
+        idAdminNavigation: null,
+        eventoHasRequests: null,
+        utilizadorEvento: null,
+        votacao: null
+      });
+     }
+     else {
+      setEvento({
+        nome: eventName,
+        dataHora: eventDateTime,
+        longitude: parseFloat(eventLongitude),
+        latitude: parseFloat(eventLatitude),
+        tipoEvento: 0,
+        idAdmin: global.userID,
+        descricao: eventDescription,
+        idadeMinima: Number(eventAge),
+        idAdminNavigation: null,
+        eventoHasRequests: null,
+        utilizadorEvento: null,
+        votacao: null
+      });
+    }
 
   },[eventName, eventDateTime, eventLongitude, eventLatitude, eventDescription, eventAge]);
-
-  React.useEffect(() => {
-    if(idEvento > 0){
-      evento.id = idEvento
-      fetch('https://meeet-projeto.azurewebsites.net/api/meeet/AddToEvent/' + global.userID, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(evento)
-      }).then((response) => console.log('-> Adding ADMIN |' + JSON.stringify(response)))
-      .catch((error) => {
-        console.error(error);
-      });
-      createWarning();
-    }
-  }, [idEvento])
 
 
     const showDatePicker = () => {
@@ -77,7 +75,7 @@ function EditEvent({ ev , navigation }) {
 
     const createAlert = () =>
     Alert.alert(
-      "Create Event",
+      "Edit Event",
       "Are you sure?",
       [
         {
@@ -85,17 +83,7 @@ function EditEvent({ ev , navigation }) {
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel",
         },
-        { text: "OK", onPress: () => {postEvent(); console.log(evento)} }
-      ],
-      { cancelable: false }
-    );
-
-    const createWarning = (nav) =>
-    Alert.alert(
-      "Event created sucessufly!",
-       "",
-      [
-        { text: "OK", onPress: () => (navigation.navigate('Invite', {idEvento: idEvento})) }
+        { text: "OK", onPress: () => {editEvent(); console.log(evento);} }
       ],
       { cancelable: false }
     );
@@ -110,20 +98,16 @@ function EditEvent({ ev , navigation }) {
     );
 
 
-    async function postEvent(){
-      fetch('https://meeet-projeto.azurewebsites.net/api/meeet/PostEvento', {
-        method: 'POST',
+    async function editEvent(){
+      fetch('https://meeet-projeto.azurewebsites.net/api/meeet/UpdateEvent/' + ev.id, {
+        method: 'PUT',
         headers: {
           "Accept": "application/json",
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(evento)
       })
-      .then(response => { return response.json(); } )
-      .then(json => {
-        console.log(json);
-        setIdEvento(json.id);
-      })
+      .then(response => { console.log(JSON.stringify(response)) } )
       .catch((error) => {
         console.error('ERROR:' + error);
       });
@@ -225,7 +209,7 @@ function EditEvent({ ev , navigation }) {
 
     <View style = {styles.buttons}>
 
-    <TouchableOpacity style={styles.buttonCreate} onPress={ () => {}}>
+    <TouchableOpacity style={styles.buttonCreate} onPress={ () => {createAlert()}}>
       <Text style= {{color: '#fbfbfb'}}>
         Save
        </Text>
