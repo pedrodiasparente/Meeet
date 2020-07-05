@@ -71,7 +71,7 @@ function InviteFriendsScreen( { route, navigation } ) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(convite)
-    }).then(response => console.log('-> InviteToEvent | ' + JSON.stringify(response)))
+    })
     .catch((error) => {
       console.error(error);
     });
@@ -84,8 +84,6 @@ function InviteFriendsScreen( { route, navigation } ) {
       utilizadorConvites: null,
     }
 
-    console.log('-> Convite | ' + JSON.stringify(conv));
-
     fetch('https://meeet-projeto.azurewebsites.net/api/meeet/MakeConvite', {
       method: 'POST',
       headers: {
@@ -93,7 +91,7 @@ function InviteFriendsScreen( { route, navigation } ) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(conv)
-    }).then(response => {console.log('-> MakeConvite | ' + JSON.stringify(response)); setConvite(conv)})
+    }).then(response => {setConvite(conv)})
     .catch((error) => {
       console.error(error);
     });

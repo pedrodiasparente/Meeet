@@ -92,12 +92,12 @@ function EditEvent({ ev , navigation }) {
         },
         body: JSON.stringify(evento)
       })
-      .then(response => { console.log(JSON.stringify(response)) } )
+      .then(response => { console.log(JSON.stringify(response)), navigation.navigate('EventMenu') } )
       .catch((error) => {
         console.error('ERROR:' + error);
-      });}});
-     
-    
+      });}}, [bool]);
+
+
 
 
   Geocoder.init("AIzaSyA2BjSqzfdbdvFdzhLkcf0WXNSBiBB3XDI",{language : "pt"});

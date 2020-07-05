@@ -24,7 +24,7 @@ function SendGroupInvite( { route, navigation } ) {
         'Content-Type': 'application/json'
         }
     })
-    .then(response => { console.log(JSON.stringify(response)); return response.json(); } )
+    .then(response => { return response.json(); } )
     .then(json => {
       setUserGroups(json);
     })
@@ -43,7 +43,7 @@ function SendGroupInvite( { route, navigation } ) {
       },
       body: JSON.stringify(userGroups)
     })
-    .then((response) => {console.log(JSON.stringify(response)); return response.json()} )
+    .then((response) => {return response.json()} )
     .then((json) => {
       setUsers(json);
       setIsLoading(false);
@@ -73,7 +73,7 @@ function SendGroupInvite( { route, navigation } ) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(convite)
-    }).then(response => console.log('-> InviteToEvent | ' + JSON.stringify(response)))
+    })
     .catch((error) => {
       console.error(error);
     });
@@ -86,8 +86,6 @@ function SendGroupInvite( { route, navigation } ) {
       utilizadorConvites: null,
     }
 
-    console.log('-> Convite | ' + JSON.stringify(conv));
-
     fetch('https://meeet-projeto.azurewebsites.net/api/meeet/MakeConvite', {
       method: 'POST',
       headers: {
@@ -95,7 +93,7 @@ function SendGroupInvite( { route, navigation } ) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(conv)
-    }).then(response => {console.log('-> MakeConvite | ' + JSON.stringify(response)); setConvite(conv)})
+    }).then(response => {setConvite(conv)})
     .catch((error) => {
       console.error(error);
     });

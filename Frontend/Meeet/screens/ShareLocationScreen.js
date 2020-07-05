@@ -43,7 +43,6 @@ function ShareLocationScreen({ navigation }) {
     fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getSharing/' + global.userID + '/' + evento.id)
     .then((response) => response.json())
     .then((json) => {
-      console.log('IS SHARING? '+json);
       setIsSharing(json);
     })
     .catch((error) => {
@@ -68,8 +67,6 @@ function ShareLocationScreen({ navigation }) {
   },[hasLocationPermission]);
 
   function toggleSharing(){
-    console.log("USERID: https://meeet-projeto.azurewebsites.net/api/meeet/SetLatLon/" + global.userID + '/' + location.latitude + '/' + location.longitude);
-
     fetch('https://meeet-projeto.azurewebsites.net/api/meeet/setlatlon/'
      + global.userID + '/' + location.latitude + '/' + location.longitude, {
        method: 'POST',
@@ -77,7 +74,7 @@ function ShareLocationScreen({ navigation }) {
          Accept: 'application/json',
          'Content-Type': 'application/json'
        }
-     }).then((response) => console.log('SetLatLon: ' + JSON.stringify(response)))
+     })
       .catch((error) => {
         console.error(error);
       });

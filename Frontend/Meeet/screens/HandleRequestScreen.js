@@ -27,8 +27,6 @@ function HandleRequestScreen({navigation}) {
       setList(auxArray);
       item.selectedClass = styles.itemPress;
     }
-    console.log(selectedList);
-    console.log(groupName);
   }
 
   React.useEffect(() => {
@@ -56,7 +54,6 @@ function HandleRequestScreen({navigation}) {
   }, []);
 
   useEffect(() => {
-    console.log("IDREQUESTS: " + idRequests);
     fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getUsersPerIDs', {
       method: 'POST',
       headers: {
@@ -76,9 +73,6 @@ function HandleRequestScreen({navigation}) {
     });
   }, [idRequests]);
 
-  useEffect(() => {
-    console.log("REQUESTS: " + JSON.stringify(requests));
-  }, [requests]);
 
   async function acceptRequest() {
     const data = { idUser1: global.userID , idUser2:modalUser.id, idUser1Navigation:null , idUser2Navigation:null }

@@ -34,7 +34,6 @@ function HandleRequestScreen({navigation}) {
   }, []);
 
   useEffect(() => {
-    console.log("IDREQUESTS: " + idRequests);
     fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getEventsPerIDs', {
       method: 'POST',
       headers: {
@@ -62,7 +61,7 @@ function HandleRequestScreen({navigation}) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(modalEvent)
-    }).then((response) => console.log(JSON.stringify(response)))
+    })
     .catch((error) => {
       console.error(error);
     });
@@ -78,7 +77,7 @@ function HandleRequestScreen({navigation}) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
-    }).then((response) => console.log(JSON.stringify(response)))
+    })
     .catch((error) => {
       console.error(error);
     });
