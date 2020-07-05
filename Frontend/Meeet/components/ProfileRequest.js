@@ -19,8 +19,6 @@ function ProfileFriend({ id }) {
         console.error(error);
       })
       .finally(() => setLoading(false));
-
-      console.log(userData);
     }, []);
   const { signIn } = React.useContext(AuthContext);
 

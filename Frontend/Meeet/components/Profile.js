@@ -25,8 +25,8 @@ function Profile() {
    const [modalVisible, setModalVisible] = React.useState(false);
    const [bool4, setBool4] = useState(false);
 
- 
-   
+
+
 
    useEffect(() => {
      fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getUser/' + global.userID)
@@ -40,8 +40,8 @@ function Profile() {
        .finally(() => { setLoading(false) } );
      }, [bool3]);
 
-    
-   
+
+
 
      React.useEffect(() => {
        bool2 ? setBool2(false) :
@@ -81,8 +81,8 @@ function Profile() {
     .catch((error) => {
       console.error(error);
     });
-    createWarning();  
-    restart();  
+    createWarning();
+    restart();
   };
 
 
@@ -144,21 +144,21 @@ function Profile() {
 
 
 
- 
+
     return (
       <>
       {isLoading ? <ActivityIndicator/> : (
         <>
-        
+
         <View style = {styles.profilePic}>
         <TouchableOpacity onPress={() => selectFile()}>
-          <Image style = {{width: '100%', height:'100%' , borderRadius:20000}}        
+          <Image style = {{width: '100%', height:'100%' , borderRadius:20000}}
             source={{
                 uri: bool4 ? url : bool ? state.resourcePath.uri : userData.urlFoto ,
-            }}         
-            />          
+            }}
+            />
             </TouchableOpacity>
-          
+
         </View>
 
 
@@ -170,7 +170,7 @@ function Profile() {
         <View style={styles.centeredView}>
        <View style={styles.modalView}>
         <Text style={styles.modalText}>Insert URL</Text>
-         
+
         <View style={styles.profileRow}>
         <TextInput
           style={styles.textInput}
@@ -183,7 +183,7 @@ function Profile() {
 
         <TouchableOpacity
            style={styles.openButtonFinal}
-           onPress={() => {setModalVisible(!modalVisible);setBool4(true);console.log(url)}}>
+           onPress={() => {setModalVisible(!modalVisible);setBool4(true);}}>
             <Text style={styles.textStyle}>Save</Text>
            </TouchableOpacity>
 
@@ -197,8 +197,8 @@ function Profile() {
            </View>
          </Modal>
 
-      
-        
+
+
 
 
       <View style = {styles.profileRow}>
@@ -256,7 +256,7 @@ function Profile() {
           size={20}
           color='#2c365d'
           />
-          
+
           <View style={styles.textInput}>
           <TouchableOpacity onPress={showDatePicker}>
             <Text style={{color: date ? '#0B0B0B' : '#8E9290'}}>
@@ -270,7 +270,7 @@ function Profile() {
               onConfirm={handleConfirm}
               onCancel={hideDatePicker}
            />
-         
+
         </View>
 
         </View>
@@ -287,7 +287,7 @@ function Profile() {
         </TouchableOpacity>
 
       </View>
-             
+
          </>
       )}
     </>
@@ -303,7 +303,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 4,
-    marginBottom:12    
+    marginBottom:12
   },
   buttonText: {
     textAlign: 'center',

@@ -12,7 +12,7 @@ function InviteScreen({ route, navigation }) {
 
   return (
     <View style = {styles.background}>
-    <Title title = {'Events'}/>
+    <Title title = {'Event invites'}/>
     <View style = {styles.body}>
 
         <View style = {styles.buttons}>

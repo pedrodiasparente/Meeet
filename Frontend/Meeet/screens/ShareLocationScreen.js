@@ -85,7 +85,7 @@ function ShareLocationScreen({ navigation }) {
          Accept: 'application/json',
          'Content-Type': 'application/json'
        }
-     }).then((response) => console.log('TOGGLE: ' + JSON.stringify(response)))
+     })
       .catch((error) => {
         console.error(error);
       });

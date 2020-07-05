@@ -25,7 +25,6 @@ async function findUser() {
   .then((json) => {
     if( json == null ){ setBadUser(true); setLoading(false);}
     else{
-      console.log("JSON: " + JSON.stringify(json))
       setUser(json);
     }
   })
@@ -49,7 +48,6 @@ async function isFriends() {
 useEffect(() => {
   if(user != null){
     isFriends();
-    console.log("JSON: " + JSON.stringify(user));
   }
 },[user]);
 
@@ -57,7 +55,6 @@ useEffect(() => {
   if(isFriend != null){
     setLoading(false);
     setBadUser(false);
-    console.log(isFriend)
   }
 },[isFriend]);
 
@@ -66,7 +63,6 @@ async function sendRequest(id){
     idUserSend: global.userID,
     utilizadorPedidosAmizade:null
   };
-  console.log(JSON.stringify(data) + '/ ID:' + id);
   fetch('https://meeet-projeto.azurewebsites.net/api/meeet/PostPedidoAmizade/' + id , {
     method: 'POST',
     headers: {
@@ -74,7 +70,7 @@ async function sendRequest(id){
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(data)
-  }).then((response) =>  console.log(JSON.stringify(response)));
+  })
 }
 
 const createWarning = () => {
