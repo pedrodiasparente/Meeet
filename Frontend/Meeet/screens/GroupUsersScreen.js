@@ -2,15 +2,15 @@ import { View, StyleSheet, ActivityIndicator} from 'react-native'
 import React, { useState, useEffect } from 'react'
 
 import Title from '../components/Title'
-import EventUsers from '../components/EventUsers'
+import GroupUsers from '../components/GroupUsers'
 
 function GroupUsersScreen({ navigation,route }) {
   const { id } = route.params;
   const [users, setUsers] = React.useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [userGroups, setUserGroups] = React.useState(null);
 
   useEffect(() => {
-      console.log("oi" + id);
     fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getUserGruposPerGroup/' + id, {
         method: 'GET',
         headers: {
@@ -20,13 +20,32 @@ function GroupUsersScreen({ navigation,route }) {
     })
     .then(response => {return response.json(); } )
     .then(json => {
-      setUsers(json);
-      console.log(json);
+      setUserGroups(json);
     })
     .catch((error) => {
       console.error(error);
     });
   }, []);
+
+  useEffect(() => {
+    if(userGroups != null)
+    fetch('https://meeet-projeto.azurewebsites.net/api/meeet/getUsersPerGroup', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(userGroups)
+    })
+    .then((response) => {return response.json()} )
+    .then((json) => {
+      setUsers(json);
+      setIsLoading(false);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  }, [userGroups]);
 
   
   useEffect(() => {
@@ -36,9 +55,9 @@ function GroupUsersScreen({ navigation,route }) {
 
 return (
     <View style = {styles.background}>
-        <Title title = {'Event Users'}/>
+        <Title title = {'Group Users'}/>
         <View style = {styles.body}>
-        { isLoading ? <ActivityIndicator/> : <EventUsers data={users} navigation={navigation}/> }
+        { isLoading ? <ActivityIndicator/> : <GroupUsers data={users} navigation={navigation}/> }
         </View>
     </View>
   )
