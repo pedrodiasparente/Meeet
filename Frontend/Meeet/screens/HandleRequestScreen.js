@@ -13,7 +13,7 @@ function HandleRequestScreen({navigation}) {
   const [idRequests, setIdRequests] = React.useState([]);
   const [requests, setRequests] = React.useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [modalUser, setModalUser] = useState(null);
+  const [modalUser, setModalUser] = useState({urlFoto: '', username: ''});
 
   React.useEffect(() => {
     setGroup({

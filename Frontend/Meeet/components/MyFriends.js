@@ -24,10 +24,24 @@ function searchFilterFunction(text){
   setState({text: state.text, list: newData });
 };
 
+function removeFriend(){
+  fetch('https://meeet-projeto.azurewebsites.net/api/meeet/DeleteAmizade/' + global.userID + '/' + itemAtual.id , {
+    method: 'DELETE',
+    headers: {
+    Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+}
+
 const deleteItemById = id => () => {
   const filteredData = state.list.filter(item => item.id !== id);
   setState({text: '', list: filteredData });
   setModalVisible(!modalVisible);
+  removeFriend();
   createWarning();
   setFriendsList(filteredData);
 }
