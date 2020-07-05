@@ -96,7 +96,7 @@ function HandleRequestScreen({navigation}) {
     const filteredData = requests.filter(item => item.id !== id);
     setRequests(filteredData);
   }
-  
+
 
   return (
     <View style = {styles.background}>
@@ -136,7 +136,6 @@ function HandleRequestScreen({navigation}) {
           </View>
         </View>) : (<></>)}
       </Modal>
-
     </View>
 
       {isLoading ? <ActivityIndicator/> : (
