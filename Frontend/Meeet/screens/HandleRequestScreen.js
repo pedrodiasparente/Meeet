@@ -3,8 +3,7 @@ import { View, Text, StyleSheet, FlatList, Button, TouchableOpacity, Image, Moda
 import Icon from 'react-native-vector-icons/dist/FontAwesome5'
 
 import Title from '../components/Title'
-import AuthContext from '../contexts/AuthContext'
-import TouchableSearchList from '../components/TouchableSearchList'
+
 
 function HandleRequestScreen({navigation}) {
   const [selectedList, setList] = useState([]);
@@ -15,19 +14,6 @@ function HandleRequestScreen({navigation}) {
   const [requests, setRequests] = React.useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [modalUser, setModalUser] = useState(null);
-
-  function nothing(item){
-    item.isSelected = !item.isSelected;
-    if(item.isSelected){
-      setList(oldArray => [...oldArray, item.username]);
-      item.selectedClass = styles.selected;
-    }
-    else{
-      let auxArray= selectedList.filter(value => { return value != item.username })
-      setList(auxArray);
-      item.selectedClass = styles.itemPress;
-    }
-  }
 
   React.useEffect(() => {
     setGroup({
@@ -106,10 +92,11 @@ function HandleRequestScreen({navigation}) {
     deleteItemById(modalUser.id)
   };
 
-  const deleteItemById = id => () => {
+  function deleteItemById(id) {
     const filteredData = requests.filter(item => item.id !== id);
     setRequests(filteredData);
   }
+  
 
   return (
     <View style = {styles.background}>
