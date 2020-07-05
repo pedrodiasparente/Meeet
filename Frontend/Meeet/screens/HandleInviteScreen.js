@@ -105,7 +105,7 @@ function HandleRequestScreen({navigation}) {
           <Text style={styles.modalText}>{modalEvent.nome}</Text>
            <TouchableOpacity
             style={styles.openButton}
-             onPress={() => {setModalVisible(!modalVisible);/*navigation.navigate('EventDetails',{id:modalEvent.id})*/}}>
+             onPress={() => {setModalVisible(!modalVisible);navigation.navigate('CheckEvent',{evento:modalEvent})}}>
               <Text style={styles.textStyle}>View Event</Text>
             </TouchableOpacity>
             <TouchableOpacity

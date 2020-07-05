@@ -28,6 +28,7 @@ import SendGroupInvite from './screens/SendGroupInvite'
 import CheckLocationScreen from './screens/CheckLocationScreen'
 import EditEventScreen from './screens/EditEventScreen'
 import GroupUsersScreen from './screens/GroupUsersScreen';
+import CheckEventScreen from './screens/CheckEventScreen';
 
 
 
@@ -219,6 +220,7 @@ const createWarning = () => {
               <Stack.Screen name="Invite" component={InviteScreen} />
               <Stack.Screen name="SendGroupInvite" component={SendGroupInvite} />
               <Stack.Screen name="GroupUsers" component={GroupUsersScreen} />
+              <Stack.Screen name="CheckEvent" component={CheckEventScreen} />
             </>
           )}
         </Stack.Navigator>
